@@ -14,13 +14,21 @@
 - Alex & Colin : Charcater Model/Prototype, Character-Controller/IO?
 - Colin : Simple Level ?
 - Emad & Louis : Server + Client
+- All: mini game ideas
 
-## OpenTasks [all]
-- Mini game ideas
-- Presentation features
-    - Animations, Cinematography, etc.
+## Open tasks / assignments
+- Game-Features list
 - Gant diagram 
     - Checkpoints
     - Tasks
     - Role/task assignment
+---
+- Presentation features
+    - Audio, Animations, Cinematography, etc.
+- (Server + Client)
+- Level-World-Design
+- Character-Controller (Game input)    
+- Game-Management (Scenes, overall behaviour/logic)
+- Mini-Games logic
+
 
