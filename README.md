@@ -11,7 +11,7 @@
 - 3rd Person 
 
 ## Current assignments 
-- Alex & Colin : Charcater Model/Prototype, Character-Controller?
+- Alex & Colin : Charcater Model/Prototype, Character-Controller/IO?
 - Colin : Simple Level ?
 - Emad & Louis : Server + Client
 
@@ -23,3 +23,4 @@
     - Checkpoints
     - Tasks
     - Role/task assignment
+
