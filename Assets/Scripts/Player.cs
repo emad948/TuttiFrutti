@@ -23,7 +23,7 @@ public class Player : NetworkBehaviour
 
     #region Client
 
-    private void HandleDisplayColorUpdated(Color oldColor, Color newColor)=>displayColorRenderer.material.SetColor("_BaseColor",newColor);
+    private void HandleDisplayColorUpdated(Color oldColor, Color newColor) => displayColorRenderer.material.color=newColor;
     
     private void HandleDisplayNameUpdated(string oldName, string newName) => playerDisplayName.text = newName;
 
