@@ -1,5 +1,5 @@
-#DET-Hauptprojekt - 'name?'
+# DET-Hauptprojekt - 'name?'
 
-## Features 
+## Features
 - 2-24 Spieler
 - etc.?
