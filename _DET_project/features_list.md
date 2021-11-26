@@ -9,7 +9,7 @@
   - Jump to the top
   - Keep the crown
   - Tag
-  - ?
+  - Race to the line
 - Ein Spiel besteht aus:
   - Mehreren Spielern
   - Alle Minigames nacheinander durchspielen
