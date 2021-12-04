@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 6509473559915431775}
   - component: {fileID: 5814695804023759197}
   - component: {fileID: 4661487925121870488}
-  - component: {fileID: 745797104}
+  - component: {fileID: 5939762586470443215}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -141,7 +141,7 @@ MonoBehaviour:
   runInBackground: 1
   autoStartServerBuild: 1
   serverTickRate: 30
-  offlineScene: Assets/Scenes/MianMenuScene.unity
+  offlineScene: 
   onlineScene: 
   transport: {fileID: 5814695804023759197}
   networkAddress: localhost
@@ -192,7 +192,7 @@ MonoBehaviour:
   debugLog: 0
   statisticsGUI: 0
   statisticsLog: 0
---- !u!114 &745797104
+--- !u!114 &5939762586470443215
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -1112,34 +1112,6 @@ MonoBehaviour:
   - {fileID: 1422547624}
   - {fileID: 1649328458}
   - {fileID: 1281715618}
---- !u!1 &745797099 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6509473559915431772, guid: 6e51ac3264cdc408fb92bbb7982e7262, type: 3}
-  m_PrefabInstance: {fileID: 1560038075}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &745797101 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5814695804023759197, guid: 6e51ac3264cdc408fb92bbb7982e7262, type: 3}
-  m_PrefabInstance: {fileID: 1560038075}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 745797099}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6e55fca1f4e4844593a3dd65a3ecb39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &745797104
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 745797099}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 479fbe7c8564b47dd9f700475d757bbe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &752914199
 GameObject:
   m_ObjectHideFlags: 0
@@ -2628,14 +2600,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4661487925121870488, guid: 6e51ac3264cdc408fb92bbb7982e7262, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5814695804023759197, guid: 6e51ac3264cdc408fb92bbb7982e7262, type: 3}
-      propertyPath: UseNextGenSteamNetworking
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6509473559915431760, guid: 6e51ac3264cdc408fb92bbb7982e7262, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -2684,10 +2648,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: NetworkManager
       objectReference: {fileID: 0}
-    - target: {fileID: 6509473559915431775, guid: 6e51ac3264cdc408fb92bbb7982e7262, type: 3}
-      propertyPath: transport
-      value: 
-      objectReference: {fileID: 745797101}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6e51ac3264cdc408fb92bbb7982e7262, type: 3}
 --- !u!1 &1635563963
