@@ -40,9 +40,10 @@ public class LobbyMenu : MonoBehaviour
         {
             playersNameTexts[i].text = "Waiting for player to join.";
         }
-
+        
         //StartGame button will be disabled if players are less than 2
-        startGameButton.interactable = players.Count > 1;
+        //TODO @Emad uncomment
+        // startGameButton.interactable = players.Count > 1;
     }
 
     private void HandleClientConnected()

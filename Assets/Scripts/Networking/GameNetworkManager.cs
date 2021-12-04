@@ -43,7 +43,8 @@ public class GameNetworkManager : NetworkManager
     
     public void StartGame()
     {
-        if (PlayersList.Count < 2) return;
+        //TODO @Emad uncomment
+        // if (PlayersList.Count < 2) return;
         _gameStarted = true;
         
         ServerChangeScene("GameScene_1");

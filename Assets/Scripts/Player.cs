@@ -87,9 +87,13 @@ public class Player : NetworkBehaviour
     [ClientRpc]
     private void Update()
     {
-        Control = new Vector3(Input.GetAxis("Horizontal") * .2f, 0,
-            Input.GetAxis("Vertical") * .2f); //update our controll varible
-        GetComponent<PhysicsLink>().ApplyForce(Control, ForceMode.VelocityChange); //Use our custom force function
+        if (isClientOnly)
+        {
+            Control = new Vector3(Input.GetAxis("Horizontal") * .2f, 0,
+                Input.GetAxis("Vertical") * .2f); //update our controll varible
+            GetComponent<PhysicsLink>().ApplyForce(Control, ForceMode.VelocityChange); //Use our custom force function
+        }
+        
     }
 
     #endregion
