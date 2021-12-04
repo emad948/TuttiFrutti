@@ -8,16 +8,26 @@ public class Menu : MonoBehaviour
     [SerializeField] private GameObject landingPagePanel;
 
     [SerializeField] private bool useSteam = false;
-
+    
     protected Callback<LobbyCreated_t> lobbyCreated;
     protected Callback<GameLobbyJoinRequested_t> gameLobbyJoinRequested;
     protected Callback<LobbyEnter_t> lobbyEntered;
+
+    private const string HOST_ADDRESS = "HOST_ADDRESS";
+    
+    public static CSteamID LobbyId { get; private set; }
 
 
     private void Start()
     {
         //This is only for development purposes
         if(!useSteam){return;}
+
+        if (!SteamManager.Initialized)
+        {
+            Debug.LogError("Steam is not Initialized");
+            return;
+        }
 
         lobbyCreated = Callback<LobbyCreated_t>.Create(OnLobbyCreated);
         gameLobbyJoinRequested = Callback<GameLobbyJoinRequested_t>.Create(OnGameLobbyJoinRequested);
@@ -38,6 +48,7 @@ public class Menu : MonoBehaviour
         
         NetworkManager.singleton.StartHost();
         
+        
     }
 
     private void OnLobbyCreated(LobbyCreated_t callback)
@@ -45,16 +56,19 @@ public class Menu : MonoBehaviour
         //Steam Failed to create a Lobby
         if (callback.m_eResult != EResult.k_EResultOK)
         {
+            Debug.LogError("Failed to Create A Steam Lobby");
             landingPagePanel.SetActive(true);
             return;
         }
+
         //if lobby creation succeeded
+        LobbyId = new CSteamID(callback.m_ulSteamIDLobby);
         
         NetworkManager.singleton.StartHost();
 
         SteamMatchmaking.SetLobbyData
-        (new CSteamID(callback.m_ulSteamIDLobby),
-            "HostAddress",
+        (LobbyId,
+            HOST_ADDRESS,
             SteamUser.GetSteamID().ToString()
         );
     }
@@ -62,6 +76,7 @@ public class Menu : MonoBehaviour
     private void OnGameLobbyJoinRequested(GameLobbyJoinRequested_t callback)
     {
         SteamMatchmaking.JoinLobby(callback.m_steamIDLobby);
+      
     }
     
     private void OnLobbyEntered(LobbyEnter_t callback)
@@ -71,7 +86,7 @@ public class Menu : MonoBehaviour
 
         string hostAddress = SteamMatchmaking.GetLobbyData(
             new CSteamID(callback.m_ulSteamIDLobby),
-            "HostAddress"
+            HOST_ADDRESS
         );
         NetworkManager.singleton.networkAddress = hostAddress;
         NetworkManager.singleton.StartClient();

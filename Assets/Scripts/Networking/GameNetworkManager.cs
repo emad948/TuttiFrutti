@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
+using Steamworks;
 using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -52,12 +53,16 @@ public class GameNetworkManager : NetworkManager
     public override void OnServerAddPlayer(NetworkConnection conn)
     {
         base.OnServerAddPlayer(conn);
+        
+        CSteamID steamId = SteamMatchmaking.GetLobbyMemberByIndex(Menu.LobbyId, numPlayers - 1);
+        
         Player player = conn.identity.GetComponent<Player>();
         
         PlayersList.Add((player));
         
-        //TODO @Emad get player name from UI or Steam 
-        player.SetDisplayName($"Player: {numPlayers}");
+        var steamPlayerName = SteamFriends.GetFriendPersonaName(steamId);
+        
+        player.SetDisplayName(steamPlayerName);
 
 
         Color randomColor = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));

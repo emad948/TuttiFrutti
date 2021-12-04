@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : NetworkBehaviour
@@ -11,10 +12,10 @@ public class Player : NetworkBehaviour
     [SerializeField] private Renderer displayColorRenderer;
     
     //SyncVar are only Updated on the server
-    [SyncVar(hook = nameof(HandleDisplayNameUpdated))] [SerializeField]
-    private string _displayName;
+    [SyncVar(hook = nameof(HandleDisplayNameUpdated))] [SerializeField] private string _displayName;
     [SyncVar(hook = nameof(HandleDisplayColorUpdated))] [SerializeField] private Color color;
     [SyncVar(hook=nameof(AuthorityHandleUpdateGameHostState))] private bool isGameHost = false;
+
     [SyncVar] public Vector3 Control;
     
     //Lobby Events
@@ -35,7 +36,7 @@ public class Player : NetworkBehaviour
         //prevent unity from destroying gameObject when loading Scene
         DontDestroyOnLoad(gameObject);
     }
-
+    
     [Server] public void SetGameHost(bool state) => isGameHost = state;
     [Server] public void SetDisplayName(string newDisplayName) => _displayName = newDisplayName;
     [Server] public void SetColor(Color newColor) => color = newColor;
@@ -82,8 +83,7 @@ public class Player : NetworkBehaviour
         playerDisplayName.text = newName;
         
     }
-
-
+    
     [ClientRpc]
     private void Update()
     {
