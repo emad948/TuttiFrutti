@@ -151,6 +151,7 @@ MonoBehaviour:
   autoCreatePlayer: 1
   playerSpawnMethod: 1
   spawnPrefabs: []
+  menu: {fileID: 0}
 --- !u!114 &5814695804023759197
 MonoBehaviour:
   m_ObjectHideFlags: 0

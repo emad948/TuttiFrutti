@@ -299,7 +299,7 @@ MonoBehaviour:
   syncInterval: 0.1
   playerDisplayName: {fileID: 3004305703091968172}
   displayColorRenderer: {fileID: 2981459962446248056}
-  displayName: Missing Name
+  _displayName: 
   color: {r: 0, g: 0, b: 0, a: 0}
   Control: {x: 0, y: 0, z: 0}
 --- !u!114 &648560191204470921

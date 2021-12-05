@@ -10,6 +10,7 @@ using Random = UnityEngine.Random;
 public class GameNetworkManager : NetworkManager
 {
 
+    [SerializeField] private Menu menu;
     public static event Action ClientOnConnected;
     public static event Action ClientOnDisconnected;
 
@@ -55,15 +56,27 @@ public class GameNetworkManager : NetworkManager
     {
         base.OnServerAddPlayer(conn);
         
-        CSteamID steamId = SteamMatchmaking.GetLobbyMemberByIndex(Menu.LobbyId, numPlayers - 1);
+        var playerName="";
+        
+        if (menu.useSteam)
+        {
+            CSteamID steamId = SteamMatchmaking.GetLobbyMemberByIndex(Menu.LobbyId, numPlayers - 1);
+            playerName = SteamFriends.GetFriendPersonaName(steamId);
+        }
+        else
+        {
+            playerName = $"Player {numPlayers}";
+            Debug.Log(playerName);
+        }
+        
         
         Player player = conn.identity.GetComponent<Player>();
         
         PlayersList.Add((player));
         
-        var steamPlayerName = SteamFriends.GetFriendPersonaName(steamId);
+       
         
-        player.SetDisplayName(steamPlayerName);
+        player.SetDisplayName(playerName);
 
 
         Color randomColor = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));

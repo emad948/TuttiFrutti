@@ -87,7 +87,7 @@ public class Player : NetworkBehaviour
     [ClientRpc]
     private void Update()
     {
-        if (isClientOnly)
+        if (hasAuthority)
         {
             Control = new Vector3(Input.GetAxis("Horizontal") * .2f, 0,
                 Input.GetAxis("Vertical") * .2f); //update our controll varible
