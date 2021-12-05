@@ -12,25 +12,26 @@ public class LobbyMenu : MonoBehaviour
     [SerializeField] private GameObject lobbyUi;
     [SerializeField] private Button startGameButton;
     [SerializeField] private TMP_Text[] playersNameTexts = new TMP_Text[4];
+    [SerializeField] private Menu menu;
 
     private void Start()
     {
         //When client connects 
         GameNetworkManager.ClientOnConnected += HandleClientConnected;
-        Player.AuthorityOnGameHostStateUpdated += AuthorityHandleGameHostStateUpdated;
-        Player.ClientOnInfoUpdated += ClientHandleInfoUpdated;
+        NetworkPlayer.AuthorityOnGameHostStateUpdated += AuthorityHandleGameHostStateUpdated;
+        NetworkPlayer.ClientOnInfoUpdated += ClientHandleInfoUpdated;
     }
 
     private void OnDestroy()
     {
         GameNetworkManager.ClientOnConnected -= HandleClientConnected;
-         Player.AuthorityOnGameHostStateUpdated -= AuthorityHandleGameHostStateUpdated;
-         Player.ClientOnInfoUpdated -= ClientHandleInfoUpdated;
+        NetworkPlayer.AuthorityOnGameHostStateUpdated -= AuthorityHandleGameHostStateUpdated;
+         NetworkPlayer.ClientOnInfoUpdated -= ClientHandleInfoUpdated;
     }
 
     public void ClientHandleInfoUpdated()
     {
-        List<Player> players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
+        List<NetworkPlayer> players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
         for(int i=0;i<players.Count;i++)
         {
             playersNameTexts[i].text = players[i].GetDisplayName();
@@ -42,8 +43,12 @@ public class LobbyMenu : MonoBehaviour
         }
         
         //StartGame button will be disabled if players are less than 2
-        //TODO @Emad uncomment
-        // startGameButton.interactable = players.Count > 1;
+        if (!menu.testMode)
+        {
+            startGameButton.interactable = players.Count > 1;
+        }
+        
+
     }
 
     private void HandleClientConnected()
@@ -59,7 +64,7 @@ public class LobbyMenu : MonoBehaviour
    
     public void StartGame()
     {
-        NetworkClient.connection.identity.GetComponent<Player>().CmdStartGame();
+        NetworkClient.connection.identity.GetComponent<NetworkPlayer>().CmdStartGame();
     }
 
     public void LeaveLobby()

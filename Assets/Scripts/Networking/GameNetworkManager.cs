@@ -5,16 +5,18 @@ using Mirror;
 using Steamworks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class GameNetworkManager : NetworkManager
 {
-
-    [SerializeField] private Menu menu;
+    
+    [SerializeField] private Menu _menu;
+    [SerializeField] private GameObject characterPrefab;
     public static event Action ClientOnConnected;
     public static event Action ClientOnDisconnected;
 
-    public List<Player> PlayersList { get; } = new List<Player>();
+    public List<NetworkPlayer> PlayersList { get; } = new List<NetworkPlayer>();
 
     private bool _gameStarted = false;
 
@@ -30,8 +32,7 @@ public class GameNetworkManager : NetworkManager
 
     public override void OnServerDisconnect(NetworkConnection conn)
     {
-        Player player = conn.identity.GetComponent<Player>();
-        Debug.Log(player);
+        NetworkPlayer player = conn.identity.GetComponent<NetworkPlayer>();
         PlayersList.Remove(player);
         base.OnServerDisconnect(conn);
     }
@@ -44,8 +45,8 @@ public class GameNetworkManager : NetworkManager
     
     public void StartGame()
     {
-        //TODO @Emad uncomment
-        // if (PlayersList.Count < 2) return;
+        if (!_menu.testMode && PlayersList.Count < 2) return;
+        
         _gameStarted = true;
         
         ServerChangeScene("GameScene_1");
@@ -58,7 +59,7 @@ public class GameNetworkManager : NetworkManager
         
         var playerName="";
         
-        if (menu.useSteam)
+        if (_menu.useSteam)
         {
             CSteamID steamId = SteamMatchmaking.GetLobbyMemberByIndex(Menu.LobbyId, numPlayers - 1);
             playerName = SteamFriends.GetFriendPersonaName(steamId);
@@ -70,7 +71,7 @@ public class GameNetworkManager : NetworkManager
         }
         
         
-        Player player = conn.identity.GetComponent<Player>();
+        NetworkPlayer player = conn.identity.GetComponent<NetworkPlayer>();
         
         PlayersList.Add((player));
         
@@ -85,6 +86,27 @@ public class GameNetworkManager : NetworkManager
         
         //if the playersList contain only 1 player this player is the host
         player.SetGameHost(PlayersList.Count == 1);
+    }
+
+    public override void OnServerSceneChanged(string sceneName)
+    {
+        if (SceneManager.GetActiveScene().name.Equals("GameScene_1"))
+        {
+            foreach (NetworkPlayer player in PlayersList)
+            {
+              
+                
+                Debug.Log(characterPrefab);
+                GameObject characterInstance = Instantiate(
+                    characterPrefab,
+                    GetStartPosition().position,
+                    Quaternion.identity
+                );
+                
+                NetworkServer.Spawn(characterInstance,player.connectionToClient);
+
+            }
+        }
     }
 
     #endregion

@@ -9,6 +9,8 @@ public class Menu : MonoBehaviour
 
     [SerializeField] public bool useSteam = false;
     
+    [SerializeField] public bool testMode = false;
+    
     protected Callback<LobbyCreated_t> lobbyCreated;
     protected Callback<GameLobbyJoinRequested_t> gameLobbyJoinRequested;
     protected Callback<LobbyEnter_t> lobbyEntered;

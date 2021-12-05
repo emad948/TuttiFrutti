@@ -143,15 +143,17 @@ MonoBehaviour:
   serverTickRate: 30
   offlineScene: 
   onlineScene: 
-  transport: {fileID: 4661487925121870488}
+  transport: {fileID: 5814695804023759197}
   networkAddress: localhost
   maxConnections: 100
   authenticator: {fileID: 0}
-  playerPrefab: {fileID: 3463925584030421660, guid: c4d37ffc75e6f4b67adbb1c0ad5165d0, type: 3}
+  playerPrefab: {fileID: 3770279178295928223, guid: 2f865af938afb4f6fa048fb5a1aafced, type: 3}
   autoCreatePlayer: 1
   playerSpawnMethod: 1
-  spawnPrefabs: []
-  menu: {fileID: 0}
+  spawnPrefabs:
+  - {fileID: 3463925584030421660, guid: c4d37ffc75e6f4b67adbb1c0ad5165d0, type: 3}
+  _menu: {fileID: 0}
+  characterPrefab: {fileID: 3463925584030421660, guid: c4d37ffc75e6f4b67adbb1c0ad5165d0, type: 3}
 --- !u!114 &5814695804023759197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,7 +161,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6509473559915431772}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e6e55fca1f4e4844593a3dd65a3ecb39, type: 3}
   m_Name: 
@@ -175,7 +177,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6509473559915431772}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b0fecffa3f624585964b0d0eb21b18e, type: 3}
   m_Name: 
