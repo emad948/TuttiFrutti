@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class WiggleObject : MonoBehaviour
 {
-    float wiggleDistance = 4;
-    float wiggleSpeed = 1;
+    public float wiggleDistance = 2;
+    public float wiggleSpeed = 1;
 
     private Vector3 orgPos;
     // set x and y pos in start() to wiggle around
