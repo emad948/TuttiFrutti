@@ -16,6 +16,7 @@ public class PhysicsLink : NetworkBehaviour
 
     void Update()
     {
+      
         if (GetComponent<NetworkIdentity>().isServer)//if we are the server update the variables with our cubes rigidbody info
         {
             Position = rb.position;
