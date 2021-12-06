@@ -332,6 +332,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  playerDisplayName: {fileID: 3004305703091968172}
+  displayColorRenderer: {fileID: 2981459962446248056}
   Control: {x: 0, y: 0, z: 0}
 --- !u!1 &5712634896146439149
 GameObject:

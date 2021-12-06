@@ -17,6 +17,8 @@ public class NetworkPlayer :NetworkBehaviour
     public static event Action<bool> AuthorityOnGameHostStateUpdated;
     public static event Action ClientOnInfoUpdated;
 
+    public static event Action<string> ClientOnDisplayNameChanged; 
+
     public bool GetIsGameHost()
     {
         return _isGameHost;
@@ -79,10 +81,12 @@ public class NetworkPlayer :NetworkBehaviour
 
     private void HandleDisplayNameUpdated(string oldName, string newName)
     {
+        ClientOnDisplayNameChanged?.Invoke(newName);
         ClientOnInfoUpdated?.Invoke();
+        
+        
        
     }
-    
     
     #endregion
 

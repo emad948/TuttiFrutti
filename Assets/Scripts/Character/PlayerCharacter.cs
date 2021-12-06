@@ -2,26 +2,33 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
+using TMPro;
 using UnityEngine;
 
 public class PlayerCharacter : NetworkBehaviour
 {
+   
     
     [SyncVar] public Vector3 Control;
-
+    
     
     #region Server
 
     public override void OnStartServer()
     {
-       DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject);
+       
     }
 
+ 
     #endregion
 
 
 
     #region Client
+
+
+  
 
     private void Update()
     {
@@ -31,9 +38,11 @@ public class PlayerCharacter : NetworkBehaviour
                 Input.GetAxis("Vertical") * .2f); //update our controll varible
             GetComponent<PhysicsLink>().ApplyForce(Control, ForceMode.VelocityChange); //Use our custom force function
         }
-         
-    }
 
+      
+    }
+    
+    
     #endregion
     
    
