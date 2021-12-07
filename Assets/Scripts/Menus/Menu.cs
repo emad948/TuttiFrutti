@@ -95,6 +95,9 @@ public class Menu : MonoBehaviour
         
         landingPagePanel.SetActive(false);
     }
-    
-    
+    public void quitGame()
+    {
+        Debug.Log("Quit");
+        Application.Quit();
+    }
 }
