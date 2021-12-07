@@ -6,7 +6,7 @@ using UnityEngine;
 public class Menu : MonoBehaviour
 {
     [SerializeField] private GameObject landingPagePanel;
-
+    
     [SerializeField] public bool useSteam = false;
     
     [SerializeField] public bool testMode = false;
