@@ -11,12 +11,14 @@ public class CharacterController : NetworkBehaviour
     public float Speed = 5f;
     public float rotSpeed = 10f;
 
+    public Animator anim;
     private float vInput = 0;
     private float hInput = 0;
 
     private Quaternion rotation = Quaternion.Euler(Vector3.forward);
     private Rigidbody _body;
     private bool isGrounded = true;
+    
 
     [SyncVar] Vector3 globalPosition;
     [SyncVar] Quaternion globalRotation;
@@ -51,6 +53,8 @@ public class CharacterController : NetworkBehaviour
             rotation = Quaternion.Euler(_body.rotation.eulerAngles + Vector3.up * hInput * rotSpeed);
             updateLocally(position, rotation);
             updateOnServer(position, rotation);
+            anim.SetBool("walking", vInput != 0);
+            
         }
 
         _body.MovePosition(globalPosition);
@@ -64,8 +68,7 @@ public class CharacterController : NetworkBehaviour
         globalRotation = rot;
         print("updating on client");
     }
-    [Command]
-    void updateOnServer(Vector3 pos, Quaternion rot) => updateLocally(pos, rot);
+    [Command] void updateOnServer(Vector3 pos, Quaternion rot) => updateLocally(pos, rot);
 
 
 }
