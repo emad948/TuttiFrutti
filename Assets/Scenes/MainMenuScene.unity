@@ -2977,6 +2977,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 397500359}
     - target: {fileID: 6509473559915431775, guid: 6e51ac3264cdc408fb92bbb7982e7262, type: 3}
+      propertyPath: runInBackground
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6509473559915431775, guid: 6e51ac3264cdc408fb92bbb7982e7262, type: 3}
       propertyPath: spawnPrefabs.Array.size
       value: 1
       objectReference: {fileID: 0}

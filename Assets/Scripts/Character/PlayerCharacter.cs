@@ -8,8 +8,8 @@ public class PlayerCharacter : NetworkBehaviour
 {
     
     [SyncVar] public Vector3 Control;
+    Rigidbody _body;
 
-    
     #region Server
 
     public override void OnStartServer()
@@ -23,13 +23,20 @@ public class PlayerCharacter : NetworkBehaviour
 
     #region Client
 
+    void Awake(){
+        _body = gameObject.GetComponent<Rigidbody>();
+    }
     private void Update()
     {
         if (hasAuthority)
         {
-            Control = new Vector3(Input.GetAxis("Horizontal") * .2f, 0,
-                Input.GetAxis("Vertical") * .2f); //update our controll varible
-            GetComponent<PhysicsLink>().ApplyForce(Control, ForceMode.VelocityChange); //Use our custom force function
+            
+            float vInput = Input.GetAxis("Vertical");
+            float hInput = Input.GetAxis("Horizontal");
+            PhysicsLink link = GetComponent<PhysicsLink>();
+            Control = (_body.transform.forward * vInput); //update our controll varible
+            link.ApplyForce(Control, ForceMode.Force); //Use our custom force function*/
+            link.Rotation = Quaternion.Euler(_body.rotation.eulerAngles + Vector3.up * hInput);
         }
          
     }
