@@ -43,6 +43,9 @@ public class PhysicsLink : NetworkBehaviour
         CmdApplyForce(force, FMode);
 
     }
+
+    
+
     [Command]//function that runs on server when called by a client
     public void CmdApplyForce(Vector3 force,ForceMode FMode)
     {

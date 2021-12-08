@@ -263,7 +263,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offset: {x: 0, y: 1, z: -1.25}
-  target: {fileID: 0}
+  target: {fileID: 1302953567}
   verticalRotation: -0.5
   translateSpeed: 10
   rotationSpeed: 10

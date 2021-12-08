@@ -18,9 +18,6 @@ public class CameraFollow : MonoBehaviour
     }
     private void Update()
     {
-        // todo @alex: make object with authority call this once.
-        if (GameObject.FindGameObjectsWithTag("PlayerCharacter").Length >= 1) 
-            target = GameObject.FindGameObjectsWithTag("PlayerCharacter")[0].transform;
 
         HandleTranslation();
         HandleRotation();
@@ -35,7 +32,10 @@ public class CameraFollow : MonoBehaviour
         var rotation = Quaternion.LookRotation(direction, Vector3.up);
         
         transform.rotation = Quaternion.Lerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
-    } 
+    }
+    private void SetTransformToFollow(Transform trans){
+        this.target = trans;
+    }
 }
 
 

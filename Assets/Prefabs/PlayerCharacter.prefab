@@ -208,7 +208,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3463925584030421660}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7dfe26e5e3214ed9853c05b07579602, type: 3}
   m_Name: 
@@ -243,14 +243,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3463925584030421660}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cb4ef3b2c159649a09902a2cf0888682, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  Control: {x: 0, y: 0, z: 0}
 --- !u!114 &2466889496237608555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,10 +262,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74063f0318e76b34bbc56c47872f9c2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  accFactor: 1
-  rotFactor: 1
-  currentVelocity: {x: 0, y: 0, z: 0}
-  currentRotation: {x: 0, y: 0, z: 0, w: 1}
+  syncMode: 0
+  syncInterval: 0.048
   Speed: 5
   rotSpeed: 1
 --- !u!1 &5712634896146439149

@@ -677,7 +677,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   landingPagePanel: {fileID: 981687556}
   useSteam: 0
-  testMode: 1
+  testMode: 0
 --- !u!114 &397500358 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4661487925121870488, guid: 6e51ac3264cdc408fb92bbb7982e7262, type: 3}
