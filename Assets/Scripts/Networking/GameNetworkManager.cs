@@ -13,6 +13,7 @@ public class GameNetworkManager : NetworkManager
     
     [SerializeField] private Menu _menu;
     [SerializeField] private GameObject characterPrefab;
+    [SerializeField] private Transport steamTransport;
     public static event Action ClientOnConnected;
     public static event Action ClientOnDisconnected;
 
@@ -131,6 +132,20 @@ public class GameNetworkManager : NetworkManager
 
     #endregion
    
+    public void setUseSteam(bool useSteam){
+        Transport kcpTransport = this.GetComponent<kcp2k.KcpTransport>();
+        SteamManager steamManager = this.GetComponent<SteamManager>();
+        steamManager.enabled = useSteam;
+        steamTransport.enabled = useSteam;
+        kcpTransport.enabled = !useSteam;
+        
+        if (useSteam) this.transport = steamTransport;
+        else          this.transport = kcpTransport;
+        
+        Transport.activeTransport = this.transport;
+
+        print("GameNetworkManager: useSteam=" + useSteam);
+    }
 
    
 }
