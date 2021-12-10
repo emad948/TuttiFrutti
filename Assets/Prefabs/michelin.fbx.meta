@@ -10,6 +10,9 @@ ModelImporter:
       74: 7897143877125600406
     second: rig|intoWalk
   - first:
+      74: -5395354463405799138
+    second: rig|jump
+  - first:
       74: 2921659094232983241
     second: rig|PoseLib
   - first:
@@ -18,6 +21,9 @@ ModelImporter:
   - first:
       74: 4959160385126538380
     second: rig|walk (1)
+  - first:
+      74: 8334085623738360485
+    second: rig|jump (1)
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -36,9 +42,9 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
-    importAnimatedCustomProperties: 1
-    importConstraints: 0
-    animationCompression: 3
+    importAnimatedCustomProperties: 0
+    importConstraints: 1
+    animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -47,11 +53,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: rig|walk (1)
-      takeName: rig|walk
+      name: rig|jump (1)
+      takeName: rig|jump
       internalID: 0
       firstFrame: 1
-      lastFrame: 20
+      lastFrame: 16
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -59,7 +65,7 @@ ModelImporter:
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 1
-      loopBlend: 1
+      loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
@@ -76,11 +82,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: rig|intoWalk
-      takeName: rig|intoWalk
+      name: rig|jump
+      takeName: rig|jump
       internalID: 0
       firstFrame: 0
-      lastFrame: 10
+      lastFrame: 18
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -137,7 +143,7 @@ ModelImporter:
       name: rig|walk
       takeName: rig|walk
       internalID: 0
-      firstFrame: 0
+      firstFrame: 1
       lastFrame: 20
       wrapMode: 0
       orientationOffsetY: 0
@@ -145,7 +151,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
