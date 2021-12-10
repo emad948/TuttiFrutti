@@ -26,7 +26,8 @@ public class PlayerController : MonoBehaviour
                 turnSmoothTime);
             transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
 
-            controller.Move(direction * speed * Time.deltaTime);
+            // Use CharacterController instead!
+            //controller.Move(direction * speed * Time.deltaTime);
         }
     }
 }

@@ -23,7 +23,11 @@ public class Menu : MonoBehaviour
     private void Start()
     {
         //This is only for development purposes
-        if(!useSteam){return;}
+        if(!useSteam){
+            lobbyCreated = null;
+            gameLobbyJoinRequested = null;
+            lobbyEntered = null;
+            return;}
 
         if (!SteamManager.Initialized)
         {
@@ -34,7 +38,7 @@ public class Menu : MonoBehaviour
         lobbyCreated = Callback<LobbyCreated_t>.Create(OnLobbyCreated);
         gameLobbyJoinRequested = Callback<GameLobbyJoinRequested_t>.Create(OnGameLobbyJoinRequested);
         lobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
-
+        
     }
 
     public void HostLobby()
@@ -48,9 +52,7 @@ public class Menu : MonoBehaviour
             return;
         }
         
-        NetworkManager.singleton.StartHost();
-        
-        
+        NetworkManager.singleton.StartHost();    
     }
 
     private void OnLobbyCreated(LobbyCreated_t callback)
@@ -78,7 +80,6 @@ public class Menu : MonoBehaviour
     private void OnGameLobbyJoinRequested(GameLobbyJoinRequested_t callback)
     {
         SteamMatchmaking.JoinLobby(callback.m_steamIDLobby);
-      
     }
     
     private void OnLobbyEntered(LobbyEnter_t callback)
@@ -99,5 +100,10 @@ public class Menu : MonoBehaviour
     {
         Debug.Log("Quit");
         Application.Quit();
+    }
+    public void setUseSteam(bool useSteam){
+        this.useSteam = useSteam;
+        this.Start();
+        
     }
 }

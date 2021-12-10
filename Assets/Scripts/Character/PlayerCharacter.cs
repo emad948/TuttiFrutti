@@ -9,9 +9,8 @@ public class PlayerCharacter : NetworkBehaviour
 {
    
     
-    [SyncVar] public Vector3 Control;
-    
-    
+    Rigidbody _body;
+
     #region Server
 
     public override void OnStartServer()
@@ -27,22 +26,12 @@ public class PlayerCharacter : NetworkBehaviour
 
     #region Client
 
-
-  
-
-    private void Update()
-    {
-        if (hasAuthority)
-        {
-            Control = new Vector3(Input.GetAxis("Horizontal") * .2f, 0,
-                Input.GetAxis("Vertical") * .2f); //update our controll varible
-            GetComponent<PhysicsLink>().ApplyForce(Control, ForceMode.VelocityChange); //Use our custom force function
-        }
-
-      
+    override public void OnStartAuthority(){
+        base.OnStartAuthority();
+            GameObject.FindGameObjectWithTag("MainCamera").BroadcastMessage("SetTransformToFollow", gameObject.transform);
     }
-    
-    
+
+
     #endregion
     
    
