@@ -6,32 +6,41 @@ using Mirror;
 public class CameraFollow : MonoBehaviour
 {
     [SerializeField] private Vector3 offset;
+    [SerializeField] private float offsetLen;
     [SerializeField] private Transform target;
     [SerializeField] private float verticalRotation;
     [SerializeField] private float translateSpeed;
 
     [SerializeField] private float rotationSpeed;
+
+    bool mouseCatched = true;
     // Start is called before the first frame update
+    private Quaternion rotation;
 
     private void Awake(){
-        
+        rotation = Quaternion.identity;
     }
     private void Update()
     {
-
-        HandleTranslation();
+        CalculateOffset();
         HandleRotation();
+        HandleTranslation();
+    }
+
+    private void CalculateOffset(){
+        
     }
 
     private void HandleTranslation(){
-        var targetPosition = target.TransformPoint(offset);
-        transform.position = Vector3.Lerp(transform.position, targetPosition, translateSpeed * Time.deltaTime);
+        transform.position = (offset + target.position);
+        
     }
     private void HandleRotation(){
-        var direction = target.position - transform.position - new Vector3(0, verticalRotation, 0);
-        var rotation = Quaternion.LookRotation(direction, Vector3.up);
+        var direction = new Vector3(0, verticalRotation, 0);
+        rotation = Quaternion.Lerp(transform.rotation, target.rotation * Quaternion.Euler(verticalRotation, 0,0), rotationSpeed);
         
-        transform.rotation = Quaternion.Lerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
+
+        transform.rotation = rotation;
     }
     private void SetTransformToFollow(Transform trans){
         this.target = trans;

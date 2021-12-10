@@ -75,15 +75,15 @@ public class CharacterController : NetworkBehaviour
         return Vector3.up * padToDeg(_inputState);
     }
 
-    private Vector3 calculateAcceleration(Vector2 inputs, Quaternion rotation){
+    private Vector3 CalculateAcceleration(Vector2 inputs, Quaternion rotation){
         float test = Time.fixedDeltaTime;
         var lookDir = _body.transform.position - _mainCamera.transform.position;
         lookDir.y = 0; 
         return  rotation * Vector3.forward * inputs.magnitude * Time.deltaTime * Acceleration;
     }
-    private Vector3 calculateSpeed(Vector2 inputs, Vector3 currentSpeed, Quaternion rotation){
+    private Vector3 CalculateSpeed(Vector2 inputs, Vector3 currentSpeed, Quaternion rotation){
         // input.x = horizontal, input.y = vertical
-        return Vector3.Scale(Vector3.up, _body.velocity) + Vector3.ClampMagnitude( _body.velocity + calculateAcceleration(inputs, rotation), MaxVelocity);
+        return Vector3.Scale(Vector3.up, _body.velocity) + Vector3.ClampMagnitude( _body.velocity + CalculateAcceleration(inputs, rotation), MaxVelocity);
     }
 
 
@@ -103,14 +103,15 @@ public class CharacterController : NetworkBehaviour
             var lookRotation = Quaternion.LookRotation(localLookDir);
             if (localLookDir.magnitude < 0.5f) lookRotation = _fallbackRotation;
             else _fallbackRotation = lookRotation;
-                Quaternion targetRotation = lookRotation * Quaternion.Euler(yRotationFromInput(_input));
+                Quaternion targetRotation = rotation;
+                if (_input.magnitude > 0.1f) targetRotation = lookRotation * Quaternion.Euler(yRotationFromInput(_input));
                 if (Math.Abs(Quaternion.Angle(rotation, targetRotation)) <= 95) 
                     rotation = Quaternion.Lerp(rotation, targetRotation, RotSpeed * Time.fixedDeltaTime);
                 else // Instant rotation if rotating more than 90 deg
                     rotation = targetRotation;
 
             // --- Velocity ON Rotation ---
-            velocity = calculateSpeed(_input, _body.velocity, rotation);;
+            velocity = CalculateSpeed(_input, _body.velocity, rotation);;
  
             // --- Move it! ---
             _body.MoveRotation(globalRotation);
