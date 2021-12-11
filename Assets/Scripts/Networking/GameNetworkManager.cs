@@ -50,7 +50,7 @@ public class GameNetworkManager : NetworkManager
         
         _gameStarted = true;
         
-        ServerChangeScene("GameScene_1");
+        ServerChangeScene("HillKing");
     }
 
 
@@ -91,12 +91,10 @@ public class GameNetworkManager : NetworkManager
 
     public override void OnServerSceneChanged(string sceneName)
     {
-        if (SceneManager.GetActiveScene().name.Equals("GameScene_1"))
+        if (SceneManager.GetActiveScene().name.Equals("HillKing"))
         {
             foreach (NetworkPlayer player in PlayersList)
             {
-              
-                
                 Debug.Log(characterPrefab);
                 GameObject characterInstance = Instantiate(
                     characterPrefab,
