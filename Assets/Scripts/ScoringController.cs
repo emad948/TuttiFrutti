@@ -28,6 +28,7 @@ public class ScoringController : MonoBehaviour
 
     private void HillKing()
     {
+        //Test
         var pos = player.transform.position;
         if (pos.x > 18 && pos.x < 23)
         {
