@@ -25,8 +25,7 @@ public class ScoringController : MonoBehaviour
                 break;
         }
     }
-
-    //Test
+    
     private void HillKing()
     {
         var pos = player.transform.position;
