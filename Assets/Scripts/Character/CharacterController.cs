@@ -14,7 +14,7 @@ public class CharacterController : NetworkBehaviour
     public float MaxVelocity = 1f;
     public float MaxAngularMagnitude = 5f;
     public float ReverseDelay = 10;
-
+    public float DampeningFactor = 0.1f;
     // --- This is all we sync between server and clients ---
     [SyncVar] Vector3 globalPosition;
     [SyncVar] Quaternion globalRotation;
@@ -57,7 +57,8 @@ public class CharacterController : NetworkBehaviour
         {
             _input.y = Input.GetAxis("Vertical");
             _input.x = Input.GetAxis("Horizontal");
-
+            if (_inputState.magnitude < DampeningFactor) _inputState = Vector2.zero;
+            else                              _inputState = _inputState - _inputState.normalized * DampeningFactor;
             _inputState += _input / ReverseDelay;
             _inputState = _inputState.normalized;
             // _isJumping is consumed in fixedUpdate
@@ -76,7 +77,7 @@ public class CharacterController : NetworkBehaviour
             return h * 90 + v * 180;
         }
 
-        return Vector3.up * padToDeg(_inputState);
+        return Vector3.up * padToDeg(input);
     }
 
     private Vector3 CalculateAcceleration(Vector2 inputs, Quaternion rotation)
@@ -108,14 +109,14 @@ public class CharacterController : NetworkBehaviour
             if (localLookDir.magnitude < 0.5f) lookRotation = _fallbackRotation;
             else _fallbackRotation = lookRotation;
             Quaternion targetRotation = rotation;
-            if (_input.magnitude > 0.1f) targetRotation = lookRotation * Quaternion.Euler(yRotationFromInput(_input));
+            if (_input.magnitude > 0.1f) targetRotation = lookRotation * Quaternion.Euler(yRotationFromInput(_inputState));
             if (Math.Abs(Quaternion.Angle(rotation, targetRotation)) <= 95)
                 rotation = Quaternion.Lerp(rotation, targetRotation, RotSpeed * Time.fixedDeltaTime);
             else // Instant rotation if rotating more than 90 deg
                 rotation = targetRotation;
 
             // --- Velocity ON Rotation ---
-            velocity = CalculateSpeed(_input, _body.velocity, rotation); ;
+            velocity = CalculateSpeed(_inputState, _body.velocity, rotation); ;
 
             // --- Move it! ---
             _body.MoveRotation(globalRotation);
