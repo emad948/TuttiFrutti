@@ -20,7 +20,7 @@ ModelImporter:
     second: rig|walk
   - first:
       74: 4959160385126538380
-    second: rig|walk (1)
+    second: rig|walk
   - first:
       74: 8334085623738360485
     second: rig|jump (1)
@@ -44,7 +44,10 @@ ModelImporter:
     second: rig|run
   - first:
       74: -928196903880923995
-    second: rig|jump.003
+    second: rig|jump
+  - first:
+      74: -8045412003258265065
+    second: rig|jump_zeroHeight
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -75,10 +78,10 @@ ModelImporter:
     clipAnimations:
     - serializedVersion: 16
       name: rig|walk
-      takeName: rig|walk.02
+      takeName: rig|walk
       internalID: 0
-      firstFrame: 0
-      lastFrame: 19
+      firstFrame: 1
+      lastFrame: 20
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -106,8 +109,8 @@ ModelImporter:
       name: rig|PoseLib
       takeName: rig|PoseLib
       internalID: 0
-      firstFrame: 0
-      lastFrame: 1
+      firstFrame: 1
+      lastFrame: 2
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -133,10 +136,10 @@ ModelImporter:
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: rig|run
-      takeName: rig|run.003
+      takeName: rig|run
       internalID: 0
       firstFrame: 1
-      lastFrame: 22
+      lastFrame: 19
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -144,7 +147,7 @@ ModelImporter:
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 1
-      loopBlend: 0
+      loopBlend: 1
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
@@ -161,8 +164,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: rig|jump.003
-      takeName: rig|jump.003
+      name: rig|jump_zeroHeight
+      takeName: rig|jump_zeroHeight
       internalID: 0
       firstFrame: 0
       lastFrame: 19

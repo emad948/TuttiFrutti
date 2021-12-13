@@ -7,14 +7,13 @@ public class CharacterController : NetworkBehaviour
 {
     // --- Fields ---
     public float Acceleration = 0.0001f;
-    public float Speed = 0.1f;
     public float RotSpeed = 5f;
 
     public Animator Anim;
-    public float MaxVelocity = 1f;
+    public float MaxVelocity = 1.5f;
     public float MaxAngularMagnitude = 5f;
     public float ReverseDelay = 10;
-    public float DampeningFactor = 0.1f;
+    public float DampeningFactor = 0.25f;
     // --- This is all we sync between server and clients ---
     [SyncVar] Vector3 globalPosition;
     [SyncVar] Quaternion globalRotation;
@@ -30,7 +29,7 @@ public class CharacterController : NetworkBehaviour
     private bool _isJumping = false; // yes yes, but we want dynamic jump range later
     private Vector2 _input = Vector2.zero; // hmm... for what would the controller need this?
     private Vector2 _inputState = new Vector2(0, 0); // we abstract a state from the last couple inputs
-    private Quaternion _fallbackRotation = Quaternion.identity; // if the camera ever gets too close, it won't give good reference rotation. trust me ;)
+    private Quaternion _fallBackCameraRotation = Quaternion.identity; // if the camera ever gets too close, it won't give good reference rotation. trust me ;)
 
     private Vector2 _currentSpeed = Vector2.zero;
 
@@ -57,13 +56,19 @@ public class CharacterController : NetworkBehaviour
         {
             _input.y = Input.GetAxis("Vertical");
             _input.x = Input.GetAxis("Horizontal");
-            if (_inputState.magnitude < DampeningFactor) _inputState = Vector2.zero;
-            else                              _inputState = _inputState - _inputState.normalized * DampeningFactor;
+            if (_input.magnitude == 0) applyDrag();
             _inputState += _input / ReverseDelay;
-            _inputState = _inputState.normalized;
+            if (_inputState.magnitude > 1) _inputState = _inputState.normalized;
+            
             // _isJumping is consumed in fixedUpdate
             _isJumping = Input.GetKeyDown(KeyCode.Space) ? true : _isJumping;
         }
+    }
+
+    private void applyDrag(){
+            if (_inputState.magnitude < DampeningFactor) _inputState = Vector2.zero;
+            else                                         _inputState = _inputState - _inputState.normalized * DampeningFactor;
+            
     }
     private Vector3 yRotationFromInput(Vector2 input)
     {
@@ -106,8 +111,8 @@ public class CharacterController : NetworkBehaviour
             var localLookDir = _body.position - _mainCamera.transform.position;
             localLookDir.y = 0; // we don't care about vertical rotation here
             var lookRotation = Quaternion.LookRotation(localLookDir);
-            if (localLookDir.magnitude < 0.5f) lookRotation = _fallbackRotation;
-            else _fallbackRotation = lookRotation;
+            if (localLookDir.magnitude < 0.5f) lookRotation = _fallBackCameraRotation;
+            else _fallBackCameraRotation = lookRotation;
             Quaternion targetRotation = rotation;
             if (_input.magnitude > 0.1f) targetRotation = lookRotation * Quaternion.Euler(yRotationFromInput(_inputState));
             if (Math.Abs(Quaternion.Angle(rotation, targetRotation)) <= 95)
@@ -127,8 +132,7 @@ public class CharacterController : NetworkBehaviour
             Anim.SetBool("walking", walking);
             Anim.SetFloat("walkSpeed", velocity.magnitude);
             if (_isJumping) { Anim.SetTrigger("jump"); _isJumping = false; print("jump!"); }
-
-
+            
             // --- Syncing ---
             updateLocally(_body.position, rotation);
             if (!_identity.isServer && _identity != null) updateOnServer(_body.position, rotation);
