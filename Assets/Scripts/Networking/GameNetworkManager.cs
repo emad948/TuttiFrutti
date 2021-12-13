@@ -50,7 +50,8 @@ public class GameNetworkManager : NetworkManager
         
         _gameStarted = true;
         
-        ServerChangeScene("HillKing");
+        ServerChangeScene("runtheline"); 
+        //ServerChangeScene("HillKing");
     }
 
 
