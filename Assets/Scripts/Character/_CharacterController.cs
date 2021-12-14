@@ -96,18 +96,16 @@ public class _CharacterController : NetworkBehaviour
             if (_input.magnitude > 0.1f) targetRotation = lookRotation * Quaternion.Euler(yRotationFromInput(_inputState));
             rotation = Quaternion.Euler(Vector3.SmoothDamp(rotation.eulerAngles, targetRotation.eulerAngles, ref RotationVelocity, RotationSmoothTime));
             // todo if targetRotation == 180*current then choose rotation direction
-            if (gr!=null){
-                gr.calculateRotation();
-            }
  
             // --- Velocity ON Rotation ---
             velocity = CalculateSpeed(_inputState, _body.velocity, rotation);
-            print(velocity);
+            //print(velocity);
             
-            print(velocity);
+            //print(velocity);
             // --- Move it! ---
             _body.MoveRotation(globalRotation);
             _body.AddForce(velocity - _body.velocity, ForceMode.VelocityChange);
+            _body.AddForce(Vector3.down, ForceMode.Acceleration);
 
             // --- Animations ---
             bool walking = _input.magnitude != 0;
@@ -164,12 +162,16 @@ public class _CharacterController : NetworkBehaviour
     {
         var lookDir = _body.transform.position - _mainCamera.transform.position;
         lookDir.y = 0;
-        return rotation * gr.calculateRotation() * Vector3.forward * inputs.magnitude * Time.deltaTime * Acceleration;
+        return  Vector3.forward * inputs.magnitude * Time.deltaTime * Acceleration;
     }
     private Vector3 CalculateSpeed(Vector2 inputs, Vector3 currentSpeed, Quaternion rotation)
     {
         var maxSpeed = _isRunning ? RunSpeed : WalkSpeed;
-        return Vector3.ClampMagnitude(_body.velocity + CalculateAcceleration(inputs, rotation), maxSpeed);
+        print(gr.calculateRotation());
+        Vector3 unclampedSpeed = rotation* Quaternion.Euler(-gr.calculateRotation(), 0,0) *  CalculateAcceleration(inputs, rotation) + _body.velocity ;
+        Vector3 horizontalSpeed = Vector3.ClampMagnitude(new Vector3(unclampedSpeed.x, 0, unclampedSpeed.z), maxSpeed);
+        Vector3 verticalSpeed = Vector3.ClampMagnitude(Vector3.Scale(unclampedSpeed, Vector3.up), maxSpeed);
+        return verticalSpeed + horizontalSpeed;
     }
 
     void updateLocally(Vector3 pos, Quaternion rot)
