@@ -167,7 +167,7 @@ public class _CharacterController : NetworkBehaviour
     private Vector3 CalculateSpeed(Vector2 inputs, Vector3 currentSpeed, Quaternion rotation)
     {
         var maxSpeed = _isRunning ? RunSpeed : WalkSpeed;
-        print(gr.calculateRotation());
+        //print(gr.calculateRotation());
         Vector3 unclampedSpeed = rotation* Quaternion.Euler(-gr.calculateRotation(), 0,0) *  CalculateAcceleration(inputs, rotation) + _body.velocity ;
         Vector3 horizontalSpeed = Vector3.ClampMagnitude(new Vector3(unclampedSpeed.x, 0, unclampedSpeed.z), maxSpeed);
         Vector3 verticalSpeed = Vector3.ClampMagnitude(Vector3.Scale(unclampedSpeed, Vector3.up), maxSpeed);
