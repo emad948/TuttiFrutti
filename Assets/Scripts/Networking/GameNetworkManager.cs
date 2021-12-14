@@ -27,13 +27,7 @@ public class GameNetworkManager : NetworkManager
         _gameLevels = RandomStringArrayTool.RandomizeStrings(_gameLevels);
     }
 
-    public string GETNextGameLevel()
-    {
-        if (_gameLevels.Length == 0) return "Game_End";
-        var nextGameLevel = _gameLevels[0];
-        _gameLevels = _gameLevels.Skip(1).ToArray();
-        return nextGameLevel;
-    }
+
 
     public static event Action ClientOnConnected;
     public static event Action ClientOnDisconnected;
@@ -82,8 +76,9 @@ public class GameNetworkManager : NetworkManager
 
         _gameStarted = true;
 
-        string nextGame = GETNextGameLevel();
-        ServerChangeScene(nextGame);
+        // string nextGame = GETNextGameLevel();
+        // ServerChangeScene(nextGame);
+        GameLevelsManager.startLevel(GETNextGameLevel());
     }
 
 
@@ -161,4 +156,27 @@ public class GameNetworkManager : NetworkManager
     }
 
     #endregion
+
+
+    #region HelperFunctions
+    public string GETNextGameLevel()
+    {
+        //TODO @Emad change to End Game Scene
+        if (_gameLevels.Length == 0) return "WinnerScene";
+        var nextGameLevel = _gameLevels[0];
+        _gameLevels = _gameLevels.Skip(1).ToArray();
+        return nextGameLevel;
+    }
+
+
+    public void ChangeLevelScene(string level)
+    {
+        ServerChangeScene(level);
+    }
+    
+
+    #endregion
+    
 }
+
+
