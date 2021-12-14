@@ -6,7 +6,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-public class ScoringController : NetworkManager
+public class ScoringController : NetworkBehaviour
 {
     private string currentLevel;
     private int currentLevelScore; // ??
@@ -17,6 +17,7 @@ public class ScoringController : NetworkManager
     {
         players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
         currentLevel = SceneManager.GetActiveScene().name;
+        Debug.Log("defa");
 
         switch (currentLevel)
         {
@@ -33,12 +34,12 @@ public class ScoringController : NetworkManager
 
     private void HillKing()
     {
-        
+        Debug.Log("abc1");
         // TODO update currentZoneIndex
         foreach (NetworkPlayer player in players)
         {
             var pos = NetworkClient.connection.identity.GetComponent<PlayerCharacter>().transform.position;
-            
+            Debug.Log(pos.ToString());
             switch (currenZoneIndex)
             {
                 case 1:
@@ -48,6 +49,7 @@ public class ScoringController : NetworkManager
                         {
                             if (pos.y > 12)
                             {
+                                Debug.Log("abc2");
                                 player.ChangeScore(1);
                             }
                         }
