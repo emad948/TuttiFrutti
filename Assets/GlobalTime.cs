@@ -13,8 +13,9 @@ public class GlobalTime : NetworkBehaviour
         int dot = b.IndexOf(sepFloat);
         string[] seperated = b.Split(sepFloat);
         x = x < seperated[1].Length ? x : seperated[1].Length - 1;
-        return seperated[0] + sepFloat + seperated[1].Substring(0, x);
-        //UnityEngine.CharacterController ch;
+        string afterDot = "";
+        for (int i = 0; i < x ; i++) afterDot += seperated[1][i]; // fix: no more out of bounds in substring
+        return seperated[0] + sepFloat + afterDot;
     }
 
     public Text timeText;

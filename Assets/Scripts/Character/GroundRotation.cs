@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class GroundRotation : MonoBehaviour
 {
-    public Transform Front;
-    public Transform Rear;
-    public Transform Left;
-    public Transform Right;
+
+    public float rayLength = 2f;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,40 +18,25 @@ public class GroundRotation : MonoBehaviour
         
     }
 
-    public Quaternion calculateRotation(){
+    public float calculateRotation(){
         //print("casting ray");
         int layerMask = 1 << 8;
-        Vector3 posFront, posRear, posLeft, posRight;
-        posFront = posRear = posLeft = posRight = Vector3.zero;
+        Vector3 posFront;
+        float rotation = 0;
+        posFront  = Vector3.zero;
         layerMask = ~layerMask;
-        Quaternion rotation = Quaternion.identity;
         RaycastHit hit;
-        if (Physics.Raycast(Front.position, Front.TransformDirection(Vector3.down), out hit, Mathf.Infinity, layerMask)){
-            Debug.DrawRay(Front.position, Front.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
-                print(hit.collider.transform.rotation);
-            posFront = hit.point;
-        }
-        if (Physics.Raycast(Rear.position, Rear.TransformDirection(Vector3.down), out hit, Mathf.Infinity, layerMask)){
-            Debug.DrawRay(Rear.position, Rear.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, rayLength, layerMask)){
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
             
-            posRear = hit.point;
-        }
-        if (Physics.Raycast(Left.position, Left.TransformDirection(Vector3.down), out hit, Mathf.Infinity, layerMask)){
-            Debug.DrawRay(Left.position, Left.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
-            
-            posLeft = hit.point;
-        }
-        if (Physics.Raycast(Right.position, Right.TransformDirection(Vector3.down), out hit, Mathf.Infinity, layerMask)){
-            Debug.DrawRay(Right.position, Right.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
-            
-            posRight = hit.point;
+                //print(hit.collider.transform.rotation);
+            rotation = Vector3.Angle(hit.normal, transform.up);
+            if (rotation == 0){
+                //rayLength = hit.distance;`
+            }
         }
         
-        var rotationX = Quaternion.LookRotation(posRear - posFront, Vector3.up);
-        var rotationY = Quaternion.LookRotation(posRight - posLeft, Vector3.up);
-        print(rotationX.eulerAngles);
-        print(rotationY.eulerAngles);
-        return Quaternion.Euler(rotationX.x,0,0);
+        return rotation;
     }
 
 }
