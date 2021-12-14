@@ -1,25 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using Mirror.Examples.Chat;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-public class ScoringController : MonoBehaviour
+public class ScoringController : NetworkManager
 {
-    public GameObject player;
-    public TMP_Text scoreText;
-    public int currentLevelScore = 0;
- private void Start()
+    private string currentLevel;
+    private int currentLevelScore; // ??
+    private List<NetworkPlayer> players;
+    public int currenZoneIndex = 1;
+
+    private void Start()
     {
-        Debug.Log(currentLevelScore);
-        NetworkPlayer.ClientOnScoreUpdated += handleClientScoreUpdated;
-        
-        // add scoring script to Player, which executes the right method for the current mode
-        var levelName = SceneManager.GetActiveScene().name;
-        switch(levelName){
+        players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
+        currentLevel = SceneManager.GetActiveScene().name;
+
+        switch (currentLevel)
+        {
             case "Level_HillKing":
-                InvokeRepeating("HillKing",0f, 0.25f);
+                InvokeRepeating("HillKing", 0f, 0.25f);
                 break;
             case "Level_??":
                 break;
@@ -28,35 +30,69 @@ public class ScoringController : MonoBehaviour
                 break;
         }
     }
-    
+
     private void HillKing()
     {
         
-        var pos = player.transform.position;
-        if (pos.x > 18 && pos.x < 23)
+        // TODO update currentZoneIndex
+        foreach (NetworkPlayer player in players)
         {
-            if (pos.z > -23 && pos.z < -18)
+            var pos = NetworkClient.connection.identity.GetComponent<PlayerCharacter>().transform.position;
+            
+            switch (currenZoneIndex)
             {
-                if (pos.y > 12)
-                {
-                    currentLevelScore++;
-                    scoreText.text = currentLevelScore.ToString();
-                }
+                case 1:
+                    if (pos.x > 18 && pos.x < 23)
+                    {
+                        if (pos.z > -23 && pos.z < -18)
+                        {
+                            if (pos.y > 12)
+                            {
+                                player.ChangeScore(1);
+                            }
+                        }
+                    }
+                    break;
+                case 2:
+                    // TODO @Colin update coordinate for other zones
+                    if (pos.x > 18 && pos.x < 23)
+                    {
+                        if (pos.z > -23 && pos.z < -18)
+                        {
+                            if (pos.y > 12)
+                            {
+                                player.ChangeScore(1);
+                            }
+                        }
+                    }
+
+                    break;
+                case 3:
+                    // TODO @Colin update coordinate for other zones
+                    if (pos.x > 18 && pos.x < 23)
+                    {
+                        if (pos.z > -23 && pos.z < -18)
+                        {
+                            if (pos.y > 12)
+                            {
+                                player.ChangeScore(1);
+                            }
+                        }
+                    }
+                    break;
+                default:
+                    Debug.Log("Error");
+                    break;
             }
         }
     }
 
     #region Client
 
-
     private void handleClientScoreUpdated(int score)
     {
         currentLevelScore = score;
     }
-    
-    
 
     #endregion
-    
 }
-

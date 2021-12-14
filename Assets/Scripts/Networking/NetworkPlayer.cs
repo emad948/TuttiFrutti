@@ -15,6 +15,7 @@ public class NetworkPlayer :NetworkBehaviour
     //Scores
     [SyncVar(hook = nameof(HandleScoreUpdated))]
     private int _currentScore = 0;
+    //private int totalScore = 0;
     public static event Action<int> ClientOnScoreUpdated;
     
     
@@ -33,7 +34,11 @@ public class NetworkPlayer :NetworkBehaviour
     {
         return _displayName;
     }
-    
+
+    public string GetScore()
+    {
+        return _currentScore.ToString();
+    }
     
     
      #region Server

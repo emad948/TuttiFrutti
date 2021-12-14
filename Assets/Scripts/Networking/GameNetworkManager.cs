@@ -25,7 +25,7 @@ public class GameNetworkManager : NetworkManager
     {
         //Shuffle Game Levels
         _gameLevels = RandomStringArrayTool.RandomizeStrings(_gameLevels);
-    }
+    }   
 
 
 
@@ -75,10 +75,13 @@ public class GameNetworkManager : NetworkManager
         if (!_menu.testMode && PlayersList.Count < 2) return;
 
         _gameStarted = true;
+        Debug.Log("abc");
+        //string nextGame = GETNextGameLevel();
+        //ServerChangeScene(nextGame);
+        ServerChangeScene("Level_HillKing");
 
-        // string nextGame = GETNextGameLevel();
-        // ServerChangeScene(nextGame);
-        GameLevelsManager.startLevel(GETNextGameLevel());
+        string nextGame = GETNextGameLevel();
+        ServerChangeScene(nextGame);
     }
 
 
