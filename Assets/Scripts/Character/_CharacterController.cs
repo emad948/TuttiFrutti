@@ -88,15 +88,12 @@ public class _CharacterController : NetworkBehaviour
             if (_input.magnitude > 0.1f) targetRotation = lookRotation * Quaternion.Euler(yRotationFromInput(_inputState));
             rotation = Quaternion.Lerp(rotation, targetRotation, RotSpeed * Time.fixedDeltaTime); 
             // todo if targetRotation == 180*current then choose rotation direction
-            if (gr!=null){
-                gr.calculateRotation();
-            }
  
             // --- Velocity ON Rotation ---
             velocity = CalculateSpeed(_inputState, _body.velocity, rotation);
-            print(velocity);
+            //print(velocity);
             
-            print(velocity);
+            //print(velocity);
             // --- Move it! ---
             _body.MoveRotation(globalRotation);
             _body.AddForce(velocity - _body.velocity, ForceMode.VelocityChange);
@@ -162,7 +159,8 @@ public class _CharacterController : NetworkBehaviour
     private Vector3 CalculateSpeed(Vector2 inputs, Vector3 currentSpeed, Quaternion rotation)
     {
         var maxSpeed = _isRunning ? RunSpeed : WalkSpeed;
-        Vector3 unclampedSpeed = rotation * gr.calculateRotation() *CalculateAcceleration(inputs, rotation) + _body.velocity ;
+        print(gr.calculateRotation());
+        Vector3 unclampedSpeed = rotation* Quaternion.Euler(-gr.calculateRotation(), 0,0) *  CalculateAcceleration(inputs, rotation) + _body.velocity ;
         Vector3 horizontalSpeed = Vector3.ClampMagnitude(new Vector3(unclampedSpeed.x, 0, unclampedSpeed.z), maxSpeed);
         Vector3 verticalSpeed = Vector3.ClampMagnitude(Vector3.Scale(unclampedSpeed, Vector3.up), maxSpeed);
         return verticalSpeed + horizontalSpeed;
