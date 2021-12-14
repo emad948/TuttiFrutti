@@ -29,6 +29,7 @@ public class PlayerCharacter : NetworkBehaviour
     override public void OnStartAuthority(){
         base.OnStartAuthority();
             GameObject.FindGameObjectWithTag("MainCamera").BroadcastMessage("SetTransformToFollow", gameObject.transform);
+            
     }
 
 

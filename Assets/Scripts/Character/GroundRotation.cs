@@ -48,8 +48,6 @@ public class GroundRotation : MonoBehaviour
             
             posRight = hit.point;
         }
-
-        //print(hit.collider.transform.rotation);
         
         var rotationX = Quaternion.LookRotation(posRear - posFront, Vector3.up);
         var rotationY = Quaternion.LookRotation(posRight - posLeft, Vector3.up);
