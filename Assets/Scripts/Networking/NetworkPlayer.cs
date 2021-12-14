@@ -56,7 +56,10 @@ public class NetworkPlayer :NetworkBehaviour
         //Only the host is allowed to start the game
         if (!_isGameHost) return;
         ((GameNetworkManager)NetworkManager.singleton).StartGame();
+      
     }
+
+    
     #endregion
 
     #region Client
@@ -81,6 +84,8 @@ public class NetworkPlayer :NetworkBehaviour
     }
 
     
+    
+
     private void HandleDisplayNameUpdated(string oldName, string newName)
     {
         ClientOnDisplayNameChanged?.Invoke(newName);

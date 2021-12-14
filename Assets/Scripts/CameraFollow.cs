@@ -13,7 +13,7 @@ public class CameraFollow : MonoBehaviour
 
     [SerializeField] private float rotationSpeed;
 
-    bool mouseCatched = true;
+    //bool mouseCatched = true;
     // Start is called before the first frame update
     private Quaternion rotation;
 
