@@ -12,6 +12,11 @@ public class NetworkPlayer :NetworkBehaviour
     [SyncVar] [SerializeField] private Color color;
     [SyncVar(hook=nameof(AuthorityHandleUpdateGameHostState))] private bool _isGameHost = false;
     
+    //Scores
+    [SyncVar(hook = nameof(HandleScoreUpdated))]
+    private int _currentScore = 0;
+    public static event Action<int> ClientOnScoreUpdated;
+    
     
     //Lobby Events
     public static event Action<bool> AuthorityOnGameHostStateUpdated;
@@ -42,6 +47,8 @@ public class NetworkPlayer :NetworkBehaviour
     [Server] public void SetGameHost(bool state) => _isGameHost = state;
     [Server] public void SetDisplayName(string newDisplayName) => _displayName = newDisplayName;
     [Server] public void SetColor(Color newColor) => color = newColor;
+
+    [Server] public void ChangeScore(int scorePoints) => _currentScore += scorePoints;
     
     [Command]
     public void CmdStartGame()
@@ -49,10 +56,7 @@ public class NetworkPlayer :NetworkBehaviour
         //Only the host is allowed to start the game
         if (!_isGameHost) return;
         ((GameNetworkManager)NetworkManager.singleton).StartGame();
-      
     }
-
-    
     #endregion
 
     #region Client
@@ -77,15 +81,14 @@ public class NetworkPlayer :NetworkBehaviour
     }
 
     
-    
-
     private void HandleDisplayNameUpdated(string oldName, string newName)
     {
         ClientOnDisplayNameChanged?.Invoke(newName);
         ClientOnInfoUpdated?.Invoke();
+    }
+    private void HandleScoreUpdated(int oldScore,int newScore){
         
-        
-       
+        ClientOnScoreUpdated?.Invoke(newScore);
     }
     
     #endregion

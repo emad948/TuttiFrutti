@@ -10,8 +10,11 @@ public class ScoringController : MonoBehaviour
     public GameObject player;
     public TMP_Text scoreText;
     public int currentLevelScore = 0;
-    void Start()
+ private void Start()
     {
+        Debug.Log(currentLevelScore);
+        NetworkPlayer.ClientOnScoreUpdated += handleClientScoreUpdated;
+        
         // add scoring script to Player, which executes the right method for the current mode
         var levelName = SceneManager.GetActiveScene().name;
         switch(levelName){
@@ -41,4 +44,18 @@ public class ScoringController : MonoBehaviour
             }
         }
     }
+
+    #region Client
+
+
+    private void handleClientScoreUpdated(int score)
+    {
+        currentLevelScore = score;
+    }
+    
+    
+
+    #endregion
+    
 }
+
