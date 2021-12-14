@@ -42,6 +42,7 @@ private void Start()
     override public void OnStartAuthority(){
         base.OnStartAuthority();
             GameObject.FindGameObjectWithTag("MainCamera").BroadcastMessage("SetTransformToFollow", gameObject.transform);
+            
     }
 
 
