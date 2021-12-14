@@ -14,7 +14,6 @@ public class GlobalTime : NetworkBehaviour
         string[] seperated = b.Split(sepFloat);
         x = x < seperated[1].Length ? x : seperated[1].Length - 1;
         return seperated[0] + sepFloat + seperated[1].Substring(0, x);
-        UnityEngine.CharacterController ch;
     }
 
     public Text timeText;

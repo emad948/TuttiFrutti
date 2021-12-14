@@ -25,8 +25,8 @@ public class _CharacterController : NetworkBehaviour
     [SyncVar] Vector3 globalPosition;
     [SyncVar] Quaternion globalRotation;
 
-    public GlobalTime globalTime;
     // --- Private ---
+    private GlobalTime _globalTime;
     private NetworkIdentity _identity; // is server or client?
     private Rigidbody _body; // we operate!
 
@@ -54,7 +54,7 @@ public class _CharacterController : NetworkBehaviour
         _body = gameObject.GetComponent<Rigidbody>();
         globalPosition = _body.position;
         globalRotation = _body.rotation;
-        globalTime = GameObject.FindObjectOfType<GlobalTime>();
+        _globalTime = GameObject.FindObjectOfType<GlobalTime>();
 
     }
 
@@ -63,7 +63,7 @@ public class _CharacterController : NetworkBehaviour
         if (hasAuthority)
         {
             
-            if (globalTime.time >= 0)
+            if (_globalTime.time >= 0)
             handleInputs();
         }
     }
@@ -93,11 +93,13 @@ public class _CharacterController : NetworkBehaviour
             }
  
             // --- Velocity ON Rotation ---
-            velocity = CalculateSpeed(_inputState, _body.velocity, rotation); ;
-            velocity = gr.calculateRotation() * velocity;
+            velocity = CalculateSpeed(_inputState, _body.velocity, rotation);
+            print(velocity);
+            
+            print(velocity);
             // --- Move it! ---
             _body.MoveRotation(globalRotation);
-            _body.velocity = velocity;
+            _body.AddForce(velocity - _body.velocity, ForceMode.VelocityChange);
 
             // --- Animations ---
             bool walking = _input.magnitude != 0;
@@ -154,7 +156,7 @@ public class _CharacterController : NetworkBehaviour
     {
         var lookDir = _body.transform.position - _mainCamera.transform.position;
         lookDir.y = 0;
-        return rotation * Vector3.forward * inputs.magnitude * Time.deltaTime * Acceleration;
+        return rotation * gr.calculateRotation() * Vector3.forward * inputs.magnitude * Time.deltaTime * Acceleration;
     }
     private Vector3 CalculateSpeed(Vector2 inputs, Vector3 currentSpeed, Quaternion rotation)
     {

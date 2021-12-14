@@ -49,11 +49,12 @@ public class GroundRotation : MonoBehaviour
             posRight = hit.point;
         }
         
-        var rotationX = Quaternion.LookRotation(posRear - posFront, Vector3.up);
-        var rotationY = Quaternion.LookRotation(posRight - posLeft, Vector3.up);
-        print(rotationX.eulerAngles);
-        print(rotationY.eulerAngles);
-        return Quaternion.Euler(rotationX.x,0,0);
+        var rotationX = Quaternion.LookRotation(posFront - posRear, Vector3.up);
+        var rotationZ = Quaternion.LookRotation(posRight - posLeft, Vector3.up);
+        //print(rotationX.eulerAngles);
+        //print(rotationY.eulerAngles);
+        //print(Quaternion.Euler(rotationX.x,0,0));
+        return Quaternion.Euler(rotationX.eulerAngles.x,0,rotationZ.eulerAngles.z);
     }
 
 }
