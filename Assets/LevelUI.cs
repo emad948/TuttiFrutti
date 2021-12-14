@@ -4,7 +4,7 @@ using Mirror;
 using UnityEngine;
 using TMPro;
 
-public class LevelUI : NetworkBehaviour
+public class LevelUI : MonoBehaviour
 {
     public TMP_Text score;
     // Start is called before the first frame update

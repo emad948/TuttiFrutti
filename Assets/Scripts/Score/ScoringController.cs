@@ -16,8 +16,8 @@ public class ScoringController : NetworkBehaviour
     private void Start()
     {
         players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
+        
         currentLevel = SceneManager.GetActiveScene().name;
-        Debug.Log("defa");
 
         switch (currentLevel)
         {
@@ -34,11 +34,12 @@ public class ScoringController : NetworkBehaviour
 
     private void HillKing()
     {
-        Debug.Log("abc1");
         // TODO update currentZoneIndex
         foreach (NetworkPlayer player in players)
         {
-            var pos = NetworkClient.connection.identity.GetComponent<PlayerCharacter>().transform.position;
+            var pos = new Vector3(19, 13, -20);
+            pos = player.connectionToClient.identity.GetComponent<PlayerCharacter>().transform.position;
+            //pos = NetworkClient.connection.identity.GetComponent<PlayerCharacter>().transform.position;
             Debug.Log(pos.ToString());
             switch (currenZoneIndex)
             {
@@ -49,7 +50,6 @@ public class ScoringController : NetworkBehaviour
                         {
                             if (pos.y > 12)
                             {
-                                Debug.Log("abc2");
                                 player.ChangeScore(1);
                             }
                         }
