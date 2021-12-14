@@ -1,26 +1,59 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using kcp2k;
 using Mirror;
 using Steamworks;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class GameNetworkManager : NetworkManager
 {
-    
     [SerializeField] private Menu _menu;
     [SerializeField] private GameObject characterPrefab;
     [SerializeField] private Transport steamTransport;
-    public static event Action ClientOnConnected;
-    public static event Action ClientOnDisconnected;
+
+    private string[] _gameLevels = {"Level_HillKing"};
+
+    private bool _gameStarted;
 
     public List<NetworkPlayer> PlayersList { get; } = new List<NetworkPlayer>();
 
-    private bool _gameStarted = false;
 
+    public override void Start()
+    {
+        //Shuffle Game Levels
+        _gameLevels = RandomStringArrayTool.RandomizeStrings(_gameLevels);
+    }
+
+    public string GETNextGameLevel()
+    {
+        if (_gameLevels.Length == 0) return "Game_End";
+        var nextGameLevel = _gameLevels[0];
+        _gameLevels = _gameLevels.Skip(1).ToArray();
+        return nextGameLevel;
+    }
+
+    public static event Action ClientOnConnected;
+    public static event Action ClientOnDisconnected;
+
+    public void setUseSteam(bool useSteam)
+    {
+        Transport kcpTransport = GetComponent<KcpTransport>();
+        var steamManager = GetComponent<SteamManager>();
+        steamManager.enabled = useSteam;
+        steamTransport.enabled = useSteam;
+        kcpTransport.enabled = !useSteam;
+
+        if (useSteam) transport = steamTransport;
+        else transport = kcpTransport;
+
+        Transport.activeTransport = transport;
+
+        print("GameNetworkManager: useSteam=" + useSteam);
+        
+    }
 
     #region Server
 
@@ -28,12 +61,11 @@ public class GameNetworkManager : NetworkManager
     {
         if (!_gameStarted) return;
         conn.Disconnect();
-
     }
 
     public override void OnServerDisconnect(NetworkConnection conn)
     {
-        NetworkPlayer player = conn.identity.GetComponent<NetworkPlayer>();
+        var player = conn.identity.GetComponent<NetworkPlayer>();
         PlayersList.Remove(player);
         base.OnServerDisconnect(conn);
     }
@@ -43,26 +75,27 @@ public class GameNetworkManager : NetworkManager
         PlayersList.Clear();
         _gameStarted = false;
     }
-    
+
     public void StartGame()
     {
         if (!_menu.testMode && PlayersList.Count < 2) return;
-        
+
         _gameStarted = true;
-        
-        ServerChangeScene("HillKing");
+
+        string nextGame = GETNextGameLevel();
+        ServerChangeScene(nextGame);
     }
 
 
     public override void OnServerAddPlayer(NetworkConnection conn)
     {
         base.OnServerAddPlayer(conn);
-        
-        var playerName="";
-        
+
+        var playerName = "";
+
         if (_menu.useSteam)
         {
-            CSteamID steamId = SteamMatchmaking.GetLobbyMemberByIndex(Menu.LobbyId, numPlayers - 1);
+            var steamId = SteamMatchmaking.GetLobbyMemberByIndex(Menu.LobbyId, numPlayers - 1);
             playerName = SteamFriends.GetFriendPersonaName(steamId);
         }
         else
@@ -70,47 +103,45 @@ public class GameNetworkManager : NetworkManager
             playerName = $"Player {numPlayers}";
             Debug.Log(playerName);
         }
-        
-        
-        NetworkPlayer player = conn.identity.GetComponent<NetworkPlayer>();
-        
-        PlayersList.Add((player));
-        
-       
-        
+
+
+        var player = conn.identity.GetComponent<NetworkPlayer>();
+
+        PlayersList.Add(player);
+
+
         player.SetDisplayName(playerName);
 
 
-        Color randomColor = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-        
+        var randomColor = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+
         player.SetColor(randomColor);
-        
+
         //if the playersList contain only 1 player this player is the host
         player.SetGameHost(PlayersList.Count == 1);
+        
     }
 
     public override void OnServerSceneChanged(string sceneName)
     {
-        if (SceneManager.GetActiveScene().name.Equals("HillKing"))
-        {
-            foreach (NetworkPlayer player in PlayersList)
+        if (SceneManager.GetActiveScene().name.StartsWith("Level"))
+            foreach (var player in PlayersList)
             {
                 Debug.Log(characterPrefab);
-                GameObject characterInstance = Instantiate(
+                var characterInstance = Instantiate(
                     characterPrefab,
                     GetStartPosition().position,
                     Quaternion.identity
                 );
                 characterInstance.GetComponent<PlayerCharacter>().displayName = player.GetDisplayName();
-                NetworkServer.Spawn(characterInstance,player.connectionToClient);
-
+                NetworkServer.Spawn(characterInstance, player.connectionToClient);
             }
-        }
     }
 
     #endregion
 
     #region Client
+
     public override void OnClientConnect(NetworkConnection conn)
     {
         base.OnClientConnect(conn);
@@ -125,25 +156,9 @@ public class GameNetworkManager : NetworkManager
 
     public override void OnStopClient()
     {
-       PlayersList.Clear();
+        PlayersList.Clear();
+        
     }
 
     #endregion
-   
-    public void setUseSteam(bool useSteam){
-        Transport kcpTransport = this.GetComponent<kcp2k.KcpTransport>();
-        SteamManager steamManager = this.GetComponent<SteamManager>();
-        steamManager.enabled = useSteam;
-        steamTransport.enabled = useSteam;
-        kcpTransport.enabled = !useSteam;
-        
-        if (useSteam) this.transport = steamTransport;
-        else          this.transport = kcpTransport;
-        
-        Transport.activeTransport = this.transport;
-
-        print("GameNetworkManager: useSteam=" + useSteam);
-    }
-
-   
 }
