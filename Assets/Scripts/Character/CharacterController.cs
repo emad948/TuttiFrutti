@@ -6,10 +6,16 @@ using UnityEngine;
 public class CharacterController : NetworkBehaviour
 {
     // --- Fields ---
-    public float Acceleration = 50f;
-    public float RotSpeed = 5f;
 
     public Animator Anim;
+    public Collider FeetCollider;
+    public float Acceleration = 50f;
+    public float RotSpeed = 5f;
+    public GameObject freeLook;
+
+    public GroundRotation gr;
+
+
     public float WalkSpeed = 2f;
     public float RunSpeed = 4f;
     public float MaxAngularMagnitude = 5f;
@@ -39,6 +45,7 @@ public class CharacterController : NetworkBehaviour
     {
         base.OnStartAuthority();
         _mainCamera = GameObject.FindObjectOfType<Camera>();
+        freeLook.SetActive(true);
     }
 
     private void Awake()
@@ -78,10 +85,13 @@ public class CharacterController : NetworkBehaviour
             if (_input.magnitude > 0.1f) targetRotation = lookRotation * Quaternion.Euler(yRotationFromInput(_inputState));
             rotation = Quaternion.Lerp(rotation, targetRotation, RotSpeed * Time.fixedDeltaTime); 
             // todo if targetRotation == 180*current then choose rotation direction
+            if (gr!=null){
+                gr.calculateRotation();
+            }
  
             // --- Velocity ON Rotation ---
             velocity = CalculateSpeed(_inputState, _body.velocity, rotation); ;
-
+            velocity = gr.calculateRotation() * velocity;
             // --- Move it! ---
             _body.MoveRotation(globalRotation);
             _body.velocity = velocity;
@@ -108,8 +118,8 @@ public class CharacterController : NetworkBehaviour
     }
 
     private void handleInputs(){
-            _input.y = Input.GetAxis("Vertical");
             _input.x = Input.GetAxis("Horizontal");
+            _input.y = Input.GetAxis("Vertical");
             if (_input.magnitude == 0) applyDrag();
             _inputState += _input / RotationChangeDelay;
             if (_inputState.magnitude > 1) _inputState = _inputState.normalized;
@@ -139,7 +149,6 @@ public class CharacterController : NetworkBehaviour
 
     private Vector3 CalculateAcceleration(Vector2 inputs, Quaternion rotation)
     {
-        float test = Time.fixedDeltaTime;
         var lookDir = _body.transform.position - _mainCamera.transform.position;
         lookDir.y = 0;
         return rotation * Vector3.forward * inputs.magnitude * Time.deltaTime * Acceleration;
@@ -147,7 +156,7 @@ public class CharacterController : NetworkBehaviour
     private Vector3 CalculateSpeed(Vector2 inputs, Vector3 currentSpeed, Quaternion rotation)
     {
         var maxSpeed = _isRunning ? RunSpeed : WalkSpeed;
-        return Vector3.Scale(Vector3.up, _body.velocity) + Vector3.ClampMagnitude(_body.velocity + CalculateAcceleration(inputs, rotation), maxSpeed);
+        return Vector3.ClampMagnitude(_body.velocity + CalculateAcceleration(inputs, rotation), maxSpeed);
     }
 
     void updateLocally(Vector3 pos, Quaternion rot)
