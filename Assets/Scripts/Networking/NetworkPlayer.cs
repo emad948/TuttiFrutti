@@ -83,9 +83,6 @@ public class NetworkPlayer :NetworkBehaviour
     {
         ClientOnDisplayNameChanged?.Invoke(newName);
         ClientOnInfoUpdated?.Invoke();
-        
-        
-       
     }
     
     #endregion
