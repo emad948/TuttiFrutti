@@ -21,6 +21,13 @@ public class _CharacterController : NetworkBehaviour
     public float MaxAngularMagnitude = 5f;
     public float RotationChangeDelay = 10;
     public float DampeningFactor = 0.25f;
+
+    public Vector3 RotationVelocity;
+
+    public float RotationSmoothTime;
+    
+    public float RotationSmoothAngle = 0.12f;
+    
     // --- This is all we sync between server and clients ---
     [SyncVar] Vector3 globalPosition;
     [SyncVar] Quaternion globalRotation;
@@ -38,6 +45,7 @@ public class _CharacterController : NetworkBehaviour
     private Vector2 _inputState = new Vector2(0, 0); // we abstract a state from the last couple inputs
     private Quaternion _fallBackCameraRotation = Quaternion.identity; // if the camera ever gets too close, it won't give good reference rotation. trust me ;)
 
+    
     private Vector2 _currentSpeed = Vector2.zero;
 
 
@@ -86,7 +94,7 @@ public class _CharacterController : NetworkBehaviour
             else _fallBackCameraRotation = lookRotation;
             Quaternion targetRotation = rotation;
             if (_input.magnitude > 0.1f) targetRotation = lookRotation * Quaternion.Euler(yRotationFromInput(_inputState));
-            rotation = Quaternion.Lerp(rotation, targetRotation, RotSpeed * Time.fixedDeltaTime); 
+            rotation = Quaternion.Euler(Vector3.SmoothDamp(rotation.eulerAngles, targetRotation.eulerAngles, ref RotationVelocity, RotationSmoothTime));
             // todo if targetRotation == 180*current then choose rotation direction
             if (gr!=null){
                 gr.calculateRotation();
