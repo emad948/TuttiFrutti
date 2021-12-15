@@ -71,7 +71,7 @@ public class _CharacterController : NetworkBehaviour
         if (hasAuthority)
         {
             
-            if (_globalTime.time >= 0)
+            if (_globalTime._time >= 0)
             handleInputs();
         }
     }

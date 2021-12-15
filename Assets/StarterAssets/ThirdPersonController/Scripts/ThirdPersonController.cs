@@ -1,42 +1,33 @@
-﻿using UnityEngine;
+﻿using System;
+using Mirror;
+using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
 #endif
-
 /* Note: animations are called via the controller for both the character and capsule using animator null checks
  */
-
 namespace StarterAssets
 {
 	[RequireComponent(typeof(CharacterController))]
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 	[RequireComponent(typeof(PlayerInput))]
 #endif
-	public class ThirdPersonController : MonoBehaviour
+	public class ThirdPersonController : NetworkBehaviour
 	{
 		[Header("Player")]
-		[Tooltip("Move speed of the character in m/s")]
 		public float MoveSpeed = 2.0f;
-		[Tooltip("Sprint speed of the character in m/s")]
 		public float SprintSpeed = 5.335f;
-		[Tooltip("How fast the character turns to face movement direction")]
 		[Range(0.0f, 0.3f)]
 		public float RotationSmoothTime = 0.12f;
-		[Tooltip("Acceleration and deceleration")]
 		public float SpeedChangeRate = 10.0f;
-
 		[Space(10)]
-		[Tooltip("The height the player can jump")]
 		public float JumpHeight = 1.2f;
-		[Tooltip("The character uses its own gravity value. The engine default is -9.81f")]
 		public float Gravity = -15.0f;
-
 		[Space(10)]
 		[Tooltip("Time required to pass before being able to jump again. Set to 0f to instantly jump again")]
 		public float JumpTimeout = 0.50f;
 		[Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
 		public float FallTimeout = 0.15f;
-
 		[Header("Player Grounded")]
 		[Tooltip("If the character is grounded or not. Not part of the CharacterController built in grounded check")]
 		public bool Grounded = true;
@@ -46,7 +37,6 @@ namespace StarterAssets
 		public float GroundedRadius = 0.28f;
 		[Tooltip("What layers the character uses as ground")]
 		public LayerMask GroundLayers;
-
 		[Header("Cinemachine")]
 		[Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
 		public GameObject CinemachineCameraTarget;
@@ -58,11 +48,9 @@ namespace StarterAssets
 		public float CameraAngleOverride = 0.0f;
 		[Tooltip("For locking the camera position on all axis")]
 		public bool LockCameraPosition = false;
-
 		// cinemachine
 		private float _cinemachineTargetYaw;
 		private float _cinemachineTargetPitch;
-
 		// player
 		private float _speed;
 		private float _animationBlend;
@@ -70,29 +58,52 @@ namespace StarterAssets
 		private float _rotationVelocity;
 		private float _verticalVelocity;
 		private float _terminalVelocity = 53.0f;
-
 		// timeout deltatime
 		private float _jumpTimeoutDelta;
 		private float _fallTimeoutDelta;
-
 		// animation IDs
 		private int _animIDSpeed;
 		private int _animIDGrounded;
 		private int _animIDJump;
 		private int _animIDFreeFall;
 		private int _animIDMotionSpeed;
-
 		private Animator _animator;
 		private CharacterController _controller;
 		private StarterAssetsInputs _input;
 		private GameObject _mainCamera;
-
 		private const float _threshold = 0.01f;
-
 		private bool _hasAnimator;
+		
+		// ---------------
+		// --- This is all we sync between server and clients ---
+		[SyncVar] Vector3 globalPosition;
+		[SyncVar] Quaternion globalRotation;
+		// --- Private ---
+		private GlobalTime _globalTime;
+		private NetworkIdentity _identity; // is server or client?
+		// ---------------
+
+		override public void OnStartAuthority()
+		{
+			base.OnStartAuthority();
+		}
+		
+		void updateLocally(Vector3 pos, Quaternion rot)
+		{
+			globalPosition = pos;
+			globalRotation = rot;
+		}
+		
+		// Updates globales on server instance:
+		[Command] void updateOnServer(Vector3 pos, Quaternion rot) => updateLocally(pos, rot);
 
 		private void Awake()
 		{
+			_identity = GetComponent<NetworkIdentity>();
+			_globalTime = GameObject.FindObjectOfType<GlobalTime>();
+			globalPosition = transform.position;
+			globalRotation = transform.rotation;
+			
 			// get a reference to our main camera
 			if (_mainCamera == null)
 			{
@@ -115,11 +126,13 @@ namespace StarterAssets
 
 		private void Update()
 		{
-			_hasAnimator = TryGetComponent(out _animator);
-			
-			JumpAndGravity();
-			GroundedCheck();
-			Move();
+			if (hasAuthority  && _globalTime._time >= 0)
+			{
+				_hasAnimator = TryGetComponent(out _animator);
+				JumpAndGravity();
+				GroundedCheck();
+				Move();
+			}
 		}
 
 		private void LateUpdate()
@@ -129,11 +142,11 @@ namespace StarterAssets
 
 		private void AssignAnimationIDs()
 		{
-			_animIDSpeed = Animator.StringToHash("Speed");
+			_animIDSpeed = Animator.StringToHash("velocity");
 			_animIDGrounded = Animator.StringToHash("Grounded");
-			_animIDJump = Animator.StringToHash("Jump");
+			_animIDJump = Animator.StringToHash("jump");
 			_animIDFreeFall = Animator.StringToHash("FreeFall");
-			_animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+			_animIDMotionSpeed = Animator.StringToHash("walking");
 		}
 
 		private void GroundedCheck()
@@ -141,7 +154,7 @@ namespace StarterAssets
 			// set sphere position, with offset
 			Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z);
 			Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers, QueryTriggerInteraction.Ignore);
-
+		
 			// update animator if using character
 			if (_hasAnimator)
 			{
@@ -168,6 +181,9 @@ namespace StarterAssets
 
 		private void Move()
 		{
+			if (hasAuthority || _identity == null) // identy unset => local
+			{
+
 			// set target speed based on move speed, sprint speed and if sprint is pressed
 			float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 
@@ -212,8 +228,7 @@ namespace StarterAssets
 				// rotate to face input direction relative to camera position
 				transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
 			}
-
-
+			
 			Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
 
 			// move the player
@@ -224,6 +239,20 @@ namespace StarterAssets
 			{
 				_animator.SetFloat(_animIDSpeed, _animationBlend);
 				_animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+			}
+
+			// --- Syncing ---
+			updateLocally(transform.position, transform.rotation);
+			if (_identity != null && !_identity.isServer)
+			{
+				updateOnServer(transform.position, transform.rotation);
+			}
+
+			}
+			else
+			{ // controlled by other player | TODO @alex: improve smoothing ??
+				transform.position = Vector3.Lerp(transform.position, globalPosition, Time.fixedDeltaTime * 100);
+				transform.rotation = Quaternion.Lerp(transform.rotation, globalRotation, Time.fixedDeltaTime * 100);
 			}
 		}
 
