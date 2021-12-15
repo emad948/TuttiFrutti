@@ -17,7 +17,7 @@ public class NetworkPlayer :NetworkBehaviour
     private int _currentScore = 0;
     //private int totalScore = 0;
     public static event Action<int> ClientOnScoreUpdated;
-    
+    public GameObject playerCharacter;
     
     //Lobby Events
     public static event Action<bool> AuthorityOnGameHostStateUpdated;

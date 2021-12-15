@@ -38,7 +38,7 @@ public class ScoringController : NetworkBehaviour
         foreach (NetworkPlayer player in players)
         {
             var pos = new Vector3(19, 13, -20);
-            pos = player.connectionToClient.identity.GetComponent<PlayerCharacter>().transform.position;
+            pos = player.playerCharacter.transform.position;
             //pos = NetworkClient.connection.identity.GetComponent<PlayerCharacter>().transform.position;
             Debug.Log(pos.ToString());
             switch (currenZoneIndex)

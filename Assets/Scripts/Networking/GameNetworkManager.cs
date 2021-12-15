@@ -132,6 +132,8 @@ public class GameNetworkManager : NetworkManager
                     Quaternion.identity
                 );
                 characterInstance.GetComponent<PlayerCharacter>().displayName = player.GetDisplayName();
+                player.playerCharacter = characterInstance;
+                
                 NetworkServer.Spawn(characterInstance, player.connectionToClient);
             }
     }
