@@ -7,16 +7,29 @@ using UnityEngine;
 
 public class PlayerCharacter : NetworkBehaviour
 {
-   
     
-    Rigidbody _body;
+    
+   [SerializeField] private TMP_Text playerDisplayName;
+
+   public string displayName;
+   Rigidbody _body;
+
+
+private void Start()
+{
+    if (!hasAuthority)playerDisplayName.text = displayName;
+       
+}
+
+
 
     #region Server
 
     public override void OnStartServer()
     {
         DontDestroyOnLoad(gameObject);
-       
+        
+
     }
 
  
@@ -29,6 +42,7 @@ public class PlayerCharacter : NetworkBehaviour
     override public void OnStartAuthority(){
         base.OnStartAuthority();
             GameObject.FindGameObjectWithTag("MainCamera").BroadcastMessage("SetTransformToFollow", gameObject.transform);
+            
     }
 
 

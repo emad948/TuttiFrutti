@@ -50,8 +50,7 @@ public class GameNetworkManager : NetworkManager
         
         _gameStarted = true;
         
-        ServerChangeScene("runtheline"); 
-        //ServerChangeScene("HillKing");
+        ServerChangeScene("HillKing");
     }
 
 
@@ -102,7 +101,7 @@ public class GameNetworkManager : NetworkManager
                     GetStartPosition().position,
                     Quaternion.identity
                 );
-                
+                characterInstance.GetComponent<PlayerCharacter>().displayName = player.GetDisplayName();
                 NetworkServer.Spawn(characterInstance,player.connectionToClient);
 
             }

@@ -11,13 +11,13 @@ public class WiggleObject : MonoBehaviour
     // set x and y pos in start() to wiggle around
     private void Start()
     {
-        orgPos = transform.position;
+        orgPos = transform.localPosition;
     }
  
     void Update()
     {
         float xPosition = Mathf.Sin(Time.time * wiggleSpeed) * wiggleDistance;
         float yPosition = Mathf.Cos(Time.time * wiggleSpeed) * wiggleDistance;
-        transform.position = orgPos + new Vector3(xPosition, yPosition, 0);
+        transform.localPosition = orgPos + new Vector3(xPosition, yPosition, 0);
     }
 }
