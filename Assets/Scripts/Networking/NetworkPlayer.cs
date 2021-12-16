@@ -39,6 +39,11 @@ public class NetworkPlayer :NetworkBehaviour
     {
         return _currentScore.ToString();
     }
+
+    public Color GetColor()
+    {
+        return color;
+    }
     
     
      #region Server

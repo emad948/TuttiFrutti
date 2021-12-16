@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using kcp2k;
 using Mirror;
 using Steamworks;
@@ -14,12 +13,11 @@ public class GameNetworkManager : NetworkManager
     [SerializeField] private GameObject characterPrefab;
     [SerializeField] private Transport steamTransport;
 
- 
 
     private bool _gameStarted;
 
     public List<NetworkPlayer> PlayersList { get; } = new List<NetworkPlayer>();
-    
+
     public static event Action ClientOnConnected;
     public static event Action ClientOnDisconnected;
 
@@ -37,7 +35,6 @@ public class GameNetworkManager : NetworkManager
         Transport.activeTransport = transport;
 
         print("GameNetworkManager: useSteam=" + useSteam);
-        
     }
 
     #region Server
@@ -67,8 +64,8 @@ public class GameNetworkManager : NetworkManager
 
         _gameStarted = true;
 
-        GameLevelsManager levelsManager = new GameLevelsManager();
-       levelsManager.startLevel();
+        var levelsManager = new GameLevelsManager();
+        levelsManager.startLevel();
     }
 
 
@@ -103,7 +100,6 @@ public class GameNetworkManager : NetworkManager
 
         //if the playersList contain only 1 player this player is the host
         player.SetGameHost(PlayersList.Count == 1);
-        
     }
 
     public override void OnServerSceneChanged(string sceneName)
@@ -116,9 +112,10 @@ public class GameNetworkManager : NetworkManager
                     GetStartPosition().position,
                     Quaternion.identity
                 );
-                characterInstance.GetComponent<PlayerCharacter>().displayName = player.GetDisplayName();
+                characterInstance.GetComponent<PlayerCharacter>().SetDisplayName(player.GetDisplayName());
+                characterInstance.GetComponent<PlayerCharacter>().SetColor(player.GetColor());
                 player.playerCharacter = characterInstance;
-                
+
                 NetworkServer.Spawn(characterInstance, player.connectionToClient);
             }
     }
@@ -142,13 +139,7 @@ public class GameNetworkManager : NetworkManager
     public override void OnStopClient()
     {
         PlayersList.Clear();
-        
     }
 
     #endregion
-
-    
-    
 }
-
-
