@@ -62,7 +62,7 @@ public class _CharacterController : NetworkBehaviour
         _body = gameObject.GetComponent<Rigidbody>();
         globalPosition = _body.position;
         globalRotation = _body.rotation;
-        _globalTime = GameObject.FindObjectOfType<GlobalTime>();
+        //_globalTime = GameObject.FindObjectOfType<GlobalTime>();
 
     }
 
@@ -71,7 +71,7 @@ public class _CharacterController : NetworkBehaviour
         if (hasAuthority)
         {
             
-            if (_globalTime.time >= 0)
+            //if (_globalTime._time >= 0)
             handleInputs();
         }
     }
