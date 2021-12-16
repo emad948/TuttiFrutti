@@ -244,7 +244,7 @@ namespace StarterAssets {
 			if (_hasAnimator)
 			{
 				_animator.SetFloat(_animIDSpeed, _animationBlend);
-				print(_animationBlend);
+				//print(_animationBlend);
 				_animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
 			}
 			}
