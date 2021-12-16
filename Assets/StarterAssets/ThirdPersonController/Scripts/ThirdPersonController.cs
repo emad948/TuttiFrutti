@@ -67,7 +67,7 @@ namespace StarterAssets
 		private int _animIDJump;
 		private int _animIDFreeFall;
 		private int _animIDMotionSpeed;
-		private Animator _animator;
+		public Animator _animator;
 		private CharacterController _controller;
 		private StarterAssetsInputs _input;
 		private GameObject _mainCamera;
@@ -113,7 +113,7 @@ namespace StarterAssets
 
 		private void Start()
 		{
-			_hasAnimator = TryGetComponent(out _animator);
+			_hasAnimator = true;
 			_controller = GetComponent<CharacterController>();
 			_input = GetComponent<StarterAssetsInputs>();
 
@@ -128,7 +128,7 @@ namespace StarterAssets
 		{
 			if (hasAuthority  && _globalTime._time >= 0)
 			{
-				_hasAnimator = TryGetComponent(out _animator);
+				//_hasAnimator = true;
 				JumpAndGravity();
 				GroundedCheck();
 				Move();
@@ -142,11 +142,11 @@ namespace StarterAssets
 
 		private void AssignAnimationIDs()
 		{
-			_animIDSpeed = Animator.StringToHash("velocity");
+			_animIDSpeed = Animator.StringToHash("walking");
 			_animIDGrounded = Animator.StringToHash("Grounded");
 			_animIDJump = Animator.StringToHash("jump");
 			_animIDFreeFall = Animator.StringToHash("FreeFall");
-			_animIDMotionSpeed = Animator.StringToHash("walking");
+			_animIDMotionSpeed = Animator.StringToHash("velocity");
 		}
 
 		private void GroundedCheck()
