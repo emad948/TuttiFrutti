@@ -14,21 +14,12 @@ public class GameNetworkManager : NetworkManager
     [SerializeField] private GameObject characterPrefab;
     [SerializeField] private Transport steamTransport;
 
-    private string[] _gameLevels = {"Level_HillKing"};
+ 
 
     private bool _gameStarted;
 
     public List<NetworkPlayer> PlayersList { get; } = new List<NetworkPlayer>();
-
-
-    public override void Start()
-    {
-        //Shuffle Game Levels
-        _gameLevels = RandomStringArrayTool.RandomizeStrings(_gameLevels);
-    }   
-
-
-
+    
     public static event Action ClientOnConnected;
     public static event Action ClientOnDisconnected;
 
@@ -75,13 +66,9 @@ public class GameNetworkManager : NetworkManager
         if (!_menu.testMode && PlayersList.Count < 2) return;
 
         _gameStarted = true;
-        Debug.Log("abc");
-        //string nextGame = GETNextGameLevel();
-        //ServerChangeScene(nextGame);
-        ServerChangeScene("Level_HillKing");
 
-        string nextGame = GETNextGameLevel();
-        ServerChangeScene(nextGame);
+        GameLevelsManager levelsManager = new GameLevelsManager();
+       levelsManager.startLevel();
     }
 
 
@@ -99,7 +86,6 @@ public class GameNetworkManager : NetworkManager
         else
         {
             playerName = $"Player {numPlayers}";
-            Debug.Log(playerName);
         }
 
 
@@ -125,7 +111,6 @@ public class GameNetworkManager : NetworkManager
         if (SceneManager.GetActiveScene().name.StartsWith("Level"))
             foreach (var player in PlayersList)
             {
-                Debug.Log(characterPrefab);
                 var characterInstance = Instantiate(
                     characterPrefab,
                     GetStartPosition().position,
@@ -162,25 +147,7 @@ public class GameNetworkManager : NetworkManager
 
     #endregion
 
-
-    #region HelperFunctions
-    public string GETNextGameLevel()
-    {
-        //TODO @Emad change to End Game Scene
-        if (_gameLevels.Length == 0) return "WinnerScene";
-        var nextGameLevel = _gameLevels[0];
-        _gameLevels = _gameLevels.Skip(1).ToArray();
-        return nextGameLevel;
-    }
-
-
-    public void ChangeLevelScene(string level)
-    {
-        ServerChangeScene(level);
-    }
     
-
-    #endregion
     
 }
 
