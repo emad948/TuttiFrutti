@@ -1,9 +1,8 @@
-﻿{
+{
     "files.exclude":
     {
         "**/.DS_Store":true,
         "**/.git":true,
-        "**/.gitignore":true,
         "**/.gitmodules":true,
         "**/*.booproj":true,
         "**/*.pidb":true,
@@ -28,7 +27,6 @@
         "**/*.tiff":true,
         "**/*.3ds":true,
         "**/*.3DS":true,
-        "**/*.fbx":true,
         "**/*.FBX":true,
         "**/*.lxo":true,
         "**/*.LXO":true,
@@ -41,7 +39,6 @@
         "**/*.flare":true,
         "**/*.mat":true,
         "**/*.meta":true,
-        "**/*.prefab":true,
         "**/*.unity":true,
         "build/":true,
         "Build/":true,

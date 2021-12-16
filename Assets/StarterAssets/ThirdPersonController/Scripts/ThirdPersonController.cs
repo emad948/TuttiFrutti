@@ -90,7 +90,7 @@ namespace StarterAssets {
             _globalTime = GameObject.FindObjectOfType<GlobalTime>();
             globalPosition = transform.position;
             globalRotation = transform.rotation;
-            _hasAnimator = TryGetComponent(out _animator);
+            _hasAnimator = true;
             _input = GetComponent<StarterAssetsInputs>();
             _controller = GetComponent<CharacterController>();
 
@@ -107,7 +107,7 @@ namespace StarterAssets {
         }
 
         private void Update() {
-            _hasAnimator = TryGetComponent(out _animator);
+            //_hasAnimator = TryGetComponent(out _animator);
             if (hasAuthority && _globalTime._time >= 0) {
                 JumpAndGravity();
                 GroundedCheck();
@@ -122,17 +122,17 @@ namespace StarterAssets {
 
         private void AssignAnimationIDs() {
             // @Colin: Nice! Wir passen aber den Controller an.
-            // _animIDSpeed = Animator.StringToHash("velocity");
-            // _animIDGrounded = Animator.StringToHash("Grounded");
-            // _animIDJump = Animator.StringToHash("jump");
-            // _animIDFreeFall = Animator.StringToHash("FreeFall");
-            // _animIDMotionSpeed = Animator.StringToHash("walking");
-
-            _animIDSpeed = Animator.StringToHash("Speed");
+            _animIDSpeed = Animator.StringToHash("velocity");
             _animIDGrounded = Animator.StringToHash("Grounded");
-            _animIDJump = Animator.StringToHash("Jump");
+            _animIDJump = Animator.StringToHash("jump");
             _animIDFreeFall = Animator.StringToHash("FreeFall");
-            _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+            _animIDMotionSpeed = Animator.StringToHash("walking");
+
+            // _animIDSpeed = Animator.StringToHash("Speed");
+            // _animIDGrounded = Animator.StringToHash("Grounded");
+            // _animIDJump = Animator.StringToHash("Jump");
+            // _animIDFreeFall = Animator.StringToHash("FreeFall");
+            // _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
         }
 
         private void GroundedCheck() {
@@ -210,8 +210,8 @@ namespace StarterAssets {
 
             // update animator if using character
             if (_hasAnimator) {
-                _animator.SetFloat(_animIDSpeed, _animationBlend);
-                _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+                if(_animIDSpeed >= 0) _animator.SetFloat(_animIDSpeed, _animationBlend);
+                if(_animIDMotionSpeed >= 0) _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
             }
             // @Colin: Syncing now done in Update() -> SyncGlobals()
         }

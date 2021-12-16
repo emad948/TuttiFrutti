@@ -346,7 +346,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 2074345540610457168}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.017668901
   m_Height: 0.09800312
   m_Direction: 1
@@ -1856,7 +1856,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 7950398221648274605}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.017668901
   m_Height: 0.09800312
   m_Direction: 1
@@ -2088,7 +2088,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2070925441746177913, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
       propertyPath: m_Lens.m_SensorSize.x
-      value: 1.3921921
+      value: 1.7777778
       objectReference: {fileID: 0}
     - target: {fileID: 2070925442191277755, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
       propertyPath: m_Layer
