@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,7 +20,7 @@ public class GlobalTime : NetworkBehaviour
     }
 
     public Text timeText;
-    [SyncVar] public float time = -3f;
+    [SyncVar] public float _time = -3f;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,9 +32,10 @@ public class GlobalTime : NetworkBehaviour
     {
         if (GetComponent<NetworkIdentity>().isServer)
         {
-            time += Time.deltaTime;
+            _time += Time.deltaTime;
         }
-        timeText.text = xAfterDot(time, 2);
+        //timeText.text = xAfterDot(time, 2);
+        timeText.text = Math.Round(_time).ToString();
 
     }
 }

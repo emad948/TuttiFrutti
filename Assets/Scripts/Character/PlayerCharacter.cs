@@ -28,12 +28,7 @@ public class PlayerCharacter : NetworkBehaviour
 
     [Server] public void SetDisplayName(string newDisplayName) => _displayName = newDisplayName;
     [Server] public void SetColor(Color newColor) => color = newColor;
-    public override void OnStartServer()
-    {
-        DontDestroyOnLoad(gameObject);
-     
-    }
-    
+
     #endregion
 
 

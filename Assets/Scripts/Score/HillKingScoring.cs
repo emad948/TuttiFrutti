@@ -6,29 +6,38 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-public class ScoringController : NetworkBehaviour
+public class HillKingScoring : NetworkBehaviour
 {
     private string currentLevel;
     private int currentLevelScore; // ??
     private List<NetworkPlayer> players;
     public int currenZoneIndex = 1;
-
+    public GlobalTime _globalTime;
+    private float _time;
+    private bool onlyOnce = true;
     private void Start()
     {
-        players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
-        
-        currentLevel = SceneManager.GetActiveScene().name;
-
-        switch (currentLevel)
+        if (GetComponent<NetworkIdentity>().isServer)
         {
-            case "Level_HillKing":
-                InvokeRepeating("HillKing", 0f, 0.25f);
-                break;
-            case "Level_??":
-                break;
-            default:
-                Debug.Log("Unknown scene name");
-                break;
+            players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
+            _globalTime = GameObject.FindObjectOfType<GlobalTime>();
+            //currentLevel = SceneManager.GetActiveScene().name;
+
+            InvokeRepeating("HillKing", 0f, 0.25f);
+        }
+    }
+
+    private void Update()
+    {
+        if (GetComponent<NetworkIdentity>().isServer)
+        {
+            _time = _globalTime._time;
+            if (_time >= 3 && onlyOnce) // TODO @Colin change to actual matchTimer and also <= 0
+            {
+                CancelInvoke();
+                ((GameNetworkManager) NetworkManager.singleton).ServerChangeScene("ScoringBoard");
+                onlyOnce = false;
+            }
         }
     }
 
@@ -37,9 +46,7 @@ public class ScoringController : NetworkBehaviour
         // TODO update currentZoneIndex
         foreach (NetworkPlayer player in players)
         {
-            var pos = new Vector3(19, 13, -20);
-            pos = player.playerCharacter.transform.position;
-            //pos = NetworkClient.connection.identity.GetComponent<PlayerCharacter>().transform.position;
+            var pos = player.playerCharacter.transform.position;
             switch (currenZoneIndex)
             {
                 case 1:
