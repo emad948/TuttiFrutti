@@ -91,14 +91,6 @@ namespace StarterAssets {
 			}
 		}
 		
-		void updateLocally(Vector3 pos, Quaternion rot)
-		{
-			globalPosition = pos;
-			globalRotation = rot;
-		}
-		
-		// Updates globales on server instance:
-		[Command] void updateOnServer(Vector3 pos, Quaternion rot) => updateLocally(pos, rot);
 
 		private void Awake()
 		{
@@ -337,6 +329,11 @@ namespace StarterAssets {
 			Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z), GroundedRadius);
 		}
 			private void SyncGlobals(){
+			if (!hasAuthority) {
+				transform.position = globalPosition;
+				transform.rotation = globalRotation;
+				return;
+			}
 					// --- Syncing ---
 			updateLocally(transform.position, transform.rotation);
 			if (_identity != null && !_identity.isServer)
@@ -349,6 +346,16 @@ namespace StarterAssets {
 				transform.rotation = Quaternion.Lerp(transform.rotation, globalRotation, Time.fixedDeltaTime * 100);
 			}
 		}
+
+		void updateLocally(Vector3 pos, Quaternion rot)
+		{
+			globalPosition = pos;
+			globalRotation = rot;
+		}
+		
+		// Updates globales on server instance:
+		[Command] void updateOnServer(Vector3 pos, Quaternion rot) => updateLocally(pos, rot);
+
 
 	} // class
 } // namespace
