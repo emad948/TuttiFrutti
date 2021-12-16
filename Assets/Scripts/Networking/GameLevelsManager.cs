@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Mirror;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 // TODO when backToMenu - implement first backToMenu after all levels were played
 
@@ -15,11 +16,11 @@ public class GameLevelsManager : NetworkBehaviour
 {
     private string[] _gameLevels = {"Level_HillKing"}; 
     private List<NetworkPlayer> players;
-    private bool gameIsRunning = false;
+    private bool gameIsRunning = false;     // TODO figure out when gameIsRunning and change accordingly
     
     private void Start()
     {
-        DontDestroyOnLoad(this);
+        //DontDestroyOnLoad(this);    // still necessary as this is attached in MainMenu
         if (!isServer) return;
         players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
         //Shuffle Game Levels
@@ -41,7 +42,7 @@ public class GameLevelsManager : NetworkBehaviour
         }
 
         ((GameNetworkManager) NetworkManager.singleton).ServerChangeScene("ScoringBoard");
-        Invoke("startLevel", 10f);
+        Invoke("startLevel", 3f);
     }
 
     public void startLevel()
@@ -54,6 +55,7 @@ public class GameLevelsManager : NetworkBehaviour
             }
         }
 
+        gameIsRunning = true;
         string level = GETNextGameLevel();
         switch (level)
         {
@@ -61,7 +63,8 @@ public class GameLevelsManager : NetworkBehaviour
                 ChangeScene("Level_HillKing");
                 break;
             default:
-                ChangeScene("MainMenu");
+                SceneManager.LoadScene(0);
+                //ChangeScene("MainMenu");
                 Debug.Log("Unknown scene name");
                 break;
         }
