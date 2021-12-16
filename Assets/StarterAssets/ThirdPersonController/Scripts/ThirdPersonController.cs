@@ -84,8 +84,7 @@ namespace StarterAssets {
 
 		override public void OnStartAuthority()
 		{
-			base.OnStartAuthority();
-						// get a reference to our main camera
+			// get a reference to our main camera
 			if (_mainCamera == null)
 			{
 				_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
