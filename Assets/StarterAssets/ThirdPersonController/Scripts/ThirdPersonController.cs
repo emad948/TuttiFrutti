@@ -329,22 +329,15 @@ namespace StarterAssets {
 			Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z), GroundedRadius);
 		}
 			private void SyncGlobals(){
-			if (!hasAuthority) {
-				transform.position = globalPosition;
-				transform.rotation = globalRotation;
+			if (!hasAuthority) {// controlled by other player | TODO @alex: improve smoothing ??
+				transform.position = Vector3.Lerp(transform.position, globalPosition, Time.fixedDeltaTime * 100);
+				transform.rotation = Quaternion.Lerp(transform.rotation, globalRotation, Time.fixedDeltaTime * 100);
 				return;
 			}
 					// --- Syncing ---
 			updateLocally(transform.position, transform.rotation);
-			if (_identity != null && !_identity.isServer)
-			{
-				updateOnServer(transform.position, transform.rotation);
-			}
-			if (!hasAuthority)
-			{ // controlled by other player | TODO @alex: improve smoothing ??
-				transform.position = Vector3.Lerp(transform.position, globalPosition, Time.fixedDeltaTime * 100);
-				transform.rotation = Quaternion.Lerp(transform.rotation, globalRotation, Time.fixedDeltaTime * 100);
-			}
+			if (isServer) return;
+			updateOnServer(transform.position, transform.rotation);
 		}
 
 		void updateLocally(Vector3 pos, Quaternion rot)
