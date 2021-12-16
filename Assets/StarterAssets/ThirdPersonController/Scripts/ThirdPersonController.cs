@@ -85,6 +85,11 @@ namespace StarterAssets {
 		override public void OnStartAuthority()
 		{
 			base.OnStartAuthority();
+						// get a reference to our main camera
+			if (_mainCamera == null)
+			{
+				_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+			}
 		}
 		
 		void updateLocally(Vector3 pos, Quaternion rot)
@@ -103,11 +108,7 @@ namespace StarterAssets {
 			globalPosition = transform.position;
 			globalRotation = transform.rotation;
 			
-			// get a reference to our main camera
-			if (_mainCamera == null)
-			{
-				_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-			}
+
 		}
 
 		private void Start()
