@@ -346,7 +346,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 2074345540610457168}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   m_Radius: 0.017668901
   m_Height: 0.09800312
   m_Direction: 1
@@ -502,7 +502,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3121109724126074952}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.5, z: -6.01}
+  m_LocalPosition: {x: 0, y: 4.240671, z: -2.1333432}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5000034314907553522}
@@ -2088,7 +2088,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2070925441746177913, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
       propertyPath: m_Lens.m_SensorSize.x
-      value: 1.7777778
+      value: 1.3921921
       objectReference: {fileID: 0}
     - target: {fileID: 2070925442191277755, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
       propertyPath: m_Layer
@@ -2227,10 +2227,6 @@ PrefabInstance:
     - target: {fileID: -718699525499896230, guid: cd0da3f413eede5469747e7552735d34, type: 3}
       propertyPath: m_Layer
       value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: -189527571811164851, guid: cd0da3f413eede5469747e7552735d34, type: 3}
-      propertyPath: m_ReceiveShadows
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 672690978552666963, guid: cd0da3f413eede5469747e7552735d34, type: 3}
       propertyPath: m_Layer
