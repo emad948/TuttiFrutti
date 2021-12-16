@@ -88,34 +88,22 @@ namespace StarterAssets
 			base.OnStartAuthority();
 		}
 		
-		void updateLocally(Vector3 pos, Quaternion rot)
+		private void Start()
 		{
-			globalPosition = pos;
-			globalRotation = rot;
-		}
-		
-		// Updates globales on server instance:
-		[Command] void updateOnServer(Vector3 pos, Quaternion rot) => updateLocally(pos, rot);
 
-		private void Awake()
-		{
 			_identity = GetComponent<NetworkIdentity>();
 			_globalTime = GameObject.FindObjectOfType<GlobalTime>();
 			globalPosition = transform.position;
 			globalRotation = transform.rotation;
+			_hasAnimator = TryGetComponent(out _animator);
+			_input = GetComponent<StarterAssetsInputs>();
+			_controller = GetComponent<CharacterController>();        
 			
 			// get a reference to our main camera
 			if (_mainCamera == null)
 			{
 				_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
 			}
-		}
-
-		private void Start()
-		{
-			_hasAnimator = TryGetComponent(out _animator);
-			_controller = GetComponent<CharacterController>();
-			_input = GetComponent<StarterAssetsInputs>();
 
 			AssignAnimationIDs();
 
@@ -126,13 +114,14 @@ namespace StarterAssets
 
 		private void Update()
 		{
+			_hasAnimator = TryGetComponent(out _animator);
 			if (hasAuthority  && _globalTime._time >= 0)
 			{
-				_hasAnimator = TryGetComponent(out _animator);
 				JumpAndGravity();
 				GroundedCheck();
 				Move();
 			}
+            SyncGlobals();
 		}
 
 		private void LateUpdate()
@@ -142,11 +131,18 @@ namespace StarterAssets
 
 		private void AssignAnimationIDs()
 		{
-			_animIDSpeed = Animator.StringToHash("velocity");
-			_animIDGrounded = Animator.StringToHash("Grounded");
-			_animIDJump = Animator.StringToHash("jump");
-			_animIDFreeFall = Animator.StringToHash("FreeFall");
-			_animIDMotionSpeed = Animator.StringToHash("walking");
+            // @Colin: Nice! Wir passen aber den Controller an.
+            // _animIDSpeed = Animator.StringToHash("velocity");
+            // _animIDGrounded = Animator.StringToHash("Grounded");
+            // _animIDJump = Animator.StringToHash("jump");
+            // _animIDFreeFall = Animator.StringToHash("FreeFall");
+            // _animIDMotionSpeed = Animator.StringToHash("walking");
+
+            _animIDSpeed = Animator.StringToHash("Speed");
+            _animIDGrounded = Animator.StringToHash("Grounded");
+            _animIDJump = Animator.StringToHash("Jump");
+            _animIDFreeFall = Animator.StringToHash("FreeFall");
+            _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
 		}
 
 		private void GroundedCheck()
@@ -181,9 +177,6 @@ namespace StarterAssets
 
 		private void Move()
 		{
-			if (hasAuthority || _identity == null) // identy unset => local
-			{
-
 			// set target speed based on move speed, sprint speed and if sprint is pressed
 			float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 
@@ -240,20 +233,7 @@ namespace StarterAssets
 				_animator.SetFloat(_animIDSpeed, _animationBlend);
 				_animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
 			}
-
-			// --- Syncing ---
-			updateLocally(transform.position, transform.rotation);
-			if (_identity != null && !_identity.isServer)
-			{
-				updateOnServer(transform.position, transform.rotation);
-			}
-
-			}
-			else
-			{ // controlled by other player | TODO @alex: improve smoothing ??
-				transform.position = Vector3.Lerp(transform.position, globalPosition, Time.fixedDeltaTime * 100);
-				transform.rotation = Quaternion.Lerp(transform.rotation, globalRotation, Time.fixedDeltaTime * 100);
-			}
+            // @Colin: Syncing now done in Update() -> SyncGlobals()
 		}
 
 		private void JumpAndGravity()
@@ -343,5 +323,26 @@ namespace StarterAssets
 			// when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
 			Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z), GroundedRadius);
 		}
+
+                private void SyncGlobals() {
+            updateLocally(transform.position, transform.rotation);
+            if (_identity != null && !_identity.isServer)
+
+                updateOnServer(transform.position, transform.rotation);
+
+
+            if (!hasAuthority) { // controlled by other player | TODO @alex: improve smoothing ??
+                transform.position = Vector3.Lerp(transform.position, globalPosition, Time.fixedDeltaTime * 100);
+                transform.rotation = Quaternion.Lerp(transform.rotation, globalRotation, Time.fixedDeltaTime * 100);
+            }
+        }
+        void updateLocally(Vector3 pos, Quaternion rot) {
+            globalPosition = pos;
+            globalRotation = rot;
+        }
+
+        // Updates globales on server instance:
+        [Command] void updateOnServer(Vector3 pos, Quaternion rot) => updateLocally(pos, rot);
+
 	}
 }
