@@ -142,11 +142,18 @@ namespace StarterAssets {
 
 		private void AssignAnimationIDs()
 		{
-			_animIDSpeed = Animator.StringToHash("walking");
-			_animIDGrounded = Animator.StringToHash("Grounded");
-			_animIDJump = Animator.StringToHash("jump");
-			_animIDFreeFall = Animator.StringToHash("FreeFall");
-			_animIDMotionSpeed = Animator.StringToHash("velocity");
+            // @Colin: Nice! Wir passen aber den Controller an.
+            // _animIDSpeed = Animator.StringToHash("velocity");
+            // _animIDGrounded = Animator.StringToHash("Grounded");
+            // _animIDJump = Animator.StringToHash("jump");
+            // _animIDFreeFall = Animator.StringToHash("FreeFall");
+            // _animIDMotionSpeed = Animator.StringToHash("walking");
+
+            _animIDSpeed = Animator.StringToHash("Speed");
+            _animIDGrounded = Animator.StringToHash("Grounded");
+            _animIDJump = Animator.StringToHash("Jump");
+            _animIDFreeFall = Animator.StringToHash("FreeFall");
+            _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
 		}
 
 		private void GroundedCheck()
@@ -241,8 +248,6 @@ namespace StarterAssets {
 			}
 			}
 			
-		}
-
 		private void JumpAndGravity()
 		{
 			if (Grounded)
