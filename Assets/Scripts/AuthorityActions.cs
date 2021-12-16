@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
-
-public class CameraActions : NetworkBehaviour
+using UnityEngine.InputSystem;
+public class AuthorityActions : NetworkBehaviour
 {
 
     public GameObject CameraFollowPoint;
@@ -11,6 +11,7 @@ public class CameraActions : NetworkBehaviour
 
     override public void OnStartAuthority(){
         CameraFollowPoint.SetActive(true);
+        gameObject.GetComponent<PlayerInput>().enabled = true;
     }
 
     // Start is called before the first frame update

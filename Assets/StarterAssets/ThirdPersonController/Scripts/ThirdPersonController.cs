@@ -334,7 +334,7 @@ namespace StarterAssets {
 				transform.rotation = Quaternion.Lerp(transform.rotation, globalRotation, Time.fixedDeltaTime * 100);
 				return;
 			}
-					// --- Syncing ---
+			// --- Syncing to globals ---
 			updateLocally(transform.position, transform.rotation);
 			if (isServer) return;
 			updateOnServer(transform.position, transform.rotation);
