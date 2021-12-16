@@ -64,8 +64,7 @@ public class GameNetworkManager : NetworkManager
 
         _gameStarted = true;
 
-        var levelsManager = new GameLevelsManager();
-        levelsManager.startLevel();
+        GameObject.FindObjectOfType<GameLevelsManager>().startLevel();
     }
 
 

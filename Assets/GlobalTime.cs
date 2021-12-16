@@ -20,7 +20,7 @@ public class GlobalTime : NetworkBehaviour
     }
 
     public Text timeText;
-    [SyncVar] public float _time = -3f;
+    [SyncVar] public float _time = -1f;
     // Start is called before the first frame update
     void Start()
     {

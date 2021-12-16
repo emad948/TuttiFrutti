@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,70 +6,95 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Mirror;
-    using UnityEngine;
+using Unity.VisualScripting;
+using UnityEngine;
 
-    public class GameLevelsManager:NetworkManager
+// TODO when backToMenu - implement first backToMenu after all levels were played
+
+public class GameLevelsManager : NetworkBehaviour
+{
+    private string[] _gameLevels = {"Level_HillKing"}; 
+    private List<NetworkPlayer> players;
+    private bool gameIsRunning = false;
+    
+    private void Start()
     {
-        
-        private string[] _gameLevels = {"Level_HillKing"};
-       
-        public override void Start()
+        DontDestroyOnLoad(this);
+        if (!isServer) return;
+        players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
+        //Shuffle Game Levels
+        _gameLevels = RandomStringArrayTool.RandomizeStrings(_gameLevels);
+    }
+
+    private void Update()
+    {
+        if (!isServer) return;
+
+    }
+
+    public void AfterLevelEnd()
+    {
+        players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
+        foreach (NetworkPlayer player in players)
         {
-            //Shuffle Game Levels
-            _gameLevels = RandomStringArrayTool.RandomizeStrings(_gameLevels);
-        }   
-        
-        
-        public  void startLevel()
+            player.UpdateTotalScore();
+        }
+
+        ((GameNetworkManager) NetworkManager.singleton).ServerChangeScene("ScoringBoard");
+        Invoke("startLevel", 10f);
+    }
+
+    public void startLevel()
+    {
+        if (gameIsRunning)
         {
-            string level = GETNextGameLevel();
-            switch (level)
+            foreach (NetworkPlayer player in players)
             {
-                case"Level_HillKing":
-                    ChangeScene("Level_HillKing");
-                    break;
-                default:
-                    Debug.Log("Unknown scene name");
-                    break;
+                player.ResetCurrentScore();
             }
         }
 
-
-
-        public void  EndLevel()
+        string level = GETNextGameLevel();
+        switch (level)
         {
-            //TODO @Emad add end game scene if all levels are played
-            if (_gameLevels.Length == 0) ChangeScene("WinnerScene");
-          
-            // ChangeScene("Level_HillKing");
-            
+            case "Level_HillKing":
+                ChangeScene("Level_HillKing");
+                break;
+            default:
+                ChangeScene("MainMenu");
+                Debug.Log("Unknown scene name");
+                break;
         }
+    }
 
 
-        #region HelperFunctions
+    public void EndLevel()
+    {
+        //TODO @Emad add end game scene if all levels are played
+        if (_gameLevels.Length == 0) ChangeScene("WinnerScene");
 
-        public   void ChangeScene(string scene)
-        {
-            ((GameNetworkManager) NetworkManager.singleton).ServerChangeScene(scene);
-            
-            Debug.Log("after game scene changed");
-            
-        }
-        
-        public string GETNextGameLevel()
-        {
-            //TODO @Emad change to End Game Scene
-            if (_gameLevels.Length == 0) return "WinnerScene";
-            var nextGameLevel = _gameLevels[0];
-            _gameLevels = _gameLevels.Skip(1).ToArray();
-            return nextGameLevel;
-        }
-        
-
-        #endregion
-      
+        // ChangeScene("Level_HillKing");
     }
 
 
 
+    #region HelperFunctions
 
+    public void ChangeScene(string scene)
+    {
+        ((GameNetworkManager) NetworkManager.singleton).ServerChangeScene(scene);
+
+        Debug.Log("after game scene changed");
+    }
+
+    public string GETNextGameLevel()
+    {
+        //TODO @Emad change to End Game Scene
+        if (_gameLevels.Length == 0) return "WinnerScene";
+        var nextGameLevel = _gameLevels[0];
+        _gameLevels = _gameLevels.Skip(1).ToArray();
+        return nextGameLevel;
+    }
+
+    #endregion
+}

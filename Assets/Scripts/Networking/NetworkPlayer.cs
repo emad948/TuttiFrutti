@@ -15,7 +15,8 @@ public class NetworkPlayer :NetworkBehaviour
     //Scores
     [SyncVar(hook = nameof(HandleScoreUpdated))]
     private int _currentScore = 0;
-    //private int totalScore = 0;
+    [SyncVar]
+    private int _totalScore = 0;
     public static event Action<int> ClientOnScoreUpdated;
     public GameObject playerCharacter;
     
@@ -59,7 +60,10 @@ public class NetworkPlayer :NetworkBehaviour
     [Server] public void SetColor(Color newColor) => color = newColor;
 
     [Server] public void ChangeScore(int scorePoints) => _currentScore += scorePoints;
-    
+    [Server] public void ChangeTotalScore(int scorePoints) => _totalScore += scorePoints;
+    [Server] public void UpdateTotalScore() => ChangeTotalScore(_currentScore);
+    [Server] public void ResetCurrentScore() => _currentScore = 0;
+
     [Command]
     public void CmdStartGame()
     {

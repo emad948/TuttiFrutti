@@ -15,29 +15,25 @@ public class HillKingScoring : NetworkBehaviour
     public GlobalTime _globalTime;
     private float _time;
     private bool onlyOnce = true;
+
     private void Start()
     {
-        if (GetComponent<NetworkIdentity>().isServer)
-        {
-            players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
-            _globalTime = GameObject.FindObjectOfType<GlobalTime>();
-            //currentLevel = SceneManager.GetActiveScene().name;
+        if (!isServer) return;
+        players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
+        _globalTime = GameObject.FindObjectOfType<GlobalTime>();
 
-            InvokeRepeating("HillKing", 0f, 0.25f);
-        }
+        InvokeRepeating("HillKing", 0f, 0.25f);
     }
 
     private void Update()
     {
-        if (GetComponent<NetworkIdentity>().isServer)
+        if (!isServer) return;
+        _time = _globalTime._time;
+        if (_time >= 1 && onlyOnce) // TODO @Colin change to actual matchTimer and also <= 0
         {
-            _time = _globalTime._time;
-            if (_time >= 3 && onlyOnce) // TODO @Colin change to actual matchTimer and also <= 0
-            {
-                CancelInvoke();
-                ((GameNetworkManager) NetworkManager.singleton).ServerChangeScene("ScoringBoard");
-                onlyOnce = false;
-            }
+            CancelInvoke();
+            GameObject.FindObjectOfType<GameLevelsManager>().AfterLevelEnd();
+            onlyOnce = false;
         }
     }
 
@@ -60,6 +56,7 @@ public class HillKingScoring : NetworkBehaviour
                             }
                         }
                     }
+
                     break;
                 case 2:
                     // TODO @Colin update coordinate for other zones
@@ -87,6 +84,7 @@ public class HillKingScoring : NetworkBehaviour
                             }
                         }
                     }
+
                     break;
                 default:
                     Debug.Log("Error");
