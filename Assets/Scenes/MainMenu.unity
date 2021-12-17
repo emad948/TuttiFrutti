@@ -9832,7 +9832,7 @@ PrefabInstance:
     - target: {fileID: 6509473559915431775, guid: 6e51ac3264cdc408fb92bbb7982e7262, type: 3}
       propertyPath: transport
       value: 
-      objectReference: {fileID: 1560038081}
+      objectReference: {fileID: 1560038077}
     - target: {fileID: 6509473559915431775, guid: 6e51ac3264cdc408fb92bbb7982e7262, type: 3}
       propertyPath: spawnPrefabs.Array.size
       value: 1
@@ -9844,7 +9844,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6509473559915431760, guid: 6e51ac3264cdc408fb92bbb7982e7262, type: 3}
   m_PrefabInstance: {fileID: 1560038075}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1560038081 stripped
+--- !u!114 &1560038077 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4661487925121870488, guid: 6e51ac3264cdc408fb92bbb7982e7262, type: 3}
   m_PrefabInstance: {fileID: 1560038075}

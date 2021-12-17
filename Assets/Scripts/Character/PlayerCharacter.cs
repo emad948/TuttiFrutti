@@ -35,11 +35,6 @@ public class PlayerCharacter : NetworkBehaviour
 
     #region Client
 
-    override public void OnStartAuthority(){
-        base.OnStartAuthority();
-            GameObject.FindGameObjectWithTag("MainCamera").BroadcastMessage("SetTransformToFollow", gameObject.transform);
-    }
-    
     private void HandleDisplayNameUpdated(string oldName, string newName)
     {
         if(!hasAuthority) playerDisplayName.text = newName;
