@@ -115,6 +115,9 @@ namespace StarterAssets {
 			// reset our timeouts on start
 			_jumpTimeoutDelta = JumpTimeout;
 			_fallTimeoutDelta = FallTimeout;
+
+			GroundLayers = GroundLayers | 1 << 7;
+			// head is on layer 7. You are not falling, standing on someones head ;)
 		}
 
 		private void Update()

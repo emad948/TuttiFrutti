@@ -6,8 +6,10 @@ using UnityEngine.InputSystem;
 public class AuthorityActions : NetworkBehaviour
 {
     public GameObject CameraFollowPoint;
+    public GameObject DisplayText;
     override public void OnStartAuthority(){
         CameraFollowPoint.SetActive(true);
         gameObject.GetComponent<PlayerInput>().enabled = true;
+        DisplayText.SetActive(false);
     }
 }
