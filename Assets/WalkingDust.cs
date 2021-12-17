@@ -24,7 +24,7 @@ public class WalkingDust : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print("controlSpeed" +  control.speed + " controlGrounded " + control.grounded);
+        //print("controlSpeed" +  control.speed + " controlGrounded " + control.grounded);
          if (control.speed < MinEmissionSpeed || !control.grounded){
             _particles.Stop();
             return;
@@ -35,7 +35,7 @@ public class WalkingDust : MonoBehaviour
             _particles.startColor  = new Color(0,0,0,Mathf.Sqrt(control.speed)  / control.SprintSpeed);
             _particles.Play();
             _lastFired = Time.time;
-            print("PARTICLES!");
+            //print("PARTICLES!");
         }
 
         
