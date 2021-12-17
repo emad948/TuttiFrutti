@@ -12,7 +12,7 @@ public class GlobalTime : NetworkBehaviour
     public TMP_Text timerText;
     [SyncVar] public float _time = -1f;
     [SyncVar] public float matchTime = 90f;
-    
+    public GameObject loadingScenePanel;
     private char sepFloat = '.';
     private string xAfterDot(float num, int x)
     {
@@ -24,9 +24,14 @@ public class GlobalTime : NetworkBehaviour
         for (int i = 0; i < x ; i++) afterDot += seperated[1][i]; // fix: no more out of bounds in substring
         return seperated[0] + sepFloat + afterDot;
     }
-    
+
+    private void Awake()
+    {
+        loadingScenePanel.SetActive(true);
+    }
+
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (GetComponent<NetworkIdentity>().isServer)
         {
@@ -35,6 +40,10 @@ public class GlobalTime : NetworkBehaviour
             {
                 matchTime -= Time.deltaTime;
             }
+        }
+        if (_time > -4)
+        {
+            loadingScenePanel.SetActive(false);
         }
         if (_time < 0)
         {
