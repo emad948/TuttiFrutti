@@ -16,6 +16,7 @@ public class HillKingScoring : NetworkBehaviour
     private float _time;
     private bool onlyOnce = true;
 
+    public float sceneChangeTimer = 85f;    // TODO change to correct value
     public bool testingMode = true;         
     
     private void Start()
@@ -30,7 +31,7 @@ public class HillKingScoring : NetworkBehaviour
     {
         if (!isServer) return;
         _time = _globalTime.matchTime;
-        if (_time <= 0 && onlyOnce && !testingMode) // TODO @Colin change to actual matchTimer and also <= 0
+        if (_time <= sceneChangeTimer && onlyOnce && !testingMode) // TODO @Colin change to actual matchTimer and also <= 0
         {
             CancelInvoke();
             GameObject.FindObjectOfType<GameLevelsManager>().AfterLevelEnd();
