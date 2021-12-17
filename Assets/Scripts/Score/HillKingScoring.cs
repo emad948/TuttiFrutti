@@ -15,7 +15,7 @@ public class HillKingScoring : NetworkBehaviour
     public GlobalTime _globalTime;
     private float _time;
     private bool onlyOnce = true;
-
+    
     private void Start()
     {
         if (!isServer) return;
@@ -29,10 +29,10 @@ public class HillKingScoring : NetworkBehaviour
     {
         if (!isServer) return;
         _time = _globalTime._time;
-        if (_time >= 1 && onlyOnce) // TODO @Colin change to actual matchTimer and also <= 0
+        if (_time >= 10 && onlyOnce) // TODO @Colin change to actual matchTimer and also <= 0
         {
             CancelInvoke();
-            GameObject.FindObjectOfType<GameLevelsManager>().AfterLevelEnd();
+            //GameObject.FindObjectOfType<GameLevelsManager>().AfterLevelEnd();
             onlyOnce = false;
         }
     }
