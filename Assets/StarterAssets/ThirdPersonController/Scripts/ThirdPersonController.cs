@@ -330,8 +330,8 @@ namespace StarterAssets {
 		}
 			private void SyncGlobals(){
 			if (!hasAuthority) {// controlled by other player | TODO @alex: improve smoothing ??
-				transform.position = Vector3.Lerp(transform.position, globalPosition, Time.fixedDeltaTime * 100);
-				transform.rotation = Quaternion.Lerp(transform.rotation, globalRotation, Time.fixedDeltaTime * 100);
+				transform.position = Vector3.Lerp(transform.position, globalPosition, Time.fixedDeltaTime);
+				transform.rotation = Quaternion.Lerp(transform.rotation, globalRotation, Time.fixedDeltaTime);
 				return;
 			}
 			// --- Syncing to globals ---
