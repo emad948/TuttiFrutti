@@ -140,13 +140,6 @@ namespace StarterAssets {
 
 		private void AssignAnimationIDs()
 		{
-            // @Colin: Nice! Wir passen aber den Controller an.
-            // _animIDSpeed = Animator.StringToHash("velocity");
-            // _animIDGrounded = Animator.StringToHash("Grounded");
-            // _animIDJump = Animator.StringToHash("jump");
-            // _animIDFreeFall = Animator.StringToHash("FreeFall");
-            // _animIDMotionSpeed = Animator.StringToHash("walking");
-
             _animIDSpeed = Animator.StringToHash("Speed");
             _animIDGrounded = Animator.StringToHash("Grounded");
             _animIDJump = Animator.StringToHash("Jump");
