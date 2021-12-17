@@ -15,6 +15,8 @@ public class HillKingScoring : NetworkBehaviour
     public GlobalTime _globalTime;
     private float _time;
     private bool onlyOnce = true;
+
+    public bool testingMode = true;         
     
     private void Start()
     {
@@ -28,7 +30,7 @@ public class HillKingScoring : NetworkBehaviour
     {
         if (!isServer) return;
         _time = _globalTime.matchTime;
-        if (_time <= 85 && onlyOnce) // TODO @Colin change to actual matchTimer and also <= 0
+        if (_time <= 0 && onlyOnce && !testingMode) // TODO @Colin change to actual matchTimer and also <= 0
         {
             CancelInvoke();
             GameObject.FindObjectOfType<GameLevelsManager>().AfterLevelEnd();
@@ -94,7 +96,7 @@ public class HillKingScoring : NetworkBehaviour
 
     #region Client
 
-    private void handleClientScoreUpdated(int score)
+    private void handleClientScoreUpdated(int score)        // TODO what´s happening here??
     {
         currentLevelScore = score;
     }

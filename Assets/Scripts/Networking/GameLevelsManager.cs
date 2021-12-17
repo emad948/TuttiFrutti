@@ -58,7 +58,7 @@ public class GameLevelsManager : NetworkBehaviour
         }
 
         ((GameNetworkManager) NetworkManager.singleton).ServerChangeScene("ScoringBoard");
-        Invoke("startLevel", 3f);
+        Invoke("startLevel", 5f);
     }
 
     public void startLevel()
@@ -79,7 +79,7 @@ public class GameLevelsManager : NetworkBehaviour
                 ChangeScene("Level_HillKing");
                 break;
             default:
-                SceneManager.LoadScene(0);
+                SceneManager.LoadScene(0);  // TODO correct?
                 //ChangeScene("MainMenu");
                 Debug.Log("Unknown scene name");
                 break;
