@@ -14,6 +14,7 @@ namespace StarterAssets {
 	public class ThirdPersonController : NetworkBehaviour
 	{
 		[Header("Player")]
+
 		public float MoveSpeed = 2.0f;
 		public float SprintSpeed = 5.335f;
 		[Range(0.0f, 0.3f)]
@@ -46,6 +47,7 @@ namespace StarterAssets {
 		[Tooltip("Additional degress to override the camera. Useful for fine tuning camera position when locked")]
 		public float CameraAngleOverride = 0.0f;
 		[Tooltip("For locking the camera position on all axis")]
+
 		public bool LockCameraPosition = false;
 		// cinemachine
 		private float _cinemachineTargetYaw;
@@ -329,9 +331,9 @@ namespace StarterAssets {
 			Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z), GroundedRadius);
 		}
 			private void SyncGlobals(){
-			if (!hasAuthority) {// controlled by other player | TODO @alex: improve smoothing ??
-				transform.position = Vector3.Lerp(transform.position, globalPosition, Time.fixedDeltaTime);
-				transform.rotation = Quaternion.Lerp(transform.rotation, globalRotation, Time.fixedDeltaTime);
+			if (!hasAuthority) {// controlled by other player | smoothing relative to syncinterval :)
+				transform.position = Vector3.Lerp(transform.position, globalPosition, Time.fixedDeltaTime / syncInterval);
+				transform.rotation = Quaternion.Lerp(transform.rotation, globalRotation, Time.fixedDeltaTime / syncInterval);
 				return;
 			}
 			// --- Syncing to globals ---

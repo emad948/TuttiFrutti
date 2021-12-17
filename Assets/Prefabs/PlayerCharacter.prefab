@@ -207,7 +207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
-  syncInterval: 0.1
+  syncInterval: 0.016666668
   michelin: {fileID: 2289941638526644331}
   playerDisplayName: {fileID: 3004305703091968172}
   _displayName: 
@@ -343,7 +343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
-  syncInterval: 0.1
+  syncInterval: 0.016666668
   clientAuthority: 1
   animator: {fileID: 4786338706355925163}
 --- !u!114 &3763358198719830094
