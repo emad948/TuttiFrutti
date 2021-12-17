@@ -13,6 +13,8 @@ public class WalkingDust : MonoBehaviour
     private float _lastFired;
     private ParticleSystem _particles;
     private float _stdLifeTime;
+    
+    private bool _wasGrounded = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +26,16 @@ public class WalkingDust : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isLanding()){
+            _particles.startColor = new Color(0,0,0,200);
+            _particles.startLifetime = _stdLifeTime *2;
+            _particles.emissionRate = 5;
+            _particles.Play();
+            //_particles.startSpeed = originalSpeed;
+            _lastFired = Time.time;
+            return;
+            
+        }
         //print("controlSpeed" +  control.speed + " controlGrounded " + control.grounded);
          if (control.speed < MinEmissionSpeed || !control.grounded){
             _particles.Stop();
@@ -38,6 +50,10 @@ public class WalkingDust : MonoBehaviour
             //print("PARTICLES!");
         }
 
-        
+    }
+    private bool isLanding(){
+        if (!control.grounded)                  return _wasGrounded = false;
+        if (!_wasGrounded && control.grounded)   return _wasGrounded = true;
+        return false;
     }
 }
