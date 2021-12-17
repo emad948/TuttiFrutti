@@ -10,6 +10,6 @@ public class AuthorityActions : NetworkBehaviour
     override public void OnStartAuthority(){
         CameraFollowPoint.SetActive(true);
         gameObject.GetComponent<PlayerInput>().enabled = true;
-        DisplayText.SetActive(false);
+        //DisplayText.SetActive(false); it has been ruled, that your name is to be shown!
     }
 }
