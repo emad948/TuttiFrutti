@@ -9,7 +9,6 @@ using UnityEngine.SceneManagement;
 public class HillKingScoring : NetworkBehaviour
 {
     private string currentLevel;
-    private int currentLevelScore; // ??
     private List<NetworkPlayer> players;
     public int currenZoneIndex = 1;
     public GlobalTime _globalTime;
@@ -31,8 +30,9 @@ public class HillKingScoring : NetworkBehaviour
         _time = _globalTime._time;
         if (_time >= 1 && onlyOnce) // TODO @Colin change to actual matchTimer and also <= 0
         {
+            //After 90 seconds end game and go to ScoringBoard
             CancelInvoke();
-            GameObject.FindObjectOfType<GameLevelsManager>().AfterLevelEnd();
+            ((GameNetworkManager) NetworkManager.singleton).GETGameLevelsManager().AfterLevelEnd();
             onlyOnce = false;
         }
     }
@@ -94,11 +94,7 @@ public class HillKingScoring : NetworkBehaviour
     }
 
     #region Client
-
-    private void handleClientScoreUpdated(int score)
-    {
-        currentLevelScore = score;
-    }
+    
 
     #endregion
 }
