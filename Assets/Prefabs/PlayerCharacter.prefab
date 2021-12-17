@@ -361,6 +361,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   CameraFollowPoint: {fileID: 1367700897012250989}
+  DisplayText: {fileID: 5712634896146439149}
 --- !u!1 &5712634896146439149
 GameObject:
   m_ObjectHideFlags: 0
@@ -373,6 +374,7 @@ GameObject:
   - component: {fileID: 3565866816691533131}
   - component: {fileID: 6455028462155857368}
   - component: {fileID: 8141314919645518769}
+  - component: {fileID: 5354762443317474146}
   m_Layer: 6
   m_Name: Canvas
   m_TagString: Untagged
@@ -461,6 +463,19 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &5354762443317474146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5712634896146439149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94438e1605b1abc41b20023285411765, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textRotationSpeed: 6
 --- !u!1 &6320535440095601137
 GameObject:
   m_ObjectHideFlags: 0
