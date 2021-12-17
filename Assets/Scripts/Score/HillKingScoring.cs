@@ -20,7 +20,6 @@ public class HillKingScoring : NetworkBehaviour
     {
         if (!isServer) return;
         players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
-        _globalTime = GameObject.FindObjectOfType<GlobalTime>();
 
         InvokeRepeating("HillKing", 0f, 0.25f);
     }
@@ -28,11 +27,11 @@ public class HillKingScoring : NetworkBehaviour
     private void Update()
     {
         if (!isServer) return;
-        _time = _globalTime._time;
-        if (_time >= 10 && onlyOnce) // TODO @Colin change to actual matchTimer and also <= 0
+        _time = _globalTime.matchTime;
+        if (_time <= 85 && onlyOnce) // TODO @Colin change to actual matchTimer and also <= 0
         {
             CancelInvoke();
-            //GameObject.FindObjectOfType<GameLevelsManager>().AfterLevelEnd();
+            GameObject.FindObjectOfType<GameLevelsManager>().AfterLevelEnd();
             onlyOnce = false;
         }
     }
