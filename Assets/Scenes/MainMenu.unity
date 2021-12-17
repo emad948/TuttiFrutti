@@ -1696,8 +1696,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e4c660eb18413745923e677dd8db055, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wiggleDistance: 2
-  wiggleSpeed: 1
+  wiggleDistance: 2.8
+  wiggleSpeed: 1.1
+  offset: 2
 --- !u!114 &192755000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4979,8 +4980,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e4c660eb18413745923e677dd8db055, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wiggleDistance: 2
-  wiggleSpeed: 1
+  wiggleDistance: 2.8
+  wiggleSpeed: 1.1
+  offset: 3
 --- !u!114 &833331759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6537,8 +6539,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e4c660eb18413745923e677dd8db055, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wiggleDistance: 2
-  wiggleSpeed: 1
+  wiggleDistance: 2.8
+  wiggleSpeed: 1.1
+  offset: 4
 --- !u!114 &1038232513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7014,7 +7017,7 @@ GameObject:
   - component: {fileID: 1123808542}
   - component: {fileID: 1123808541}
   m_Layer: 5
-  m_Name: TitleText
+  m_Name: TuttiFrutti_TitleText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10546,8 +10549,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e4c660eb18413745923e677dd8db055, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wiggleDistance: 2
-  wiggleSpeed: 1
+  wiggleDistance: 2.8
+  wiggleSpeed: 1.1
+  offset: 1
 --- !u!114 &1581261888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15468,8 +15472,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e4c660eb18413745923e677dd8db055, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wiggleDistance: 2
-  wiggleSpeed: 1
+  wiggleDistance: 2.8
+  wiggleSpeed: 1.1
+  offset: 5
 --- !u!114 &2056563746
 MonoBehaviour:
   m_ObjectHideFlags: 0
