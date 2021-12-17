@@ -93,19 +93,19 @@ namespace StarterAssets {
 			}
 		}
 		
+		public float speed{
+			get {
+				return _speed;
+			}
+		}
 
-		private void Awake()
+
+		private void Start()
 		{
 			_identity = GetComponent<NetworkIdentity>();
 			_globalTime = GameObject.FindObjectOfType<GlobalTime>();
 			globalPosition = transform.position;
 			globalRotation = transform.rotation;
-			
-
-		}
-
-		private void Start()
-		{
 			_hasAnimator = true;
 			_controller = GetComponent<CharacterController>();
 			_input = GetComponent<StarterAssetsInputs>();
