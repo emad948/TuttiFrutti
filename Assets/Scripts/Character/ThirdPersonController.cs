@@ -77,8 +77,12 @@ namespace StarterAssets {
 		
 		// ---------------
 		// --- This is all we sync between server and clients ---
+		// we now consider speed and grounded for local particle emissions
 		[SyncVar] Vector3 globalPosition;
 		[SyncVar] Quaternion globalRotation;
+		[SyncVar] float globalSpeed;
+
+		[SyncVar] bool globalGrounded;
 		// --- Private ---
 		private GlobalTime _globalTime;
 		private NetworkIdentity _identity; // is server or client?
@@ -93,11 +97,8 @@ namespace StarterAssets {
 			}
 		}
 		
-		public float speed{
-			get {
-				return _speed;
-			}
-		}
+		public float speed{get => globalSpeed;}
+		public bool grounded{get => globalGrounded;}
 
 
 		private void Start()
@@ -340,19 +341,21 @@ namespace StarterAssets {
 				return;
 			}
 			// --- Syncing to globals ---
-			updateLocally(transform.position, transform.rotation);
+			updateLocally(transform.position, transform.rotation, _speed, Grounded);
 			if (isServer) return;
-			updateOnServer(transform.position, transform.rotation);
+			updateOnServer(transform.position, transform.rotation, _speed, Grounded);
 		}
 
-		void updateLocally(Vector3 pos, Quaternion rot)
+		void updateLocally(Vector3 pos, Quaternion rot, float sp, bool gr)
 		{
 			globalPosition = pos;
 			globalRotation = rot;
+			globalSpeed = sp;
+			globalGrounded = gr;
 		}
 		
 		// Updates globales on server instance:
-		[Command] void updateOnServer(Vector3 pos, Quaternion rot) => updateLocally(pos, rot);
+		[Command] void updateOnServer(Vector3 pos, Quaternion rot, float sp, bool gr) => updateLocally(pos, rot, sp, gr);
 
 
 	} // class
