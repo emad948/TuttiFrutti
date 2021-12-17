@@ -52,7 +52,7 @@ public class WalkingDust : MonoBehaviour
 
     }
     private bool isLanding(){
-        if (!control.grounded)                  return _wasGrounded = false;
+        if (!control.grounded)                   return _wasGrounded = false;
         if (!_wasGrounded && control.grounded)   return _wasGrounded = true;
         return false;
     }
