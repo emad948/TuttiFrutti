@@ -77,8 +77,12 @@ namespace StarterAssets {
 		
 		// ---------------
 		// --- This is all we sync between server and clients ---
+		// we now consider speed and grounded for local particle emissions
 		[SyncVar] Vector3 globalPosition;
 		[SyncVar] Quaternion globalRotation;
+		[SyncVar] float globalSpeed;
+
+		[SyncVar] bool globalGrounded;
 		// --- Private ---
 		private GlobalTime _globalTime;
 		private NetworkIdentity _identity; // is server or client?
@@ -93,19 +97,16 @@ namespace StarterAssets {
 			}
 		}
 		
+		public float speed{get => globalSpeed;}
+		public bool grounded{get => globalGrounded;}
 
-		private void Awake()
+
+		private void Start()
 		{
 			_identity = GetComponent<NetworkIdentity>();
 			_globalTime = GameObject.FindObjectOfType<GlobalTime>();
 			globalPosition = transform.position;
 			globalRotation = transform.rotation;
-			
-
-		}
-
-		private void Start()
-		{
 			_hasAnimator = true;
 			_controller = GetComponent<CharacterController>();
 			_input = GetComponent<StarterAssetsInputs>();
@@ -139,13 +140,6 @@ namespace StarterAssets {
 
 		private void AssignAnimationIDs()
 		{
-            // @Colin: Nice! Wir passen aber den Controller an.
-            // _animIDSpeed = Animator.StringToHash("velocity");
-            // _animIDGrounded = Animator.StringToHash("Grounded");
-            // _animIDJump = Animator.StringToHash("jump");
-            // _animIDFreeFall = Animator.StringToHash("FreeFall");
-            // _animIDMotionSpeed = Animator.StringToHash("walking");
-
             _animIDSpeed = Animator.StringToHash("Speed");
             _animIDGrounded = Animator.StringToHash("Grounded");
             _animIDJump = Animator.StringToHash("Jump");
@@ -340,19 +334,21 @@ namespace StarterAssets {
 				return;
 			}
 			// --- Syncing to globals ---
-			updateLocally(transform.position, transform.rotation);
+			updateLocally(transform.position, transform.rotation, _speed, Grounded);
 			if (isServer) return;
-			updateOnServer(transform.position, transform.rotation);
+			updateOnServer(transform.position, transform.rotation, _speed, Grounded);
 		}
 
-		void updateLocally(Vector3 pos, Quaternion rot)
+		void updateLocally(Vector3 pos, Quaternion rot, float sp, bool gr)
 		{
 			globalPosition = pos;
 			globalRotation = rot;
+			globalSpeed = sp;
+			globalGrounded = gr;
 		}
 		
 		// Updates globales on server instance:
-		[Command] void updateOnServer(Vector3 pos, Quaternion rot) => updateLocally(pos, rot);
+		[Command] void updateOnServer(Vector3 pos, Quaternion rot, float sp, bool gr) => updateLocally(pos, rot, sp, gr);
 
 
 	} // class
