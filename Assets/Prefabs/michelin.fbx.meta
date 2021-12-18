@@ -61,6 +61,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: barcode
+    second: {fileID: 2100000, guid: 7404f56d04408db4c9fff289f6d5b98e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: michelin_base
     second: {fileID: 2100000, guid: bbd34053f06b34740b9d76e1bb1db3be, type: 2}
   - first:
