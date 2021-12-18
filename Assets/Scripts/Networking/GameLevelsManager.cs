@@ -52,25 +52,30 @@ public class GameLevelsManager : NetworkBehaviour
     public void AfterLevelEnd()
     {
         players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
+        
+        //Update total scores for all players
         foreach (NetworkPlayer player in players)
         {
             player.UpdateTotalScore();
         }
-
+        
+        //Switch to ScoringBoard to 10s then to the next level
         ((GameNetworkManager) NetworkManager.singleton).ServerChangeScene("ScoringBoard");
-        Invoke("startLevel", 5f);
+        
+        //Invoke("startLevel", 2f);
     }
 
     public void startLevel()
     {
-        if (gameIsRunning)
-        {
-            foreach (NetworkPlayer player in players)
-            {
-                player.ResetCurrentScore();
-            }
-        }
-
+        // if (gameIsRunning)
+        // {
+        //     foreach (NetworkPlayer player in players)
+        //     {
+        //         player.ResetCurrentScore();
+        //     }
+        // }
+        
+        
         gameIsRunning = true;
         string level = GETNextGameLevel();
         switch (level)
