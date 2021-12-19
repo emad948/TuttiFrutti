@@ -7064,15 +7064,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: Tutti Frutti
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: c6c1fc9628c137b459c674b9c518366d, type: 2}
-  m_sharedMaterial: {fileID: -6428909478765309057, guid: c6c1fc9628c137b459c674b9c518366d, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f5b0a98a5cab902419932130ef20055f, type: 2}
+  m_sharedMaterial: {fileID: 2659737939583667314, guid: f5b0a98a5cab902419932130ef20055f, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278610432
-  m_fontColor: {r: 0, g: 0.41509432, b: 0.022034824, a: 1}
+    rgba: 4279030016
+  m_fontColor: {r: 0, g: 0.8207547, b: 0.04645773, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
