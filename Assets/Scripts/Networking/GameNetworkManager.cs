@@ -73,8 +73,6 @@ public class GameNetworkManager : NetworkManager
         _gameLevelsManager = gLM.GetComponent<GameLevelsManager>();
         
         _gameLevelsManager.startLevel();
-        
-        // GameObject.FindObjectOfType<GameLevelsManager>().startLevel();
     }
     
     public override void OnServerAddPlayer(NetworkConnection conn)
@@ -168,8 +166,6 @@ public class GameNetworkManager : NetworkManager
     #endregion
 
     #region HelperFunctions
-
-    public GameLevelsManager GETGameLevelsManager() => _gameLevelsManager;
-
+    
     #endregion
 }

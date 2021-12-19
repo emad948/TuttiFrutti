@@ -45,7 +45,7 @@ public class HillKingScoring : NetworkBehaviour
         {
             //After 90 seconds end game and go to ScoringBoard
             CancelInvoke();
-            ((GameNetworkManager) NetworkManager.singleton).GETGameLevelsManager().AfterLevelEnd();
+            GameObject.FindObjectOfType<GameLevelsManager>().AfterLevelEnd();       
             onlyOnce = false;
         }
     }
