@@ -23,7 +23,7 @@ public class HillKingScoring : NetworkBehaviour
         if (!isServer) return;
         players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
 
-        InvokeRepeating("HillKing", 0f, 0.25f);
+       // InvokeRepeating("HillKing", 0f, 0.25f);
     }
 
     private void Update()
