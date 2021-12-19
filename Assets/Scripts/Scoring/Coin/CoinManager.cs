@@ -36,7 +36,8 @@ public class CoinManager : MonoBehaviour {
         spawnedCoins.Remove(coin);
         Vector3 locationForRespawn = selectRandomly(availableSpawnPoints);
         spawn(locationForRespawn);
-        if (scoreManager) scoreManager.addPointToPlayer(collector);
+        if (!scoreManager) return;
+        scoreManager.addPointToPlayer(collector);
     }
 
     void spawn(Vector3 position) {

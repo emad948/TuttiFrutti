@@ -95,11 +95,13 @@ public class HillKingScoring : NetworkBehaviour
         }
     }
     public void addPointToPlayer(GameObject player){
-        NetworkPlayer current;
-        print("addPoint");
-        if (! player.TryGetComponent<NetworkPlayer>(out current)) return;
+        NetworkPlayer current = null;
+        foreach (var np in players){
+            if (np.playerCharacter.gameObject == player) current = np; 
+        } 
+        if (current is null) return;
         current.ChangeScore(1);
-        print("add point to player " + player.name);
+        print("add point to player " + current.GetDisplayName()); // keep me!
     }
     #region Client
     

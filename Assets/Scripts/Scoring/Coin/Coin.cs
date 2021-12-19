@@ -23,7 +23,8 @@ public class Coin : MonoBehaviour {
         if (playerCollected || (1 << other.layer & LayerMask.GetMask("Pla_yer")) == 0) return;
         Indicator.SetActive(false);
         playerCollected = other;
-        Destroy(gameObject, 2f);
         CoinManager.singleton().collected(this.gameObject, other);
+        Destroy(gameObject, 2f);
+        
     }
 }
