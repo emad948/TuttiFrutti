@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Menu : MonoBehaviour
 {
+    public GameNetworkManager abc;
+    
     [SerializeField] private GameObject landingPagePanel;
     
     [SerializeField] public bool useSteam = false;
@@ -22,6 +24,7 @@ public class Menu : MonoBehaviour
 
     private void Start()
     {
+        abc = GameObject.FindObjectOfType<GameNetworkManager>();
         //This is only for development purposes
         if(!useSteam){
             lobbyCreated = null;
@@ -52,7 +55,8 @@ public class Menu : MonoBehaviour
             return;
         }
         
-        NetworkManager.singleton.StartHost();    
+        //NetworkManager.singleton.StartHost();
+        abc.StartHost();
     }
 
     private void OnLobbyCreated(LobbyCreated_t callback)

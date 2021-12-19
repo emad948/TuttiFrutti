@@ -26,7 +26,7 @@ public class LobbyMenu : MonoBehaviour
     {
         GameNetworkManager.ClientOnConnected -= HandleClientConnected;
         NetworkPlayer.AuthorityOnGameHostStateUpdated -= AuthorityHandleGameHostStateUpdated;
-         NetworkPlayer.ClientOnInfoUpdated -= ClientHandleInfoUpdated;
+        NetworkPlayer.ClientOnInfoUpdated -= ClientHandleInfoUpdated;
         GameNetworkManager.singleton.OnDestroy();
     }
 

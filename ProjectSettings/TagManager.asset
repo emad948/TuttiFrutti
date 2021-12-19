@@ -6,6 +6,7 @@ TagManager:
   tags:
   - PlayerCharacter
   - CinemachineTarget
+  - MainMenuDisplayTag
   layers:
   - Default
   - TransparentFX
