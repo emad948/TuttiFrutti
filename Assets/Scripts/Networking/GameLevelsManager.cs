@@ -57,6 +57,7 @@ public class GameLevelsManager : NetworkBehaviour
         {
             player.UpdateTotalScore(counter);
             counter--;
+            // TODO does not care about even points !! @Colin
         }
         
         //Switch to ScoringBoard to 10s then to the next level
