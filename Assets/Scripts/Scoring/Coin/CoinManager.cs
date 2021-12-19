@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading;
 
 public class CoinManager : MonoBehaviour {
     private static CoinManager instance;
@@ -37,19 +38,28 @@ public class CoinManager : MonoBehaviour {
     }
 
     public void collected(GameObject coin, GameObject collector) {
-        // reset coin and adjust lists
+        
+    IEnumerator coroutine () {
+        yield return new WaitForSeconds(2);
         availableSpawnPoints.Add(coin.transform.position);
-        coin.GetComponent<Animator>().Play(stateName: "Entry");
+        coin.BroadcastMessage("Reset");
+        coin.GetComponentInChildren<Animator>().Play(stateName: "Entry");
+        
+
         coin.SetActive(false);
         spawnedCoins.Remove(coin);
 
         Vector3 locationForRespawn = selectRandomly(availableSpawnPoints);
         spawn(locationForRespawn);
-        if (!scoreManager) return;
+        if (!scoreManager) yield return 1;
         scoreManager.addPointToPlayer(collector);
+    }
+        StartCoroutine(coroutine());
+    }
+    private void collectedDelayed(GameObject coin, GameObject collector){
+                // reset coin and adjust lists
 
     }
-
 
 
     void initPool(){
@@ -70,11 +80,12 @@ public class CoinManager : MonoBehaviour {
     void spawn(Vector3 position) {
         if (spawnedCoins.Count > targetNum) return;
         var spawnedCoin = firstInactive();
+        print(spawnedCoin);
         spawnedCoins.Add(spawnedCoin);
         availableSpawnPoints.Remove(position);
         spawnedCoin.transform.position = position;
-        
         spawnedCoin.SetActive(true);
+
     }
 
     Vector3 selectRandomly(ArrayList list) {

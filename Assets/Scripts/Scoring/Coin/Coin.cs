@@ -24,6 +24,11 @@ public class Coin : MonoBehaviour {
         Indicator.SetActive(false);
         playerCollected = other;
         CoinManager.singleton().collected(this.gameObject, other);
-        
+
+    }
+    public void Reset() {
+        playerCollected = null; 
+        fadeState = 0;
+        Indicator.SetActive(true);
     }
 }

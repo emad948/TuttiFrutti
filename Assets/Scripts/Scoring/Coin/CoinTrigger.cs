@@ -10,5 +10,8 @@ public class CoinTrigger : MonoBehaviour
         wasTouched = true;
         transform.parent.parent.BroadcastMessage("touched", col.gameObject);
     }
+    private void Reset(){
+        wasTouched = false;
+    }
    
 }
