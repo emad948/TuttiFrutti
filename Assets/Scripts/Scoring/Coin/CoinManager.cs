@@ -21,6 +21,21 @@ public class CoinManager : MonoBehaviour {
     // Start is called before the first frame update
 
 
+
+    void Start() {
+        if (this != instance) instance = this;
+        totalSpawnPoints = new ArrayList();
+        spawnedCoins = new ArrayList();
+        foreach (var spawnObject in GameObject.FindGameObjectsWithTag("CoinSpawn"))
+            totalSpawnPoints.Add(spawnObject.transform.position);
+        availableSpawnPoints = new ArrayList(totalSpawnPoints);
+        print(availableSpawnPoints.Count);
+        initPool();
+        for (int i = 0; i < targetNum; i++) {
+            spawn(selectRandomly(availableSpawnPoints));
+        }
+    }
+
     public void collected(GameObject coin, GameObject collector) {
         // reset coin and adjust lists
         availableSpawnPoints.Add(coin.transform.position);
@@ -36,18 +51,6 @@ public class CoinManager : MonoBehaviour {
     }
 
 
-    void Start() {
-        if (this != instance) instance = this;
-        totalSpawnPoints = new ArrayList();
-        spawnedCoins = new ArrayList();
-        foreach (var spawnObject in GameObject.FindGameObjectsWithTag("CoinSpawn"))
-            totalSpawnPoints.Add(spawnObject.transform.position);
-        availableSpawnPoints = new ArrayList(totalSpawnPoints);
-        print(availableSpawnPoints.Count);
-        for (int i = 0; i < targetNum; i++) {
-            spawn(selectRandomly(availableSpawnPoints));
-        }
-    }
 
     void initPool(){
         prefabPool = new GameObject[targetNum];
@@ -69,6 +72,9 @@ public class CoinManager : MonoBehaviour {
         var spawnedCoin = firstInactive();
         spawnedCoins.Add(spawnedCoin);
         availableSpawnPoints.Remove(position);
+        spawnedCoin.transform.position = position;
+        
+        spawnedCoin.SetActive(true);
     }
 
     Vector3 selectRandomly(ArrayList list) {

@@ -15,7 +15,7 @@ public class Coin : MonoBehaviour {
         Vector3 targetPosition = playerCollected.transform.position + Vector3.up - transform.rotation.eulerAngles * 0.5f;
         Torus.transform.position = Vector3.Lerp(Torus.transform.position, targetPosition, Time.deltaTime * 2);
         fadeState += Time.deltaTime;
-        Torus.GetComponent<Animator>().SetFloat("Fade", fadeState);
+        Torus.GetComponentInChildren<Animator>().SetFloat("Fade", fadeState);
 
     }
 
