@@ -43,7 +43,8 @@ public class GameLevelsManager : NetworkBehaviour
             player.UpdateTotalScore(counter);
             counter--;
         }
-
+        
+        //Switch to ScoringBoard to 10s then to the next level
         ((GameNetworkManager) NetworkManager.singleton).ServerChangeScene("ScoringBoard");
         Invoke("startLevel", 3f);
     }

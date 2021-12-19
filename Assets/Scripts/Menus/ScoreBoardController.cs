@@ -1,21 +1,24 @@
-﻿using System;
-using System.Collections;
+﻿
 using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+
 using Mirror;
-using Unity.VisualScripting;
+using TMPro;
+
 using UnityEngine;
 
 public class ScoreBoardController : NetworkBehaviour
 {
+  
+    [SerializeField] private TMP_Text[] playersTexts = new TMP_Text[4];
+
     private void Start()
     {
-    }
-    
-    private void Update()
-    {
+        List<NetworkPlayer> players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
+
+        //TODO @Emad sort list according to scores
+        for (int i = 0; i < players.Count; i++)
+        {
+            playersTexts[i].text = $"{players[i].GetDisplayName()} : {players[i].GetScore()}";
+        }
     }
 }

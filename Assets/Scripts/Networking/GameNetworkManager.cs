@@ -13,6 +13,8 @@ public class GameNetworkManager : NetworkManager
     [SerializeField] private GameObject characterPrefab;
     [SerializeField] private Transport steamTransport;
 
+    private GameLevelsManager _gameLevelsManager;
+
 
     private bool _gameStarted;
 
@@ -39,6 +41,8 @@ public class GameNetworkManager : NetworkManager
 
     #region Server
 
+    
+  
     public override void OnServerConnect(NetworkConnection conn)
     {
         if (!_gameStarted) return;
@@ -64,10 +68,14 @@ public class GameNetworkManager : NetworkManager
 
         _gameStarted = true;
 
-        GameObject.FindObjectOfType<GameLevelsManager>().startLevel();
+        //Game levels manager will be created we the game starts
+        _gameLevelsManager = new GameLevelsManager();
+        
+        _gameLevelsManager.startLevel();
+        
+        // GameObject.FindObjectOfType<GameLevelsManager>().startLevel();
     }
-
-
+    
     public override void OnServerAddPlayer(NetworkConnection conn)
     {
         base.OnServerAddPlayer(conn);
@@ -119,6 +127,21 @@ public class GameNetworkManager : NetworkManager
             }
     }
 
+
+    public void LeaveGame()
+    {
+        if (NetworkServer.active && NetworkClient.isConnected)
+        {
+            NetworkManager.singleton.StopHost();
+        }
+        else
+        {
+            NetworkManager.singleton.StopClient();
+            SceneManager.LoadScene(0);
+        }
+    }
+    
+
     #endregion
 
     #region Client
@@ -139,6 +162,13 @@ public class GameNetworkManager : NetworkManager
     {
         PlayersList.Clear();
     }
+
+
+    #endregion
+
+    #region HelperFunctions
+
+    public GameLevelsManager GETGameLevelsManager() => _gameLevelsManager;
 
     #endregion
 }
