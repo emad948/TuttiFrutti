@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Mirror;
 using Mirror.Examples.Chat;
 using UnityEngine;
@@ -10,20 +12,28 @@ public class HillKingScoring : NetworkBehaviour
 {
     private string currentLevel;
     private List<NetworkPlayer> players;
-    public int currenZoneIndex = 1;
+    public int currentZoneIndex;
     public GlobalTime _globalTime;
+
+    public LightboxManager lightboxes;
     private float _time;
     private bool onlyOnce = true;
-
-    public float sceneChangeTimer = 85f;    // TODO change to correct value
+    private List<int> zoneIndices = new List<int>(){1, 2, 3};
+    private int counter = 0;
+        
+    public float sceneChangeTimer = 0f;    // TODO change to correct value
     public bool testingMode = true;         
     
     private void Start()
     {
         if (!isServer) return;
         players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
-
-       // InvokeRepeating("HillKing", 0f, 0.25f);
+        currentZoneIndex = 1;
+        //shuffling zones 
+        var rnd = new System.Random();
+        zoneIndices = zoneIndices.OrderBy(item => rnd.Next()).ToList();
+        InvokeRepeating("changeZoneIndex",Math.Abs(_globalTime._time),30f);
+        InvokeRepeating("HillKing", 0f, 0.25f);
     }
 
     private void Update()
@@ -39,20 +49,29 @@ public class HillKingScoring : NetworkBehaviour
         }
     }
 
+    private void changeZoneIndex()
+    {
+        counter++;
+        counter %= 3;
+        currentZoneIndex = zoneIndices[counter];
+        lightboxes.setActiveBox(currentZoneIndex);
+    }
+    
     private void HillKing()
     {
         // TODO update currentZoneIndex
         foreach (NetworkPlayer player in players)
         {
             var pos = player.playerCharacter.transform.position;
-            switch (currenZoneIndex)
+            switch (currentZoneIndex)
             {
                 case 1:
-                    if (pos.x > 18 && pos.x < 23)
+                    // grey tower
+                    if (pos.x >= 18 && pos.x <= 23)
                     {
-                        if (pos.z > -23 && pos.z < -18)
+                        if (pos.z >= (-23) && pos.z <= (-18))
                         {
-                            if (pos.y > 12)
+                            if (pos.y >= 11.8)
                             {
                                 player.ChangeScore(1);
                             }
@@ -61,12 +80,12 @@ public class HillKingScoring : NetworkBehaviour
 
                     break;
                 case 2:
-                    // TODO @Colin update coordinate for other zones
-                    if (pos.x > 18 && pos.x < 23)
+                    // center / yellow tower
+                    if (pos.x >= 9 && pos.x <= 12.75)
                     {
-                        if (pos.z > -23 && pos.z < -18)
+                        if (pos.z >= 1.25 && pos.z <= 8.25)
                         {
-                            if (pos.y > 12)
+                            if (pos.y >= 8.8)
                             {
                                 player.ChangeScore(1);
                             }
@@ -75,12 +94,12 @@ public class HillKingScoring : NetworkBehaviour
 
                     break;
                 case 3:
-                    // TODO @Colin update coordinate for other zones
-                    if (pos.x > 18 && pos.x < 23)
+                    // green tower
+                    if (pos.x >= (-7.5) && pos.x <= (-3.5))
                     {
-                        if (pos.z > -23 && pos.z < -18)
+                        if (pos.z >= 9.5 && pos.z <= 13.5)
                         {
-                            if (pos.y > 12)
+                            if (pos.y >= 12.8)
                             {
                                 player.ChangeScore(1);
                             }
