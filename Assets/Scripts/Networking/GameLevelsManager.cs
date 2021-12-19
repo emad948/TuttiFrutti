@@ -36,9 +36,12 @@ public class GameLevelsManager : NetworkBehaviour
     public void AfterLevelEnd()
     {
         players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
+        players.Sort();
+        var counter = players.Count;
         foreach (NetworkPlayer player in players)
         {
-            player.UpdateTotalScore();
+            player.UpdateTotalScore(counter);
+            counter--;
         }
 
         ((GameNetworkManager) NetworkManager.singleton).ServerChangeScene("ScoringBoard");
@@ -74,7 +77,14 @@ public class GameLevelsManager : NetworkBehaviour
     public void EndLevel()
     {
         //TODO @Emad add end game scene if all levels are played
-        if (_gameLevels.Length == 0) ChangeScene("WinnerScene");
+        if (_gameLevels.Length == 0)
+        {
+            foreach (NetworkPlayer player in players)
+            {
+                player.DuplicateScores(); // for the compareTo method (sorting)
+            }
+            ChangeScene("WinnerScene");
+        }
 
         // ChangeScene("Level_HillKing");
     }

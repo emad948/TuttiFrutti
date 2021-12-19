@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
-public class NetworkPlayer :NetworkBehaviour
+public class NetworkPlayer : NetworkBehaviour, IComparable<NetworkPlayer>
 {
     
     //SyncVar are only Updated on the server
@@ -46,6 +46,22 @@ public class NetworkPlayer :NetworkBehaviour
         return color;
     }
     
+    public int CompareTo(NetworkPlayer other)
+    {
+        if (this._currentScore < other._currentScore)
+        {
+            return 1;
+        }
+        else if (this._currentScore > other._currentScore)
+        {
+            return -1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    
     
      #region Server
 
@@ -60,10 +76,10 @@ public class NetworkPlayer :NetworkBehaviour
     [Server] public void SetColor(Color newColor) => color = newColor;
 
     [Server] public void ChangeScore(int scorePoints) => _currentScore += scorePoints;
-    [Server] public void ChangeTotalScore(int scorePoints) => _totalScore += scorePoints;
-    [Server] public void UpdateTotalScore() => ChangeTotalScore(_currentScore);
+    [Server] public void UpdateTotalScore(int scorePoints) => _totalScore += scorePoints;
     [Server] public void ResetCurrentScore() => _currentScore = 0;
-
+    [Server] public void DuplicateScores() => _currentScore = _totalScore;  // for the compareTo method (sorting)
+    
     [Command]
     public void CmdStartGame()
     {
