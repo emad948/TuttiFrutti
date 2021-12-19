@@ -117,7 +117,7 @@ public class GameNetworkManager : NetworkManager
                 var characterInstance = Instantiate(
                     characterPrefab,
                     GetStartPosition().position,
-                    Quaternion.identity
+                    GetStartPosition().rotation
                 );
                 characterInstance.GetComponent<PlayerCharacter>().SetDisplayName(player.GetDisplayName());
                 characterInstance.GetComponent<PlayerCharacter>().SetColor(player.GetColor());

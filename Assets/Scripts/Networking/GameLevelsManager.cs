@@ -14,6 +14,22 @@ using UnityEngine.SceneManagement;
 
 public class GameLevelsManager : NetworkBehaviour
 {
+    public static GameLevelsManager _instance;
+
+    void Awake()
+    {
+        if (_instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            _instance = this;
+            DontDestroyOnLoad(gameObject); // uncomment?
+        }
+    }   
+    
+    
     private string[] _gameLevels = {"Level_HillKing"}; 
     private List<NetworkPlayer> players;
     private bool gameIsRunning = false;     // TODO figure out when gameIsRunning and change accordingly
@@ -46,7 +62,7 @@ public class GameLevelsManager : NetworkBehaviour
         
         //Switch to ScoringBoard to 10s then to the next level
         ((GameNetworkManager) NetworkManager.singleton).ServerChangeScene("ScoringBoard");
-        Invoke("startLevel", 3f);
+        Invoke("startLevel", 5f);
     }
 
     public void startLevel()
@@ -67,7 +83,7 @@ public class GameLevelsManager : NetworkBehaviour
                 ChangeScene("Level_HillKing");
                 break;
             default:
-                SceneManager.LoadScene(0);
+                SceneManager.LoadScene(0);  // TODO correct?
                 //ChangeScene("MainMenu");
                 Debug.Log("Unknown scene name");
                 break;
