@@ -24,6 +24,6 @@ public class Coin : MonoBehaviour {
         Indicator.SetActive(false);
         playerCollected = other;
         Destroy(gameObject, 2f);
-        CoinManager.singleton().collected(gameObject);
+        CoinManager.singleton().collected(this.gameObject, other);
     }
 }

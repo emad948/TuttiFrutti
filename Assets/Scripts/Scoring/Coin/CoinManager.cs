@@ -11,6 +11,8 @@ public class CoinManager : MonoBehaviour {
 
     public GameObject CoinPrefab;
     public uint targetNum = 1;
+
+    public HillKingScoring scoreManager;
     ArrayList totalSpawnPoints;
     ArrayList availableSpawnPoints;
 
@@ -29,12 +31,12 @@ public class CoinManager : MonoBehaviour {
         }
     }
 
-    public void collected(GameObject coin) {
+    public void collected(GameObject coin, GameObject collector) {
         availableSpawnPoints.Add(coin.transform.position);
         spawnedCoins.Remove(coin);
         Vector3 locationForRespawn = selectRandomly(availableSpawnPoints);
         spawn(locationForRespawn);
-        print("selected to spawn @" + locationForRespawn);
+        if (scoreManager) scoreManager.addPointToPlayer(collector);
     }
 
     void spawn(Vector3 position) {
