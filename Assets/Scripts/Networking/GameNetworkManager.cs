@@ -41,6 +41,8 @@ public class GameNetworkManager : NetworkManager
 
     #region Server
 
+    
+  
     public override void OnServerConnect(NetworkConnection conn)
     {
         if (!_gameStarted) return;
@@ -125,6 +127,21 @@ public class GameNetworkManager : NetworkManager
             }
     }
 
+
+    public void LeaveGame()
+    {
+        if (NetworkServer.active && NetworkClient.isConnected)
+        {
+            NetworkManager.singleton.StopHost();
+        }
+        else
+        {
+            NetworkManager.singleton.StopClient();
+            SceneManager.LoadScene(0);
+        }
+    }
+    
+
     #endregion
 
     #region Client
@@ -145,6 +162,7 @@ public class GameNetworkManager : NetworkManager
     {
         PlayersList.Clear();
     }
+
 
     #endregion
 
