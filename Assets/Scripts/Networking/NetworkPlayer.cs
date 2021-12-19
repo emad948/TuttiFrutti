@@ -36,10 +36,19 @@ public class NetworkPlayer : NetworkBehaviour, IComparable<NetworkPlayer>
         return _displayName;
     }
 
-    public string GetScore()
+    public string GetScore(bool isWinnerScene)
     {
-        return _currentScore.ToString();
+        if (isWinnerScene)
+        {
+            return _totalScore.ToString();
+        }
+        else
+        {
+            return _currentScore.ToString();
+        }
     }
+
+
 
     public Color GetColor()
     {

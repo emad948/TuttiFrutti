@@ -12,6 +12,7 @@ public class HillKingScoring : NetworkBehaviour
 {
     private string currentLevel;
     private List<NetworkPlayer> players;
+    [HideInInspector]
     public int currentZoneIndex;
     public GlobalTime _globalTime;
     private float _time;
@@ -26,10 +27,12 @@ public class HillKingScoring : NetworkBehaviour
     {
         if (!isServer) return;
         players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
+        _globalTime = FindObjectOfType<GlobalTime>();
         currentZoneIndex = 1;
         //shuffling zones 
         var rnd = new System.Random();
         zoneIndices = zoneIndices.OrderBy(item => rnd.Next()).ToList();
+        Debug.Log(zoneIndices[0] + " " +zoneIndices[1] + " " +zoneIndices[2]);
         InvokeRepeating("changeZoneIndex",Math.Abs(_globalTime._time),30f);
         InvokeRepeating("HillKing", 0f, 0.25f);
     }

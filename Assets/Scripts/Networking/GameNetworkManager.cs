@@ -13,6 +13,7 @@ public class GameNetworkManager : NetworkManager
     [SerializeField] private GameObject characterPrefab;
     [SerializeField] private Transport steamTransport;
 
+    public GameObject gLM;
     private GameLevelsManager _gameLevelsManager;
 
 
@@ -69,7 +70,7 @@ public class GameNetworkManager : NetworkManager
         _gameStarted = true;
 
         //Game levels manager will be created we the game starts
-        _gameLevelsManager = new GameLevelsManager();
+        _gameLevelsManager = gLM.GetComponent<GameLevelsManager>();
         
         _gameLevelsManager.startLevel();
         
@@ -130,6 +131,7 @@ public class GameNetworkManager : NetworkManager
 
     public void LeaveGame()
     {
+        SceneManager.LoadScene(0);
         if (NetworkServer.active && NetworkClient.isConnected)
         {
             NetworkManager.singleton.StopHost();
@@ -137,7 +139,6 @@ public class GameNetworkManager : NetworkManager
         else
         {
             NetworkManager.singleton.StopClient();
-            SceneManager.LoadScene(0);
         }
     }
     

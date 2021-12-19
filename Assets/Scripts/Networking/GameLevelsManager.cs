@@ -15,7 +15,7 @@ using UnityEngine.SceneManagement;
 public class GameLevelsManager : NetworkBehaviour
 {
     public static GameLevelsManager _instance;
-
+    
     void Awake()
     {
         if (_instance != null)
@@ -28,7 +28,6 @@ public class GameLevelsManager : NetworkBehaviour
             DontDestroyOnLoad(gameObject); // uncomment?
         }
     }   
-    
     
     private string[] _gameLevels = {"Level_HillKing"}; 
     private List<NetworkPlayer> players;
@@ -82,32 +81,15 @@ public class GameLevelsManager : NetworkBehaviour
             case "Level_HillKing":
                 ChangeScene("Level_HillKing");
                 break;
+            case "WinnerBoard":
+                ChangeScene("WinnerBoard");
+                break;
             default:
-                SceneManager.LoadScene(0);  // TODO correct?
-                //ChangeScene("MainMenu");
                 Debug.Log("Unknown scene name");
                 break;
         }
     }
-
-
-    public void EndLevel()
-    {
-        //TODO @Emad add end game scene if all levels are played
-        if (_gameLevels.Length == 0)
-        {
-            foreach (NetworkPlayer player in players)
-            {
-                player.DuplicateScores(); // for the compareTo method (sorting)
-            }
-            ChangeScene("WinnerScene");
-        }
-
-        // ChangeScene("Level_HillKing");
-    }
-
-
-
+    
     #region HelperFunctions
 
     public void ChangeScene(string scene)
@@ -119,8 +101,7 @@ public class GameLevelsManager : NetworkBehaviour
 
     public string GETNextGameLevel()
     {
-        //TODO @Emad change to End Game Scene
-        if (_gameLevels.Length == 0) return "WinnerScene";
+        if (_gameLevels.Length == 0) return "WinnerBoard";
         var nextGameLevel = _gameLevels[0];
         _gameLevels = _gameLevels.Skip(1).ToArray();
         return nextGameLevel;

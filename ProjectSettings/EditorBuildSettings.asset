@@ -13,5 +13,8 @@ EditorBuildSettings:
     guid: f19d45e6004772249b343109495f87df
   - enabled: 1
     path: Assets/Scenes/ScoringBoard.unity
+    guid: 22c0639407577dd429f4b610c00c501d
+  - enabled: 1
+    path: Assets/Scenes/WinnerBoard.unity
     guid: 7b61f15ca31ecf948bf226ecff74fdea
   m_configObjects: {}
