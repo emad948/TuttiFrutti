@@ -10,14 +10,32 @@ public class CoinManager : MonoBehaviour {
     }
 
     public GameObject CoinPrefab;
+    GameObject[] prefabPool;
     public uint targetNum = 1;
 
     public HillKingScoring scoreManager;
     ArrayList totalSpawnPoints;
     ArrayList availableSpawnPoints;
-
+    
     ArrayList spawnedCoins;
     // Start is called before the first frame update
+
+
+    public void collected(GameObject coin, GameObject collector) {
+        // reset coin and adjust lists
+        availableSpawnPoints.Add(coin.transform.position);
+        coin.GetComponent<Animator>().Play(stateName: "Entry");
+        coin.SetActive(false);
+        spawnedCoins.Remove(coin);
+
+        Vector3 locationForRespawn = selectRandomly(availableSpawnPoints);
+        spawn(locationForRespawn);
+        if (!scoreManager) return;
+        scoreManager.addPointToPlayer(collector);
+
+    }
+
+
     void Start() {
         if (this != instance) instance = this;
         totalSpawnPoints = new ArrayList();
@@ -31,18 +49,24 @@ public class CoinManager : MonoBehaviour {
         }
     }
 
-    public void collected(GameObject coin, GameObject collector) {
-        availableSpawnPoints.Add(coin.transform.position);
-        spawnedCoins.Remove(coin);
-        Vector3 locationForRespawn = selectRandomly(availableSpawnPoints);
-        spawn(locationForRespawn);
-        if (!scoreManager) return;
-        scoreManager.addPointToPlayer(collector);
+    void initPool(){
+        prefabPool = new GameObject[targetNum];
+        for (int i = 0; i < prefabPool.Length; i++){
+            prefabPool[i] = Instantiate(CoinPrefab, Vector3.zero, Quaternion.identity);
+            prefabPool[i].SetActive(false);
+        }
+    }
+
+    GameObject firstInactive(){
+        foreach (var prefab in prefabPool){
+            if (prefab.activeSelf == false) return prefab;
+        }
+        return null;
     }
 
     void spawn(Vector3 position) {
         if (spawnedCoins.Count > targetNum) return;
-        GameObject spawnedCoin = GameObject.Instantiate(CoinPrefab, position, Quaternion.identity);
+        var spawnedCoin = firstInactive();
         spawnedCoins.Add(spawnedCoin);
         availableSpawnPoints.Remove(position);
     }
