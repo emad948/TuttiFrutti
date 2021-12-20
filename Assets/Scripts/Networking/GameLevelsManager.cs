@@ -10,8 +10,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-// TODO when backToMenu - implement first backToMenu after all levels were played
-
 public class GameLevelsManager : NetworkBehaviour
 {
     public static GameLevelsManager _instance;

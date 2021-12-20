@@ -1,6 +1,4 @@
-﻿
-using System.Collections.Generic;
-
+﻿using System.Collections.Generic;
 using Mirror;
 using TMPro;
 using Unity.VisualScripting;
@@ -20,8 +18,8 @@ public class ScoreBoardController : NetworkBehaviour
             ((GameNetworkManager) NetworkManager.singleton).StopClient();
         }
         else
-        {
-            Invoke("disconnectingHost",1f);
+        { 
+            Invoke("disconnectingHost",0.5f);
         }
         List<NetworkPlayer> players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
         if (isWinnerScene)
@@ -40,7 +38,7 @@ public class ScoreBoardController : NetworkBehaviour
 
     private void disconnectingHost()
     {
-        ((GameNetworkManager) NetworkManager.singleton).StopHost();
+        ((GameNetworkManager) NetworkManager.singleton).StopHost(); 
     }
 
     public void backToMenu()
