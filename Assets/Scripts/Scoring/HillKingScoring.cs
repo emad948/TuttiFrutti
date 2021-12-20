@@ -22,7 +22,7 @@ public class HillKingScoring : NetworkBehaviour
     private List<int> zoneIndices = new List<int>(){1, 2, 3};
     private int counter = -1;
         
-    public float sceneChangeTimer = 0f;    // TODO change to correct value
+    public float sceneChangeTimer;    // TODO change to correct value
     public bool testingMode = true;         
     
     private void Start()

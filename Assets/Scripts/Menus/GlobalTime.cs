@@ -10,8 +10,8 @@ public class GlobalTime : NetworkBehaviour
 {
     public TMP_Text matchTimeText;
     public TMP_Text timerText;
-    [SyncVar] public float _time = -1f;
-    [SyncVar] public float matchTime = 90f;
+    [SyncVar] public float _time;
+    [SyncVar] public float matchTime;
     public GameObject loadingScenePanel;
     private char sepFloat = '.';
     private string xAfterDot(float num, int x)
