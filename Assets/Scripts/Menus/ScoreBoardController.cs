@@ -28,20 +28,28 @@ public class ScoreBoardController : NetworkBehaviour
             playersTexts[i].text = $"{players[i].GetDisplayName()} : {players[i].GetScore(isWinnerScene)}";
         }
 
-        if (isWinnerScene)
-        {
-            if (!isServer)
-            {
-                Debug.Log("here2");
-
-                ((GameNetworkManager) NetworkManager.singleton).StopClient();
-            }
-        }
+        // if (isWinnerScene)
+        // {
+        //     if (!isServer)
+        //     {
+        //         Debug.Log("here2");
+        //
+        //         ((GameNetworkManager) NetworkManager.singleton).StopClient();
+        //     }
+        // }
     }
 
     public void backToMenu()
     {
         SceneManager.LoadScene(0);
-        if(isServer) ((GameNetworkManager) NetworkManager.singleton).StopHost();
+
+        if (isServer)
+        {
+            ((GameNetworkManager) NetworkManager.singleton).StopHost();
+        }
+        else
+        {
+            ((GameNetworkManager) NetworkManager.singleton).StopClient();
+        }
     }
 }
