@@ -15,6 +15,8 @@ public class HillKingScoring : NetworkBehaviour
     [HideInInspector]
     public int currentZoneIndex;
     public GlobalTime _globalTime;
+
+    public LightboxManager lightboxes;
     private float _time;
     private bool onlyOnce = true;
     private List<int> zoneIndices = new List<int>(){1, 2, 3};
@@ -52,9 +54,10 @@ public class HillKingScoring : NetworkBehaviour
 
     private void changeZoneIndex()
     {
-        currentZoneIndex = zoneIndices[counter];
         counter++;
         counter %= 3;
+        currentZoneIndex = zoneIndices[counter];
+        lightboxes.setActiveBox(currentZoneIndex);
     }
     
     private void HillKing()
@@ -113,7 +116,15 @@ public class HillKingScoring : NetworkBehaviour
             }
         }
     }
-
+    public void addPointToPlayer(GameObject player){
+        NetworkPlayer current = null;
+        foreach (var np in players){
+            if (np.playerCharacter.gameObject == player) current = np; 
+        } 
+        if (current is null) return;
+        current.ChangeScore(1);
+        print("add point to player " + current.GetDisplayName()); // keep me!
+    }
     #region Client
     
 

@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 612a0c141dfc6db4fba76e248843def0
+guid: bf39f4aed0400d942be3614fa3d18c02
 ModelImporter:
   serializedVersion: 21100
   internalIDToNameTable:
   - first:
-      74: -623603649343465320
-    second: Scene
+      74: 4493367621376446847
+    second: coin
   externalObjects: {}
   materials:
     materialImportMode: 2
