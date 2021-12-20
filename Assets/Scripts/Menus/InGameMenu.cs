@@ -37,7 +37,8 @@ public class InGameMenu : MonoBehaviour
 
     public void LoadMenu()
     {
-        SceneManager.LoadScene("MainMenu");
+        Debug.Log("Quit");
+        Application.Quit();
     }
 
 }
