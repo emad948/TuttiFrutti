@@ -9,26 +9,21 @@ using Random = UnityEngine.Random;
 
 public class GameNetworkManager : NetworkManager
 {
+    [SerializeField] private GameObject characterPrefab;
+    [SerializeField] private Transport steamTransport;
+    private Menu _menu;
+    private GameLevelsManager _gameLevelsManager;
+    private bool _gameStarted;
+    public List<NetworkPlayer> PlayersList { get; } = new List<NetworkPlayer>();
+    public static event Action ClientOnConnected;
+    public static event Action ClientOnDisconnected;
+
     public override void Awake()
     {
         base.Awake();
         _menu = GameObject.FindGameObjectWithTag("MainMenuDisplayTag").GetComponent<Menu>();
     }
     
-    private Menu _menu;
-    [SerializeField] private GameObject characterPrefab;
-    [SerializeField] private Transport steamTransport;
-
-    private GameLevelsManager _gameLevelsManager;
-
-
-    private bool _gameStarted;
-
-    public List<NetworkPlayer> PlayersList { get; } = new List<NetworkPlayer>();
-
-    public static event Action ClientOnConnected;
-    public static event Action ClientOnDisconnected;
-
     public void setUseSteam(bool useSteam)
     {
         Transport kcpTransport = GetComponent<KcpTransport>();
