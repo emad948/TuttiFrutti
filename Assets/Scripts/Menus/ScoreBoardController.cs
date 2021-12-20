@@ -32,23 +32,16 @@ public class ScoreBoardController : NetworkBehaviour
         {
             if (!isServer)
             {
+                Debug.Log("here2");
+
                 ((GameNetworkManager) NetworkManager.singleton).StopClient();
-            }
-            else
-            {
-                Invoke("disconnectingHost", 0.5f);
             }
         }
     }
 
-    private void disconnectingHost()
-    {
-        ((GameNetworkManager) NetworkManager.singleton).StopHost(); 
-    }
-
     public void backToMenu()
     {
-        //((GameNetworkManager) NetworkManager.singleton).LeaveGame();
         SceneManager.LoadScene(0);
+        if(isServer) ((GameNetworkManager) NetworkManager.singleton).StopHost();
     }
 }
