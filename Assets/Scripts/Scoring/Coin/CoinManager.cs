@@ -30,7 +30,7 @@ public class CoinManager : MonoBehaviour {
         foreach (var spawnObject in GameObject.FindGameObjectsWithTag("CoinSpawn"))
             totalSpawnPoints.Add(spawnObject.transform.position);
         availableSpawnPoints = new ArrayList(totalSpawnPoints);
-        print(availableSpawnPoints.Count);
+        //print(availableSpawnPoints.Count);
         initPool();
         for (int i = 0; i < targetNum; i++) {
             spawn(selectRandomly(availableSpawnPoints));
@@ -80,7 +80,7 @@ public class CoinManager : MonoBehaviour {
     void spawn(Vector3 position) {
         if (spawnedCoins.Count > targetNum) return;
         var spawnedCoin = firstInactive();
-        print(spawnedCoin);
+        //print(spawnedCoin);
         spawnedCoins.Add(spawnedCoin);
         availableSpawnPoints.Remove(position);
         spawnedCoin.transform.position = position;

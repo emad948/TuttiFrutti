@@ -20,7 +20,7 @@ public class HillKingScoring : NetworkBehaviour
     private float _time;
     private bool onlyOnce = true;
     private List<int> zoneIndices = new List<int>(){1, 2, 3};
-    private int counter = 0;
+    private int counter = -1;
         
     public float sceneChangeTimer = 0f;    // TODO change to correct value
     public bool testingMode = true;         
@@ -34,7 +34,7 @@ public class HillKingScoring : NetworkBehaviour
         //shuffling zones 
         var rnd = new System.Random();
         zoneIndices = zoneIndices.OrderBy(item => rnd.Next()).ToList();
-        Debug.Log(zoneIndices[0] + " " +zoneIndices[1] + " " +zoneIndices[2]);
+        //Debug.Log(zoneIndices[0] + " " +zoneIndices[1] + " " +zoneIndices[2]);
         InvokeRepeating("changeZoneIndex",Math.Abs(_globalTime._time),30f);
         InvokeRepeating("HillKing", 0f, 0.25f);
     }
@@ -80,10 +80,9 @@ public class HillKingScoring : NetworkBehaviour
                             }
                         }
                     }
-
                     break;
                 case 2:
-                    // center / yellow tower
+                    // yellow tower
                     if (pos.x >= 9 && pos.x <= 12.75)
                     {
                         if (pos.z >= 1.25 && pos.z <= 8.25)
@@ -94,7 +93,6 @@ public class HillKingScoring : NetworkBehaviour
                             }
                         }
                     }
-
                     break;
                 case 3:
                     // green tower
@@ -108,7 +106,6 @@ public class HillKingScoring : NetworkBehaviour
                             }
                         }
                     }
-
                     break;
                 default:
                     Debug.Log("Error");
@@ -123,7 +120,7 @@ public class HillKingScoring : NetworkBehaviour
         } 
         if (current is null) return;
         current.ChangeScore(1);
-        print("add point to player " + current.GetDisplayName()); // keep me!
+        //print("add point to player " + current.GetDisplayName()); // keep me!
     }
     #region Client
     

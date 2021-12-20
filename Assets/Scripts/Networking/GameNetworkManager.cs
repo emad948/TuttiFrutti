@@ -127,19 +127,19 @@ public class GameNetworkManager : NetworkManager
     }
 
 
-    public void LeaveGame()
-    {
-        // SceneManager.LoadScene(0);   // or up here?
-        if (NetworkServer.active && NetworkClient.isConnected)
-        {
-            NetworkManager.singleton.StopHost();
-        }
-        else
-        {
-            NetworkManager.singleton.StopClient();
-        }
-        SceneManager.LoadScene(0);
-    }
+    // public void LeaveGame()
+    // {
+    //     // SceneManager.LoadScene(0);   // or up here?
+    //     if (NetworkServer.active && NetworkClient.isConnected)
+    //     {
+    //         NetworkManager.singleton.StopHost();
+    //     }
+    //     else
+    //     {
+    //         NetworkManager.singleton.StopClient();
+    //     }
+    //     SceneManager.LoadScene(0);
+    // }
     
 
     #endregion
