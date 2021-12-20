@@ -83,9 +83,9 @@ public class HillKingScoring : NetworkBehaviour
                     break;
                 case 2:
                     // yellow tower
-                    if (pos.x >= 9 && pos.x <= 12.75)
+                    if (pos.x >= 5.75 && pos.x <= 9.75)
                     {
-                        if (pos.z >= 1.25 && pos.z <= 8.25)
+                        if (pos.z >= (-6.25) && pos.z <= 0.75)
                         {
                             if (pos.y >= 8.8)
                             {
@@ -96,9 +96,9 @@ public class HillKingScoring : NetworkBehaviour
                     break;
                 case 3:
                     // green tower
-                    if (pos.x >= (-7.5) && pos.x <= (-3.5))
+                    if (pos.x >= (-7.25) && pos.x <= (-3.25))
                     {
-                        if (pos.z >= 9.5 && pos.z <= 13.5)
+                        if (pos.z >= (-14.75) && pos.z <= (-10.75))
                         {
                             if (pos.y >= 12.8)
                             {
