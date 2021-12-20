@@ -146,7 +146,7 @@ public class GameNetworkManager : NetworkManager
 
     public void LeaveGame()
     {
-        SceneManager.LoadScene(0);
+        // SceneManager.LoadScene(0);   // or up here?
         if (NetworkServer.active && NetworkClient.isConnected)
         {
             NetworkManager.singleton.StopHost();
@@ -155,6 +155,7 @@ public class GameNetworkManager : NetworkManager
         {
             NetworkManager.singleton.StopClient();
         }
+        SceneManager.LoadScene(0);
     }
     
 
