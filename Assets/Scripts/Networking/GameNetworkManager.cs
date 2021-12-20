@@ -9,25 +9,13 @@ using Random = UnityEngine.Random;
 
 public class GameNetworkManager : NetworkManager
 {
-    public static GameNetworkManager _instance;
-    
     public override void Awake()
     {
-        if (_instance != null && SceneManager.GetActiveScene().name != "MainMenu")
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            _instance = this;
-            DontDestroyOnLoad(gameObject); // uncomment?
-        }
         base.Awake();
-
         _menu = GameObject.FindGameObjectWithTag("MainMenuDisplayTag").GetComponent<Menu>();
     }
     
-    [SerializeField] private Menu _menu;
+    private Menu _menu;
     [SerializeField] private GameObject characterPrefab;
     [SerializeField] private Transport steamTransport;
 
@@ -87,7 +75,7 @@ public class GameNetworkManager : NetworkManager
         _gameStarted = true;
 
         //Game levels manager will be created we the game starts
-        _gameLevelsManager = GetComponentInChildren<GameLevelsManager>();
+        _gameLevelsManager = GameObject.FindGameObjectWithTag("GameLevelsManager").GetComponent<GameLevelsManager>();
         
         _gameLevelsManager.startLevel();
     }

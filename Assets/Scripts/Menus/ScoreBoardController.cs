@@ -5,6 +5,7 @@ using Mirror;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ScoreBoardController : NetworkBehaviour
@@ -14,6 +15,14 @@ public class ScoreBoardController : NetworkBehaviour
 
     private void Start()
     {
+        if (!isServer)
+        {
+            ((GameNetworkManager) NetworkManager.singleton).StopClient();
+        }
+        else
+        {
+            Invoke("disconnectingHost",1f);
+        }
         List<NetworkPlayer> players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
         if (isWinnerScene)
         {
@@ -29,8 +38,14 @@ public class ScoreBoardController : NetworkBehaviour
         }
     }
 
+    private void disconnectingHost()
+    {
+        ((GameNetworkManager) NetworkManager.singleton).StopHost();
+    }
+
     public void backToMenu()
     {
-        ((GameNetworkManager) NetworkManager.singleton).LeaveGame();
+        //((GameNetworkManager) NetworkManager.singleton).LeaveGame();
+        SceneManager.LoadScene(0);
     }
 }

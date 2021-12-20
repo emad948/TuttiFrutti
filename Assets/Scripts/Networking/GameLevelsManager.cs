@@ -14,20 +14,28 @@ using UnityEngine.SceneManagement;
 
 public class GameLevelsManager : NetworkBehaviour
 {
-    // public static GameLevelsManager _instance;
-    //
-    // void Awake()
-    // {
-    //     if (_instance != null)
-    //     {
-    //         Destroy(gameObject);
-    //     }
-    //     else
-    //     {
-    //         _instance = this;
-    //         DontDestroyOnLoad(gameObject); // uncomment?
-    //     }
-    // }   
+    public static GameLevelsManager _instance;
+    
+    void Awake()
+    {
+        if (_instance != null)
+        {
+            if (SceneManager.GetActiveScene().name == "MainMenu")
+            {
+                _instance = this;
+                DontDestroyOnLoad(gameObject); 
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
+        else
+        {
+            _instance = this;
+            DontDestroyOnLoad(gameObject); 
+        }
+    }   
     
     private string[] _gameLevels = {"Level_HillKing"}; 
     private List<NetworkPlayer> players;
