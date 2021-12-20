@@ -7,7 +7,7 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Scenes/MainMenu.unity
-    guid: 7b61f15ca31ecf948bf226ecff74fdea
+    guid: 606f643151c6bf245a73098ddfd82fdc
   - enabled: 1
     path: Assets/Scenes/Levels/Level_HillKing.unity
     guid: f19d45e6004772249b343109495f87df

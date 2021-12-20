@@ -20,6 +20,7 @@ public class GameLevelsManager : NetworkBehaviour
         {
             if (SceneManager.GetActiveScene().name == "MainMenu")
             {
+                Destroy(_instance.gameObject);
                 _instance = this;
                 DontDestroyOnLoad(gameObject); 
             }
