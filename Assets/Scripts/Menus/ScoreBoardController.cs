@@ -27,16 +27,6 @@ public class ScoreBoardController : NetworkBehaviour
         {
             playersTexts[i].text = $"{players[i].GetDisplayName()} : {players[i].GetScore(isWinnerScene)}";
         }
-
-        // if (isWinnerScene)
-        // {
-        //     if (!isServer)
-        //     {
-        //         Debug.Log("here2");
-        //
-        //         ((GameNetworkManager) NetworkManager.singleton).StopClient();
-        //     }
-        // }
     }
 
     public void backToMenu()
