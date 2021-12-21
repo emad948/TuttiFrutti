@@ -33,8 +33,7 @@ public class HillKingScoring : NetworkBehaviour
         //shuffling zones 
         var rnd = new System.Random();
         zoneIndices = zoneIndices.OrderBy(item => rnd.Next()).ToList();
-        //Debug.Log(zoneIndices[0] + " " +zoneIndices[1] + " " +zoneIndices[2]);
-        InvokeRepeating("changeZoneIndex",Math.Abs(_globalTime._time),30f);
+        InvokeRepeating("changeZoneIndex",Math.Abs(_globalTime._time),50f);
         InvokeRepeating("HillKing", 0f, 0.25f);
     }
 
