@@ -11,7 +11,7 @@ using Random = UnityEngine.Random;
 public class GameNetworkManager : NetworkManager
 {
     [SerializeField] private GameObject characterPrefab;
-    public GameObject steamController;
+    //public GameObject steamController;
     private Transport steamTransport;
     private Menu _menu;
     private GameLevelsManager _gameLevelsManager;
@@ -28,9 +28,11 @@ public class GameNetworkManager : NetworkManager
     
     public void setUseSteam(bool useSteam)
     {
-        steamTransport = steamController.GetComponent<FizzySteamworks>();
+        //steamTransport = steamController.GetComponent<FizzySteamworks>();
+        steamTransport = GetComponent<FizzySteamworks>();
         Transport kcpTransport = GetComponent<KcpTransport>();
-        var steamManager = steamController.GetComponent<SteamManager>();
+        //var steamManager = steamController.GetComponent<SteamManager>();
+        var steamManager = GetComponent<SteamManager>();
         steamManager.enabled = useSteam;
         steamTransport.enabled = useSteam;
         kcpTransport.enabled = !useSteam;
@@ -84,7 +86,7 @@ public class GameNetworkManager : NetworkManager
 
         var playerName = "";
 
-        if (_menu.useSteam)
+        if (_menu.getUseSteam())
         {
             var steamId = SteamMatchmaking.GetLobbyMemberByIndex(Menu.LobbyId, numPlayers - 1);
             playerName = SteamFriends.GetFriendPersonaName(steamId);

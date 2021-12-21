@@ -7,11 +7,12 @@ using TMPro;
 
 public class Menu : MonoBehaviour
 {
-    public GameNetworkManager _gameNetworkManager;
+    [HideInInspector] public GameNetworkManager _gameNetworkManager;
+    public GameObject steamController;
     
     [SerializeField] private GameObject landingPagePanel;
     
-    [HideInInspector] public bool useSteam = false;
+    private bool useSteam = true;
     
     [SerializeField] public bool testMode = false;
 
@@ -63,6 +64,11 @@ public class Menu : MonoBehaviour
         _gameNetworkManager.StartHost();
     }
 
+    public bool getUseSteam()
+    {
+        return useSteam;
+    }
+
     private void OnLobbyCreated(LobbyCreated_t callback)
     {
         //Steam Failed to create a Lobby
@@ -109,8 +115,10 @@ public class Menu : MonoBehaviour
         Debug.Log("Quit");
         Application.Quit();
     }
+    
     public void toggleUseSteam(){
         useSteam = !useSteam;
+        //steamController.SetActive(useSteam);
         _gameNetworkManager.setUseSteam(useSteam);
         if (useSteam)
         {
