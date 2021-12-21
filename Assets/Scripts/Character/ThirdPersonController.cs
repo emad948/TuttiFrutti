@@ -231,9 +231,9 @@ namespace StarterAssets {
 			}
 			
 			Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
-			Vector3 externalForce = ExternalForces.singleton.force(gameObject);
+			//Vector3 externalForce = ExternalForces.singleton.force(gameObject);
 			// move the player
-			_controller.Move(externalForce + targetDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+			_controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 
 			// update animator if using character
 			if (_hasAnimator)
@@ -331,14 +331,6 @@ namespace StarterAssets {
 			// when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
 			Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z), GroundedRadius);
 		}
-
-		private void applyExternalForce(){
-			Vector3 frameUpdate = Vector3.Slerp(transform.position, transform.position + externalForce, Time.time);
-			externalForce -= frameUpdate - transform.position;
-			transform.position = frameUpdate;
-			externalForce = Vector3.zero;
-		}
-
 			private void SyncGlobals(){
 			if (!hasAuthority) {// controlled by other player | smoothing relative to syncinterval :)
 				transform.position = Vector3.Lerp(transform.position, globalPosition, Time.fixedDeltaTime / syncInterval);
