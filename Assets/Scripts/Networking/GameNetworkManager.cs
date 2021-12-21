@@ -37,7 +37,7 @@ public class GameNetworkManager : NetworkManager
 
         Transport.activeTransport = transport;
 
-        print("GameNetworkManager: useSteam=" + useSteam);
+        Debug.Log("UsingSteam: " + useSteam);
     }
 
     #region Server

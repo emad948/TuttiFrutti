@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
-public class InGameMenu : MonoBehaviour
+public class InGameMenu : NetworkBehaviour
 {
     public GameObject Panel;
     private bool GameIsPaused = false;
@@ -37,8 +38,16 @@ public class InGameMenu : MonoBehaviour
 
     public void LoadMenu()
     {
-        Debug.Log("Quit");
-        Application.Quit();
+        SceneManager.LoadScene(0);
+
+        if (isServer)
+        {
+            ((GameNetworkManager) NetworkManager.singleton).StopHost();
+        }
+        else
+        {
+            ((GameNetworkManager) NetworkManager.singleton).StopClient();
+        }
     }
 
 }
