@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using kcp2k;
 using Mirror;
+using Mirror.FizzySteam;
 using Steamworks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,7 +11,8 @@ using Random = UnityEngine.Random;
 public class GameNetworkManager : NetworkManager
 {
     [SerializeField] private GameObject characterPrefab;
-    [SerializeField] private Transport steamTransport;
+    public GameObject steamController;
+    private Transport steamTransport;
     private Menu _menu;
     private GameLevelsManager _gameLevelsManager;
     private bool _gameStarted;
@@ -26,8 +28,9 @@ public class GameNetworkManager : NetworkManager
     
     public void setUseSteam(bool useSteam)
     {
+        steamTransport = steamController.GetComponent<FizzySteamworks>();
         Transport kcpTransport = GetComponent<KcpTransport>();
-        var steamManager = GetComponent<SteamManager>();
+        var steamManager = steamController.GetComponent<SteamManager>();
         steamManager.enabled = useSteam;
         steamTransport.enabled = useSteam;
         kcpTransport.enabled = !useSteam;

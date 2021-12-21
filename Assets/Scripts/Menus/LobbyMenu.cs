@@ -73,16 +73,15 @@ public class LobbyMenu : MonoBehaviour
         //Host
         if (NetworkServer.active && NetworkClient.isConnected)
         {
-            NetworkManager.singleton.StopHost();
-            NetworkManager.singleton.OnStopServer();
-            
+            NetworkServer.DisconnectAll();
+            ((GameNetworkManager) NetworkManager.singleton).StopHost();
+            //NetworkManager.singleton.OnStopServer();
         }
         //Client
         else
         {
-            NetworkManager.singleton.StopClient();
-
-            SceneManager.LoadScene(0);
+            ((GameNetworkManager) NetworkManager.singleton).StopClient();
         }
+        SceneManager.LoadScene(0);
     }
 }

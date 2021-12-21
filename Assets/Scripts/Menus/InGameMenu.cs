@@ -38,16 +38,16 @@ public class InGameMenu : NetworkBehaviour
 
     public void LoadMenu()
     {
-        SceneManager.LoadScene(0);
-
         if (isServer)
         {
+            NetworkServer.DisconnectAll();
             ((GameNetworkManager) NetworkManager.singleton).StopHost();
         }
         else
         {
             ((GameNetworkManager) NetworkManager.singleton).StopClient();
         }
+        SceneManager.LoadScene(0);
     }
 
 }

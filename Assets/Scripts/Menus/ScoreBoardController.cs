@@ -35,7 +35,8 @@ public class ScoreBoardController : NetworkBehaviour
 
         if (isServer)
         {
-            ((GameNetworkManager) NetworkManager.singleton).StopHost();
+            NetworkServer.DisconnectAll();
+            ((GameNetworkManager) NetworkManager.singleton).StopHost(); // TODO redundant to previous line?
         }
         else
         {
