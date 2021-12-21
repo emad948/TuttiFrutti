@@ -16,8 +16,6 @@ public class ScoreBoardController : NetworkBehaviour
         List<NetworkPlayer> players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
         if (isWinnerScene)
         {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
             foreach (NetworkPlayer player in players)
             {
                 player.DuplicateScores(); // for the compareTo method (sorting)
