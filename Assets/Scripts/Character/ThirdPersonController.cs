@@ -86,8 +86,9 @@ namespace StarterAssets {
 		// --- Private ---
 		private GlobalTime _globalTime;
 		private NetworkIdentity _identity; // is server or client?
+		private Vector3 externalForce = Vector3.zero;
 		// ---------------
-
+		
 		override public void OnStartAuthority()
 		{
 			// get a reference to our main camera
@@ -100,6 +101,9 @@ namespace StarterAssets {
 		public float speed{get => globalSpeed;}
 		public bool grounded{get => globalGrounded;}
 
+		public void addForce(Vector3 vec){
+			externalForce += vec;
+		}
 
 		private void Start()
 		{
@@ -327,6 +331,14 @@ namespace StarterAssets {
 			// when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
 			Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z), GroundedRadius);
 		}
+
+		private void applyExternalForce(){
+			Vector3 frameUpdate = Vector3.Slerp(transform.position, transform.position + externalForce, Time.time);
+			externalForce -= frameUpdate - transform.position;
+			transform.position = frameUpdate;
+			externalForce = Vector3.zero;
+		}
+
 			private void SyncGlobals(){
 			if (!hasAuthority) {// controlled by other player | smoothing relative to syncinterval :)
 				transform.position = Vector3.Lerp(transform.position, globalPosition, Time.fixedDeltaTime / syncInterval);
