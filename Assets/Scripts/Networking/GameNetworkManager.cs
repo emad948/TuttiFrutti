@@ -88,7 +88,7 @@ public class GameNetworkManager : NetworkManager
 
         if (_menu.getUseSteam())
         {
-            var steamId = SteamMatchmaking.GetLobbyMemberByIndex(Menu.LobbyId, numPlayers - 1);
+            var steamId = SteamMatchmaking.GetLobbyMemberByIndex(_menu.LobbyId, numPlayers - 1);
             playerName = SteamFriends.GetFriendPersonaName(steamId);
         }
         else

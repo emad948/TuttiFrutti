@@ -1,5 +1,6 @@
 using System;
 using Mirror;
+using Mirror.FizzySteam;
 using Steamworks;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,13 +10,9 @@ public class Menu : MonoBehaviour
 {
     [HideInInspector] public GameNetworkManager _gameNetworkManager;
     public GameObject steamController;
-    
     [SerializeField] private GameObject landingPagePanel;
-    
     private bool useSteam = true;
-    
     [SerializeField] public bool testMode = false;
-
     public Button toggleSteamButton;
     
     protected Callback<LobbyCreated_t> lobbyCreated;
@@ -24,7 +21,8 @@ public class Menu : MonoBehaviour
 
     private const string HOST_ADDRESS = "HOST_ADDRESS";
     
-    public static CSteamID LobbyId { get; private set; }
+    //public static CSteamID LobbyId { get; private set; }            
+    public CSteamID LobbyId { get; private set; }            // here!!
 
 
     private void Start()
@@ -60,8 +58,8 @@ public class Menu : MonoBehaviour
             return;
         }
         
-        //NetworkManager.singleton.StartHost();
-        _gameNetworkManager.StartHost();
+        NetworkManager.singleton.StartHost();
+        //_gameNetworkManager.StartHost();
     }
 
     public bool getUseSteam()
@@ -82,7 +80,11 @@ public class Menu : MonoBehaviour
         //if lobby creation succeeded
         LobbyId = new CSteamID(callback.m_ulSteamIDLobby);
         
-        NetworkManager.singleton.StartHost();
+        Debug.Log("here1 " + this.GetInstanceID());
+        if (!NetworkServer.active || !NetworkClient.active)
+        {
+            NetworkManager.singleton.StartHost();
+        }
 
         SteamMatchmaking.SetLobbyData
         (LobbyId,
