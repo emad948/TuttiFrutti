@@ -8,6 +8,8 @@ TagManager:
   - CinemachineTarget
   - MainMenuDisplayTag
   - GameLevelsManager
+  - NetworkManager
+  - LandingPage
   layers:
   - Default
   - TransparentFX

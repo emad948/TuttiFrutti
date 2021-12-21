@@ -8,10 +8,9 @@ using TMPro;
 
 public class menuController : MonoBehaviour
 {
-    [SerializeField] private GameObject landingPagePanel;
+    private GameObject landingPagePanel;
     [SerializeField] public bool testMode = false;
     private GameNetworkManager _gameNetworkManager;
-    public Button toggleSteamButton;
     private bool useSteam = true;
 
     protected Callback<LobbyCreated_t> lobbyCreated;
@@ -22,6 +21,7 @@ public class menuController : MonoBehaviour
 
     private void Start()
     {
+        //landingPagePanel = GameObject.FindWithTag("LandingPage");
         _gameNetworkManager = GetComponent<GameNetworkManager>();
         //This is only for development purposes
         if(!useSteam){
@@ -42,8 +42,9 @@ public class menuController : MonoBehaviour
         lobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
     }
 
-    public void HostLobby()
+    public void HostLobby(GameObject panel)
     {
+        landingPagePanel = panel;
         landingPagePanel.SetActive(false);
         if (useSteam)
         {
@@ -107,7 +108,8 @@ public class menuController : MonoBehaviour
         landingPagePanel.SetActive(false);
     }
 
-    public void toggleUseSteam(){
+    public void toggleUseSteam(Button toggleButton){  
+        var toggleSteamButton = toggleButton;
         useSteam = !useSteam;
         //steamController.SetActive(useSteam);
         _gameNetworkManager.setUseSteam(useSteam);

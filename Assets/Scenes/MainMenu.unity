@@ -2712,6 +2712,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85c4b73a6d12648f3bf67fb9894efb2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  landingPagePanel: {fileID: 981687556}
 --- !u!1 &402753107
 GameObject:
   m_ObjectHideFlags: 0
@@ -4375,8 +4376,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 358973367}
-        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
+      - m_Target: {fileID: 1425490366}
+        m_TargetAssemblyTypeName: menuController, Assembly-CSharp
         m_MethodName: toggleUseSteam
         m_Mode: 1
         m_Arguments:
@@ -4501,7 +4502,7 @@ MonoBehaviour:
   - {fileID: 1422547624}
   - {fileID: 1649328458}
   - {fileID: 1281715618}
-  _menuController: {fileID: 0}
+  _menuController: {fileID: 1425490366}
 --- !u!1 &728622646
 GameObject:
   m_ObjectHideFlags: 0
@@ -6280,7 +6281,7 @@ GameObject:
   - component: {fileID: 981687557}
   m_Layer: 0
   m_Name: LandingPage
-  m_TagString: Untagged
+  m_TagString: LandingPage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9858,6 +9859,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NetworkManager
       objectReference: {fileID: 0}
+    - target: {fileID: 6509473559915431772, guid: 6e51ac3264cdc408fb92bbb7982e7262, type: 3}
+      propertyPath: m_TagString
+      value: NetworkManager
+      objectReference: {fileID: 0}
     - target: {fileID: 6509473559915431775, guid: 6e51ac3264cdc408fb92bbb7982e7262, type: 3}
       propertyPath: transport
       value: 
@@ -9889,7 +9894,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1983b51709d7b5a4fb0a51b9dcf4d42f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  landingPagePanel: {fileID: 981687556}
   testMode: 1
   toggleSteamButton: {fileID: 673890082}
 --- !u!1 &1455043210
@@ -16779,7 +16783,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 358973367}
         m_TargetAssemblyTypeName: Menu, Assembly-CSharp
-        m_MethodName: HostLobby
+        m_MethodName: hostingLobby
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

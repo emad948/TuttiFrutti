@@ -8,6 +8,30 @@ using TMPro;
 
 public class Menu : MonoBehaviour
 {
+    private GameObject _networkManager;
+    public GameObject landingPagePanel;
+    public Button steamToggleButton;
+    private void Start()
+    {
+        _networkManager = GameObject.FindGameObjectWithTag("NetworkManager");
+    }
+    
+    public void hostingLobby()
+    {
+        _networkManager.GetComponent<menuController>().HostLobby(landingPagePanel);
+    }
+
+    public void toggleSteamButton()
+    {
+        _networkManager.GetComponent<menuController>().toggleUseSteam(steamToggleButton);
+    }
+    
+    public void quitGame()
+    {
+        Debug.Log("Quit");
+        Application.Quit();
+    }
+    
     // [HideInInspector] public GameNetworkManager _gameNetworkManager;
     // public GameObject steamController;
     // [SerializeField] private GameObject landingPagePanel;
@@ -132,10 +156,4 @@ public class Menu : MonoBehaviour
     //     }
     //     this.Start();
     // }
-    
-    public void quitGame()
-    {
-        Debug.Log("Quit");
-        Application.Quit();
-    }
 }
