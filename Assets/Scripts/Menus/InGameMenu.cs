@@ -44,7 +44,7 @@ public class InGameMenu : NetworkBehaviour
         Cursor.lockState = CursorLockMode.None;
         Panel.SetActive(true);
     }
-
+    
     public void LoadMenu()
     {
         if (isServer)

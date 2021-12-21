@@ -10,7 +10,7 @@ public class ScoreBoardController : NetworkBehaviour
 {
     [SerializeField] private TMP_Text[] playersTexts = new TMP_Text[4];
     public bool isWinnerScene;
-
+    
     private void Start()
     {
         List<NetworkPlayer> players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
@@ -28,19 +28,18 @@ public class ScoreBoardController : NetworkBehaviour
             playersTexts[i].text = $"{players[i].GetDisplayName()} : {players[i].GetScore(isWinnerScene)}";
         }
     }
-
+    
     public void backToMenu()
     {
-        SceneManager.LoadScene(0);
-
         if (isServer)
         {
-            NetworkServer.DisconnectAll();
-            ((GameNetworkManager) NetworkManager.singleton).StopHost(); // TODO redundant to previous line?
+            //NetworkServer.DisconnectAll();
+            ((GameNetworkManager) NetworkManager.singleton).StopHost();
         }
         else
         {
             ((GameNetworkManager) NetworkManager.singleton).StopClient();
+            SceneManager.LoadScene(0);
         }
     }
 }
