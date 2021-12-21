@@ -3,6 +3,7 @@ using Mirror;
 using Steamworks;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Menu : MonoBehaviour
 {
@@ -113,11 +114,11 @@ public class Menu : MonoBehaviour
         _gameNetworkManager.setUseSteam(useSteam);
         if (useSteam)
         {
-            toggleSteamButton.GetComponent<Image>().color = Color.green;
+            toggleSteamButton.GetComponentInChildren<TMP_Text>().color = Color.green;
         }
         else
         {
-            toggleSteamButton.GetComponent<Image>().color = Color.red;
+            toggleSteamButton.GetComponentInChildren<TMP_Text>().color = Color.red;
         }
         this.Start();
     }
