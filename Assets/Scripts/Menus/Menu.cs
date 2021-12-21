@@ -2,16 +2,19 @@ using System;
 using Mirror;
 using Steamworks;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Menu : MonoBehaviour
 {
-    public GameNetworkManager abc;
+    public GameNetworkManager _gameNetworkManager;
     
     [SerializeField] private GameObject landingPagePanel;
     
-    [SerializeField] public bool useSteam = false;
+    [HideInInspector] public bool useSteam = false;
     
     [SerializeField] public bool testMode = false;
+
+    public Button toggleSteamButton;
     
     protected Callback<LobbyCreated_t> lobbyCreated;
     protected Callback<GameLobbyJoinRequested_t> gameLobbyJoinRequested;
@@ -24,13 +27,14 @@ public class Menu : MonoBehaviour
 
     private void Start()
     {
-        abc = GameObject.FindObjectOfType<GameNetworkManager>();
+        _gameNetworkManager = GameObject.FindObjectOfType<GameNetworkManager>();
         //This is only for development purposes
         if(!useSteam){
             lobbyCreated = null;
             gameLobbyJoinRequested = null;
             lobbyEntered = null;
-            return;}
+            return;
+        }
 
         if (!SteamManager.Initialized)
         {
@@ -41,7 +45,6 @@ public class Menu : MonoBehaviour
         lobbyCreated = Callback<LobbyCreated_t>.Create(OnLobbyCreated);
         gameLobbyJoinRequested = Callback<GameLobbyJoinRequested_t>.Create(OnGameLobbyJoinRequested);
         lobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
-        
     }
 
     public void HostLobby()
@@ -56,7 +59,7 @@ public class Menu : MonoBehaviour
         }
         
         //NetworkManager.singleton.StartHost();
-        abc.StartHost();
+        _gameNetworkManager.StartHost();
     }
 
     private void OnLobbyCreated(LobbyCreated_t callback)
@@ -105,9 +108,17 @@ public class Menu : MonoBehaviour
         Debug.Log("Quit");
         Application.Quit();
     }
-    public void setUseSteam(bool useSteam){
-        this.useSteam = useSteam;
+    public void toggleUseSteam(){
+        useSteam = !useSteam;
+        _gameNetworkManager.setUseSteam(useSteam);
+        if (useSteam)
+        {
+            toggleSteamButton.GetComponent<Image>().color = Color.green;
+        }
+        else
+        {
+            toggleSteamButton.GetComponent<Image>().color = Color.red;
+        }
         this.Start();
-        
     }
 }

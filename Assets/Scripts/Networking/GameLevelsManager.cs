@@ -64,11 +64,10 @@ public class GameLevelsManager : NetworkBehaviour
         {
             player.UpdateTotalScore(counter);
             counter--;
-            // TODO @Colin does not care about even points 
+            // TODO @Colin: does not care about even points 
         }
         
-        //Switch to ScoringBoard to 10s then to the next level
-        ((GameNetworkManager) NetworkManager.singleton).ServerChangeScene("ScoringBoard");
+        ((GameNetworkManager) NetworkManager.singleton).ServerChangeScene("ScoreBoard");
         Invoke("startLevel", 5f);
     }
 
@@ -104,7 +103,7 @@ public class GameLevelsManager : NetworkBehaviour
     {
         ((GameNetworkManager) NetworkManager.singleton).ServerChangeScene(scene);
 
-        Debug.Log("after game scene changed");
+        //Debug.Log("after game scene changed");
     }
 
     public string GETNextGameLevel()
