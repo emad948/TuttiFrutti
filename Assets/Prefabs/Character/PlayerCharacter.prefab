@@ -152,7 +152,7 @@ GameObject:
   - component: {fileID: 2755518916081984365}
   - component: {fileID: 8356863442444209472}
   - component: {fileID: 3763358198719830094}
-  - component: {fileID: 838656417306324775}
+  - component: {fileID: 5084424238131578553}
   m_Layer: 6
   m_Name: PlayerCharacter
   m_TagString: PlayerCharacter
@@ -364,7 +364,7 @@ MonoBehaviour:
   syncInterval: 0.1
   CameraFollowPoint: {fileID: 1367700897012250989}
   DisplayText: {fileID: 5712634896146439149}
---- !u!114 &838656417306324775
+--- !u!114 &5084424238131578553
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -373,9 +373,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3463925584030421660}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b8694710d963b747b177cacdbcb34ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 4513479c6f6cb2a48a5f4c8386da26df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!65 &2085618650726779839
 BoxCollider:
   m_ObjectHideFlags: 0
