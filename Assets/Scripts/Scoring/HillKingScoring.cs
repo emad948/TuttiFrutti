@@ -13,7 +13,7 @@ public class HillKingScoring : NetworkBehaviour
     private string currentLevel;
     private List<NetworkPlayer> players;
     [HideInInspector]
-    public int currentZoneIndex;
+    [SyncVar] public int currentZoneIndex;
     public GlobalTime _globalTime;
 
     public LightboxManager lightboxes;
@@ -21,7 +21,6 @@ public class HillKingScoring : NetworkBehaviour
     private bool onlyOnce = true;
     private List<int> zoneIndices = new List<int>(){1, 2, 3};
     private int counter = -1;
-        
     public float sceneChangeTimer;    // TODO change to correct value
     public bool testingMode = true;         
     
@@ -57,7 +56,7 @@ public class HillKingScoring : NetworkBehaviour
         counter++;
         counter %= 3;
         currentZoneIndex = zoneIndices[counter];
-        lightboxes.setActiveBox(currentZoneIndex);
+        
     }
     
     private void HillKing()
