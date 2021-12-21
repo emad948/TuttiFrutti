@@ -2713,6 +2713,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   landingPagePanel: {fileID: 981687556}
+  steamToggleButton: {fileID: 673890082}
 --- !u!1 &402753107
 GameObject:
   m_ObjectHideFlags: 0
@@ -4376,9 +4377,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1425490366}
-        m_TargetAssemblyTypeName: menuController, Assembly-CSharp
-        m_MethodName: toggleUseSteam
+      - m_Target: {fileID: 358973367}
+        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
+        m_MethodName: toggleSteamButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9895,7 +9896,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testMode: 1
-  toggleSteamButton: {fileID: 673890082}
 --- !u!1 &1455043210
 GameObject:
   m_ObjectHideFlags: 0

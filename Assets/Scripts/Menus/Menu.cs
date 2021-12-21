@@ -14,6 +14,15 @@ public class Menu : MonoBehaviour
     private void Start()
     {
         _networkManager = GameObject.FindGameObjectWithTag("NetworkManager");
+            
+        if (_networkManager.GetComponent<menuController>().getUseSteam())
+        {
+            steamToggleButton.GetComponentInChildren<TMP_Text>().color = Color.green;
+        }
+        else
+        {
+            steamToggleButton.GetComponentInChildren<TMP_Text>().color = Color.red;
+        }
     }
     
     public void hostingLobby()
