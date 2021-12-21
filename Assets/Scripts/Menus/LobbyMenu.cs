@@ -12,7 +12,7 @@ public class LobbyMenu : MonoBehaviour
     [SerializeField] private GameObject lobbyUi;
     [SerializeField] private Button startGameButton;
     [SerializeField] private TMP_Text[] playersNameTexts = new TMP_Text[4];
-    [SerializeField] private Menu menu;
+    [SerializeField] private menuController _menuController;
 
     private void Start()
     {
@@ -44,7 +44,7 @@ public class LobbyMenu : MonoBehaviour
         }
         
         //StartGame button will be disabled if players are less than 2
-        if (!menu.testMode)
+        if (!_menuController.testMode)
         {
             startGameButton.interactable = players.Count > 1;
         }

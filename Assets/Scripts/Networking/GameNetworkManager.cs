@@ -13,7 +13,7 @@ public class GameNetworkManager : NetworkManager
     [SerializeField] private GameObject characterPrefab;
     //public GameObject steamController;
     private Transport steamTransport;
-    private Menu _menu;
+    private menuController _menuController;
     private GameLevelsManager _gameLevelsManager;
     private bool _gameStarted;
     public List<NetworkPlayer> PlayersList { get; } = new List<NetworkPlayer>();
@@ -23,7 +23,7 @@ public class GameNetworkManager : NetworkManager
     public override void Awake()
     {
         base.Awake();
-        _menu = GameObject.FindGameObjectWithTag("MainMenuDisplayTag").GetComponent<Menu>();
+        _menuController = GetComponent<menuController>();
     }
     
     public void setUseSteam(bool useSteam)
@@ -70,7 +70,7 @@ public class GameNetworkManager : NetworkManager
 
     public void StartGame()
     {
-        if (!_menu.testMode && PlayersList.Count < 2) return;
+        if (!_menuController.testMode && PlayersList.Count < 2) return;
 
         _gameStarted = true;
 
@@ -86,9 +86,9 @@ public class GameNetworkManager : NetworkManager
 
         var playerName = "";
 
-        if (_menu.getUseSteam())
+        if (_menuController.getUseSteam())
         {
-            var steamId = SteamMatchmaking.GetLobbyMemberByIndex(_menu.LobbyId, numPlayers - 1);
+            var steamId = SteamMatchmaking.GetLobbyMemberByIndex(_menuController.LobbyId, numPlayers - 1);
             playerName = SteamFriends.GetFriendPersonaName(steamId);
         }
         else
