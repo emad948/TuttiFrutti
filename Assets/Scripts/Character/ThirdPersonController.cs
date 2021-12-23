@@ -340,7 +340,7 @@ namespace StarterAssets {
 			// --- Syncing to globals ---
 			updateLocally(transform.position, transform.rotation, _speed, Grounded);
 			if (isServer) return;
-			updateOnServer(transform.position, transform.rotation, _speed, Grounded);
+			CmdUpdateOnServer(transform.position, transform.rotation, _speed, Grounded);
 		}
 
 		void updateLocally(Vector3 pos, Quaternion rot, float sp, bool gr)
@@ -352,7 +352,7 @@ namespace StarterAssets {
 		}
 		
 		// Updates globales on server instance:
-		[Command] void updateOnServer(Vector3 pos, Quaternion rot, float sp, bool gr) => updateLocally(pos, rot, sp, gr);
+		[Command] void CmdUpdateOnServer(Vector3 pos, Quaternion rot, float sp, bool gr) => updateLocally(pos, rot, sp, gr);
 
 
 	} // class
