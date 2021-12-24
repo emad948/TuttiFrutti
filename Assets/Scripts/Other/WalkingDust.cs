@@ -31,7 +31,6 @@ public class WalkingDust : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(controller.grounded);
         if (isLanding()) emitMoreOnLanding();
         //print("controlSpeed" +  control.speed + " controlGrounded " + control.grounded);
         if (controller.speed < MinEmissionSpeed || !controller.grounded)
