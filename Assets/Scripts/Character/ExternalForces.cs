@@ -7,75 +7,29 @@ using UnityEngine;
 
 public class ExternalForces : NetworkBehaviour
 {
-    private static ExternalForces identity;
-    public static ExternalForces singleton{get{
-        if (identity == null) identity = new ExternalForces();
-        
-        return identity;
-    }
-    }
-    private ExternalForces(){
-        Start();
-    }
+    [HideInInspector]
+    [SyncVar] public Vector3 force = Vector3.zero;
+    public float forceMult = 1f;
+    public float forceDuration = 0.1f;
 
-
-    private readonly SyncList<Force> globalForces = new SyncList<Force>();
-    public float forceMult = 0.01f;
-    public float timeMult = 100;
-
-    public float minThreshold = 0.0001f;
-    public Vector3 force(GameObject g){
-        Vector3 result = Vector3.zero;
-        foreach (Force f in globalForces){
-             if (f.target == g)
-             result += f.current;
-        }
-        return result;
+    public float minThreshold = 0.0001f;    
+    public void addForce(Vector3 force){
+        this.force += force;
+        if (!isServer) CmdSyncForce(force);
     }
-
-    void Awake(){
-        DontDestroyOnLoad(gameObject);
-        Start();
-    }
-    void Start(){
-        identity = this;
-    }
-    [Command (requiresAuthority=false)] public void CmdPushCharacter(GameObject target, GameObject source){
-        Vector3 sourceSpeed = source.transform.rotation * Vector3.forward * forceMult;
-        Force newForce = new Force(sourceSpeed, target);
-        globalForces.Add(newForce);
-    } 
+    [Command (requiresAuthority=false)] private void CmdSyncForce(Vector3 force){this.force = force;}
     
     void Update(){
-        if (!isServer) return;
-        foreach (Force force in globalForces){
-            if (force.final.magnitude - force.current.magnitude < minThreshold){
-                 globalForces.Remove(force);
-                 Update();
-                 return;
-            }
-            force.current = Vector3.Lerp(force.current, force.final, Time.deltaTime * timeMult);
-            if (globalForces.Count > 0) print(globalForces.ToString());
-        }
-        
+        if (!hasAuthority) return;
+        updateForce();
+        if (!isServer) CmdSyncForce(force);   
     }
-    
-    private class Force {
-        public Force(Vector3 force, GameObject target){
-            final = force;
-            current = Vector3.zero;
+    void updateForce(){
+        if (force.magnitude < 0.1) {
+            force = Vector3.zero;
+            return;
         }
-
-        public Force(){
-            final = current = Vector3.zero;
-            target = null;
-        }
-        public Vector3 final;
-        public Vector3 current;
-        public NetworkTransform target;
-        public string toString(){
-            return current + " " + final + " " + target.tag;
-        }
+        force = Vector3.Slerp(force, Vector3.zero, Time.deltaTime / forceDuration);
     }
 }
 

@@ -154,6 +154,7 @@ GameObject:
   - component: {fileID: 3763358198719830094}
   - component: {fileID: 5084424238131578553}
   - component: {fileID: 8402373153525404841}
+  - component: {fileID: 8876619450768964872}
   m_Layer: 6
   m_Name: PlayerCharacter
   m_TagString: PlayerCharacter
@@ -296,6 +297,7 @@ MonoBehaviour:
   BottomClamp: -30
   CameraAngleOverride: 0
   LockCameraPosition: 0
+  speed: 0
   _animator: {fileID: 4786338706355925163}
 --- !u!114 &6751334487698838899
 MonoBehaviour:
@@ -408,6 +410,24 @@ MonoBehaviour:
   showGizmos: 0
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+--- !u!114 &8876619450768964872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3463925584030421660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8694710d963b747b177cacdbcb34ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  force: {x: 0, y: 0, z: 0}
+  forceMult: 1
+  timeMult: 10
+  minThreshold: 0.0001
 --- !u!65 &2085618650726779839
 BoxCollider:
   m_ObjectHideFlags: 0
