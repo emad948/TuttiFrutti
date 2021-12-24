@@ -11,7 +11,7 @@ public class PlayerCollision : NetworkBehaviour{
         var target = hit.gameObject;
         //print(other.tag);
         if (target.tag == "PlayerCharacter"){
-            ExternalForces.singleton.pushCharacter(gameObject, target);
+            ExternalForces.singleton.CmdPushCharacter(target, gameObject);
          }
     }
 }

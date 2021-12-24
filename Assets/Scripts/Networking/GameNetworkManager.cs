@@ -163,11 +163,10 @@ public class GameNetworkManager : NetworkManager
         ClientOnDisconnected?.Invoke();
         
         /*  If disconnected from server for any reason, go back to main menu.
-        *** I don't know, how to reset the client tho, therefore, another connection is currently not possible */
-        SceneManager.LoadScene(0);
-        
+        *** I don't know, how to reset the client tho, therefore, another connection is currently not possible */        
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        SceneManager.LoadScene(0);
     }
 
     public override void OnStopClient()
