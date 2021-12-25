@@ -9,10 +9,8 @@ public class ExternalForces : NetworkBehaviour
 {
     [HideInInspector]
     [SyncVar] public Vector3 force = Vector3.zero;
-    public float forceMult = 1f;
-    public float forceDuration = 0.1f;
 
-    public float minThreshold = 0.0001f;    
+    public float forceDuration = 0.1f;  
     public void addForce(Vector3 force){
         this.force += force;
         if (!isServer) CmdSyncForce(force);
@@ -21,10 +19,11 @@ public class ExternalForces : NetworkBehaviour
     
     void Update(){
         if (!hasAuthority) return;
-        updateForce();
+        fadeForce();
         if (!isServer) CmdSyncForce(force);   
     }
-    void updateForce(){
+
+    void fadeForce(){
         if (force.magnitude < 0.1) {
             force = Vector3.zero;
             return;
