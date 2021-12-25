@@ -184,6 +184,8 @@ namespace StarterAssets {
 		{
 			// hasAuthority-check already in Update()
 
+			Vector3 externalForce = GetComponent<ExternalForces>().force;
+
 			// set target speed based on move speed, sprint speed and if sprint is pressed
 			float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 
@@ -194,7 +196,7 @@ namespace StarterAssets {
 			if (_input.move == Vector2.zero) targetSpeed = 0.0f;
 
 			// a reference to the players current horizontal velocity
-			float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
+			float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude - externalForce.magnitude;
 
 			float speedOffset = 0.1f;
 			float inputMagnitude = _input.analogMovement ? _input.move.magnitude : 1f;
@@ -230,7 +232,6 @@ namespace StarterAssets {
 			}
 			
 			Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
-			Vector3 externalForce = GetComponent<ExternalForces>().force;
 			
 			if (externalForce.magnitude > 0.1) print(externalForce);
 			// move the player
