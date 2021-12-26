@@ -44,9 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65aea2cfc072b8844af5034632b2cb78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  control: {fileID: 0}
+  controller: {fileID: 0}
   MinEmissionSpeed: 2
-  delay: 1
+  repeatDelay: 1
 --- !u!1 &6519685949576409923
 GameObject:
   m_ObjectHideFlags: 0
