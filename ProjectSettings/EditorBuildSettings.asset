@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/Level_Crown.unity
     guid: 244f82909ecd8e34eaf882ad098d2348
   - enabled: 1
+    path: Assets/Scenes/Levels/Level_RunTheLine.unity
+    guid: 054a85dbe9ac04b41ad85ef607b76336
+  - enabled: 1
     path: Assets/Scenes/ScoreBoard.unity
     guid: 4ce4c02b890813540ae8725391b8890f
   - enabled: 1

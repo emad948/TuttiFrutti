@@ -36,7 +36,7 @@ public class GameLevelsManager : NetworkBehaviour
         }
     }   
     private string[] _gameLevels = {"Level_Crown"}; 
-    //private string[] _gameLevels = {"Level_HillKing"}; 
+    //private string[] _gameLevels = {"Level_HillKing", "Level_Crown", "Level_RunTheLine"}; 
     private List<NetworkPlayer> players;
     private bool gameIsRunning = false;     // TODO figure out when gameIsRunning and change accordingly
     
@@ -87,6 +87,9 @@ public class GameLevelsManager : NetworkBehaviour
         {
             case "Level_HillKing":
                 ChangeScene("Level_HillKing");
+                break;
+            case "Level_RunTheLine":
+                ChangeScene("Level_RunTheLine");
                 break;
             case "Level_Crown":
                 Debug.Log("Here1");
