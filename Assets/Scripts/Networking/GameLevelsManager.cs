@@ -35,8 +35,8 @@ public class GameLevelsManager : NetworkBehaviour
             DontDestroyOnLoad(gameObject); 
         }
     }   
-    
-    private string[] _gameLevels = {"Level_HillKing"}; 
+    private string[] _gameLevels = {"Level_Crown"}; 
+    //private string[] _gameLevels = {"Level_HillKing"}; 
     private List<NetworkPlayer> players;
     private bool gameIsRunning = false;     // TODO figure out when gameIsRunning and change accordingly
     
@@ -88,6 +88,10 @@ public class GameLevelsManager : NetworkBehaviour
             case "Level_HillKing":
                 ChangeScene("Level_HillKing");
                 break;
+            case "Level_Crown":
+                Debug.Log("Here1");
+                ChangeScene("Level_Crown");
+                break;
             case "WinnerBoard":
                 ChangeScene("WinnerBoard");
                 break;
@@ -103,7 +107,7 @@ public class GameLevelsManager : NetworkBehaviour
     {
         ((GameNetworkManager) NetworkManager.singleton).ServerChangeScene(scene);
 
-        //Debug.Log("after game scene changed");
+        Debug.Log("after game scene changed");
     }
 
     public string GETNextGameLevel()
