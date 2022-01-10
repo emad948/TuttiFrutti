@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
 public class ConnectionController : NetworkBehaviour
@@ -9,7 +10,7 @@ public class ConnectionController : NetworkBehaviour
     [SyncVar] private bool hostStopped = false;
 
     // Update is called once per frame
-    void Update()
+    void Update()   
     {
         if (!isServer && hostStopped)
         {
@@ -28,6 +29,7 @@ public class ConnectionController : NetworkBehaviour
         if (isServer)
         {
             //NetworkServer.DisconnectAll();
+            hostStopped = true;
             Invoke("disconnecting",0.5f);
         }
         else
