@@ -35,8 +35,8 @@ public class GameLevelsManager : NetworkBehaviour
             DontDestroyOnLoad(gameObject); 
         }
     }   
-    private string[] _gameLevels = {"Level_Crown"}; 
-    //private string[] _gameLevels = {"Level_HillKing", "Level_Crown", "Level_RunTheLine"}; 
+    //private string[] _gameLevels = {"Level_Crown"}; 
+    private string[] _gameLevels = {"Level_HillKing", "Level_Crown", "Level_RunTheLine"}; 
     private List<NetworkPlayer> players;
     private bool gameIsRunning = false;     // TODO figure out when gameIsRunning and change accordingly
     
