@@ -16,6 +16,6 @@ public class LevelUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        score.text = NetworkClient.localPlayer.GetComponent<NetworkPlayer>().GetScore();
+        score.text = NetworkClient.localPlayer.GetComponent<NetworkPlayer>().GetScore(false);
     }
 }

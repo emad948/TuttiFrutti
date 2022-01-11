@@ -10,27 +10,33 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-// TODO when backToMenu - implement first backToMenu after all levels were played
-
 public class GameLevelsManager : NetworkBehaviour
 {
     public static GameLevelsManager _instance;
-
+    
     void Awake()
     {
         if (_instance != null)
         {
-            Destroy(gameObject);
+            if (SceneManager.GetActiveScene().name == "MainMenu")
+            {
+                Destroy(_instance.gameObject);
+                _instance = this;
+                DontDestroyOnLoad(gameObject); 
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
         else
         {
             _instance = this;
-            DontDestroyOnLoad(gameObject); // uncomment?
+            DontDestroyOnLoad(gameObject); 
         }
     }   
-    
-    
-    private string[] _gameLevels = {"Level_HillKing"}; 
+    //private string[] _gameLevels = {"Level_Crown"}; 
+    private string[] _gameLevels = {"Level_HillKing", "Level_Crown", "Level_RunTheLine"}; 
     private List<NetworkPlayer> players;
     private bool gameIsRunning = false;     // TODO figure out when gameIsRunning and change accordingly
     
@@ -52,30 +58,29 @@ public class GameLevelsManager : NetworkBehaviour
     public void AfterLevelEnd()
     {
         players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
-        
-        //Update total scores for all players
+        players.Sort();
+        var counter = players.Count;
         foreach (NetworkPlayer player in players)
         {
-            player.UpdateTotalScore();
+            player.UpdateTotalScore(counter);
+            counter--;
+            // TODO @Colin: does not care about even points 
         }
         
-        //Switch to ScoringBoard to 10s then to the next level
-        ((GameNetworkManager) NetworkManager.singleton).ServerChangeScene("ScoringBoard");
-        
-        //Invoke("startLevel", 2f);
+        ((GameNetworkManager) NetworkManager.singleton).ServerChangeScene("ScoreBoard");
+        Invoke("startLevel", 5f);
     }
 
     public void startLevel()
     {
-        // if (gameIsRunning)
-        // {
-        //     foreach (NetworkPlayer player in players)
-        //     {
-        //         player.ResetCurrentScore();
-        //     }
-        // }
-        
-        
+        if (gameIsRunning)
+        {
+            foreach (NetworkPlayer player in players)
+            {
+                player.ResetCurrentScore();
+            }
+        }
+
         gameIsRunning = true;
         string level = GETNextGameLevel();
         switch (level)
@@ -83,25 +88,22 @@ public class GameLevelsManager : NetworkBehaviour
             case "Level_HillKing":
                 ChangeScene("Level_HillKing");
                 break;
+            case "Level_RunTheLine":
+                ChangeScene("Level_RunTheLine");
+                break;
+            case "Level_Crown":
+                Debug.Log("Here1");
+                ChangeScene("Level_Crown");
+                break;
+            case "WinnerBoard":
+                ChangeScene("WinnerBoard");
+                break;
             default:
-                SceneManager.LoadScene(0);  // TODO correct?
-                //ChangeScene("MainMenu");
                 Debug.Log("Unknown scene name");
                 break;
         }
     }
-
-
-    public void EndLevel()
-    {
-        //TODO @Emad add end game scene if all levels are played
-        if (_gameLevels.Length == 0) ChangeScene("WinnerScene");
-
-        // ChangeScene("Level_HillKing");
-    }
-
-
-
+    
     #region HelperFunctions
 
     public void ChangeScene(string scene)
@@ -113,8 +115,7 @@ public class GameLevelsManager : NetworkBehaviour
 
     public string GETNextGameLevel()
     {
-        //TODO @Emad change to End Game Scene
-        if (_gameLevels.Length == 0) return "WinnerScene";
+        if (_gameLevels.Length == 0) return "WinnerBoard";
         var nextGameLevel = _gameLevels[0];
         _gameLevels = _gameLevels.Skip(1).ToArray();
         return nextGameLevel;

@@ -6,6 +6,10 @@ TagManager:
   tags:
   - PlayerCharacter
   - CinemachineTarget
+  - MainMenuDisplayTag
+  - GameLevelsManager
+  - NetworkManager
+  - LandingPage
   layers:
   - Default
   - TransparentFX

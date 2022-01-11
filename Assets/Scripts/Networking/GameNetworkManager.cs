@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using kcp2k;
 using Mirror;
+using Mirror.FizzySteam;
 using Steamworks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,23 +10,28 @@ using Random = UnityEngine.Random;
 
 public class GameNetworkManager : NetworkManager
 {
-    [SerializeField] private Menu _menu;
     [SerializeField] private GameObject characterPrefab;
-    [SerializeField] private Transport steamTransport;
-
+    //public GameObject steamController;
+    private Transport steamTransport;
+    private menuController _menuController;
     private GameLevelsManager _gameLevelsManager;
-
-
     private bool _gameStarted;
-
     public List<NetworkPlayer> PlayersList { get; } = new List<NetworkPlayer>();
-
     public static event Action ClientOnConnected;
     public static event Action ClientOnDisconnected;
 
+    public override void Awake()
+    {
+        base.Awake();
+        _menuController = GetComponent<menuController>();
+    }
+    
     public void setUseSteam(bool useSteam)
     {
+        //steamTransport = steamController.GetComponent<FizzySteamworks>();
+        steamTransport = GetComponent<FizzySteamworks>();
         Transport kcpTransport = GetComponent<KcpTransport>();
+        //var steamManager = steamController.GetComponent<SteamManager>();
         var steamManager = GetComponent<SteamManager>();
         steamManager.enabled = useSteam;
         steamTransport.enabled = useSteam;
@@ -36,7 +42,7 @@ public class GameNetworkManager : NetworkManager
 
         Transport.activeTransport = transport;
 
-        print("GameNetworkManager: useSteam=" + useSteam);
+        Debug.Log("UsingSteam: " + useSteam);
     }
 
     #region Server
@@ -64,16 +70,14 @@ public class GameNetworkManager : NetworkManager
 
     public void StartGame()
     {
-        if (!_menu.testMode && PlayersList.Count < 2) return;
+        if (!_menuController.testMode && PlayersList.Count < 2) return;
 
         _gameStarted = true;
 
         //Game levels manager will be created we the game starts
-        _gameLevelsManager = new GameLevelsManager();
+        _gameLevelsManager = GameObject.FindGameObjectWithTag("GameLevelsManager").GetComponent<GameLevelsManager>();
         
         _gameLevelsManager.startLevel();
-        
-        // GameObject.FindObjectOfType<GameLevelsManager>().startLevel();
     }
     
     public override void OnServerAddPlayer(NetworkConnection conn)
@@ -82,9 +86,9 @@ public class GameNetworkManager : NetworkManager
 
         var playerName = "";
 
-        if (_menu.useSteam)
+        if (_menuController.getUseSteam())
         {
-            var steamId = SteamMatchmaking.GetLobbyMemberByIndex(Menu.LobbyId, numPlayers - 1);
+            var steamId = SteamMatchmaking.GetLobbyMemberByIndex(_menuController.LobbyId, numPlayers - 1);
             playerName = SteamFriends.GetFriendPersonaName(steamId);
         }
         else
@@ -128,18 +132,19 @@ public class GameNetworkManager : NetworkManager
     }
 
 
-    public void LeaveGame()
-    {
-        if (NetworkServer.active && NetworkClient.isConnected)
-        {
-            NetworkManager.singleton.StopHost();
-        }
-        else
-        {
-            NetworkManager.singleton.StopClient();
-            SceneManager.LoadScene(0);
-        }
-    }
+    // public void LeaveGame()
+    // {
+    //     // SceneManager.LoadScene(0);   // or up here?
+    //     if (NetworkServer.active && NetworkClient.isConnected)
+    //     {
+    //         NetworkManager.singleton.StopHost();
+    //     }
+    //     else
+    //     {
+    //         NetworkManager.singleton.StopClient();
+    //     }
+    //     SceneManager.LoadScene(0);
+    // }
     
 
     #endregion
@@ -156,6 +161,12 @@ public class GameNetworkManager : NetworkManager
     {
         base.OnClientDisconnect(conn);
         ClientOnDisconnected?.Invoke();
+        
+        /*  If disconnected from server for any reason, go back to main menu.
+        *** I don't know, how to reset the client tho, therefore, another connection is currently not possible */        
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        SceneManager.LoadScene(0);
     }
 
     public override void OnStopClient()
@@ -167,8 +178,6 @@ public class GameNetworkManager : NetworkManager
     #endregion
 
     #region HelperFunctions
-
-    public GameLevelsManager GETGameLevelsManager() => _gameLevelsManager;
-
+    
     #endregion
 }

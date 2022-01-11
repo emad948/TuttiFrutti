@@ -30,7 +30,7 @@ namespace StarterAssets {
 		public float FallTimeout = 0.15f;
 		[Header("Player Grounded")]
 		[Tooltip("If the character is grounded or not. Not part of the CharacterController built in grounded check")]
-		public bool Grounded = true;
+		[SyncVar] public bool grounded = true;
 		[Tooltip("Useful for rough ground")]
 		public float GroundedOffset = -0.14f;
 		[Tooltip("The radius of the grounded check. Should match the radius of the CharacterController")]
@@ -53,7 +53,8 @@ namespace StarterAssets {
 		private float _cinemachineTargetYaw;
 		private float _cinemachineTargetPitch;
 		// player
-		private float _speed;
+		[HideInInspector, SyncVar]
+		public float speed; // accessed in particle system
 		private float _animationBlend;
 		private float _targetRotation = 0.0f;
 		private float _rotationVelocity;
@@ -82,12 +83,12 @@ namespace StarterAssets {
 		[SyncVar] Quaternion globalRotation;
 		[SyncVar] float globalSpeed;
 
-		[SyncVar] bool globalGrounded;
 		// --- Private ---
 		private GlobalTime _globalTime;
 		private NetworkIdentity _identity; // is server or client?
+		private Vector3 externalForce = Vector3.zero;
 		// ---------------
-
+		
 		override public void OnStartAuthority()
 		{
 			// get a reference to our main camera
@@ -96,10 +97,10 @@ namespace StarterAssets {
 				_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
 			}
 		}
-		
-		public float speed{get => globalSpeed;}
-		public bool grounded{get => globalGrounded;}
 
+		public void addForce(Vector3 vec){
+			externalForce += vec;
+		}
 
 		private void Start()
 		{
@@ -130,7 +131,9 @@ namespace StarterAssets {
 				GroundedCheck();
 				Move();
 			}
+			// *** WE ARE NO LONGER SYNCING TRANSFORMS HERE. Done in NetworkTransform-Component
 			SyncGlobals();
+			
 		}
 
 		private void LateUpdate()
@@ -151,12 +154,12 @@ namespace StarterAssets {
 		{
 			// set sphere position, with offset
 			Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z);
-			Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers, QueryTriggerInteraction.Ignore);
+			grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers, QueryTriggerInteraction.Ignore);
 		
 			// update animator if using character
 			if (_hasAnimator)
 			{
-				_animator.SetBool(_animIDGrounded, Grounded);
+				_animator.SetBool(_animIDGrounded, grounded);
 			}
 		}
 
@@ -181,6 +184,8 @@ namespace StarterAssets {
 		{
 			// hasAuthority-check already in Update()
 
+			Vector3 externalForce = GetComponent<ExternalForces>().force;
+
 			// set target speed based on move speed, sprint speed and if sprint is pressed
 			float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 
@@ -191,8 +196,7 @@ namespace StarterAssets {
 			if (_input.move == Vector2.zero) targetSpeed = 0.0f;
 
 			// a reference to the players current horizontal velocity
-			float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
-
+			float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude - OurLib.horizontal(externalForce).magnitude;
 			float speedOffset = 0.1f;
 			float inputMagnitude = _input.analogMovement ? _input.move.magnitude : 1f;
 
@@ -201,14 +205,14 @@ namespace StarterAssets {
 			{
 				// creates curved result rather than a linear one giving a more organic speed change
 				// note T in Lerp is clamped, so we don't need to clamp our speed
-				_speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude, Time.deltaTime * SpeedChangeRate);
+				speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude, Time.deltaTime * SpeedChangeRate);
 
 				// round speed to 3 decimal places
-				_speed = Mathf.Round(_speed * 1000f) / 1000f;
+				speed = Mathf.Round(speed * 1000f) / 1000f;
 			}
 			else
 			{
-				_speed = targetSpeed;
+				speed = targetSpeed;
 			}
 			_animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
 
@@ -227,9 +231,10 @@ namespace StarterAssets {
 			}
 			
 			Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
-
+			
+			if (externalForce.magnitude > 0.1) print(externalForce);
 			// move the player
-			_controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+			_controller.Move(externalForce * Time.deltaTime + targetDirection.normalized * (speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 
 			// update animator if using character
 			if (_hasAnimator)
@@ -242,7 +247,7 @@ namespace StarterAssets {
 			
 		private void JumpAndGravity()
 		{
-			if (Grounded)
+			if (grounded)
 			{
 				// reset the fall timeout timer
 				_fallTimeoutDelta = FallTimeout;
@@ -321,34 +326,22 @@ namespace StarterAssets {
 			Color transparentGreen = new Color(0.0f, 1.0f, 0.0f, 0.35f);
 			Color transparentRed = new Color(1.0f, 0.0f, 0.0f, 0.35f);
 
-			if (Grounded) Gizmos.color = transparentGreen;
+			if (grounded) Gizmos.color = transparentGreen;
 			else Gizmos.color = transparentRed;
 			
 			// when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
 			Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z), GroundedRadius);
 		}
-			private void SyncGlobals(){
-			if (!hasAuthority) {// controlled by other player | smoothing relative to syncinterval :)
-				transform.position = Vector3.Lerp(transform.position, globalPosition, Time.fixedDeltaTime / syncInterval);
-				transform.rotation = Quaternion.Lerp(transform.rotation, globalRotation, Time.fixedDeltaTime / syncInterval);
-				return;
-			}
-			// --- Syncing to globals ---
-			updateLocally(transform.position, transform.rotation, _speed, Grounded);
-			if (isServer) return;
-			updateOnServer(transform.position, transform.rotation, _speed, Grounded);
-		}
 
-		void updateLocally(Vector3 pos, Quaternion rot, float sp, bool gr)
-		{
-			globalPosition = pos;
-			globalRotation = rot;
-			globalSpeed = sp;
-			globalGrounded = gr;
+		// *** WE ARE NO LONGER SYNCING TRANSFORMS HERE. Done in NetworkTransform-Component
+		 	private void SyncGlobals(){
+				 if (!hasAuthority || isServer) return;
+				 CmdUpdateOnServer(speed, grounded);
+			}
+		// // Updates globales on server instance:
+		[Command] void CmdUpdateOnServer(float speed, bool grounded){
+			this.speed = speed; this.grounded = grounded; // we need these for locally calculated particle effects of other players.
 		}
-		
-		// Updates globales on server instance:
-		[Command] void updateOnServer(Vector3 pos, Quaternion rot, float sp, bool gr) => updateLocally(pos, rot, sp, gr);
 
 
 	} // class

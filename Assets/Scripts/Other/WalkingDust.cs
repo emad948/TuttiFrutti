@@ -4,12 +4,13 @@ using UnityEngine;
 using StarterAssets;
 using Mirror;
 
+// Plays particles on characters feet while landing, running and walking
 public class WalkingDust : MonoBehaviour
 {
-    public ThirdPersonController control;
+    public ThirdPersonController controller;
     public float MinEmissionSpeed = 4f;
 
-    public float delay = 1f;
+    public float repeatDelay = 1f;
 
     private float _lastFired;
     private ParticleSystem _particles;
@@ -30,8 +31,29 @@ public class WalkingDust : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isLanding())
+        if (isLanding()) emitMoreOnLanding();
+        //print("controlSpeed" +  control.speed + " controlGrounded " + control.grounded);
+        if (controller.speed < MinEmissionSpeed || !controller.grounded)
         {
+            _particles.Stop();
+            return;
+        }
+
+        if (Time.time > _lastFired + repeatDelay)
+        {
+            #pragma warning disable 618
+            _particles.emissionRate = Mathf.Sqrt(controller.speed);
+            _particles.startLifetime = _stdLifeTime * Mathf.Sqrt(controller.speed) / Mathf.Sqrt(controller.SprintSpeed);
+            _particles.startColor = new Color(0, 0, 0, Mathf.Sqrt(controller.speed) / controller.SprintSpeed);
+            #pragma warning restore 618
+            _particles.Play();
+            _lastFired = Time.time;
+            //print("PARTICLES!");
+        }
+    }
+
+    private void emitMoreOnLanding()
+    {
             #pragma warning disable 618
             _particles.startColor = new Color(0, 0, 0, 200);
             _particles.startLifetime = _stdLifeTime * 2;
@@ -40,33 +62,12 @@ public class WalkingDust : MonoBehaviour
             _particles.Play();
             //_particles.startSpeed = originalSpeed;
             _lastFired = Time.time;
-            return;
-        }
-
-        //print("controlSpeed" +  control.speed + " controlGrounded " + control.grounded);
-        if (control.speed < MinEmissionSpeed || !control.grounded)
-        {
-            _particles.Stop();
-            return;
-        }
-
-        if (Time.time > _lastFired + delay)
-        {
-            #pragma warning disable 618
-            _particles.emissionRate = Mathf.Sqrt(control.speed);
-            _particles.startLifetime = _stdLifeTime * Mathf.Sqrt(control.speed) / Mathf.Sqrt(control.SprintSpeed);
-            _particles.startColor = new Color(0, 0, 0, Mathf.Sqrt(control.speed) / control.SprintSpeed);
-            #pragma warning restore 618
-            _particles.Play();
-            _lastFired = Time.time;
-            //print("PARTICLES!");
-        }
+            return;        
     }
-
     private bool isLanding()
     {
-        if (!control.grounded) return _wasGrounded = false;
-        if (!_wasGrounded && control.grounded) return _wasGrounded = true;
+        if (!controller.grounded) return _wasGrounded = false;
+        if (!_wasGrounded && controller.grounded) return _wasGrounded = true;
         return false;
     }
 }

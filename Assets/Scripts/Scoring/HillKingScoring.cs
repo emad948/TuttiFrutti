@@ -12,27 +12,28 @@ public class HillKingScoring : NetworkBehaviour
 {
     private string currentLevel;
     private List<NetworkPlayer> players;
-    public int currentZoneIndex;
+    [HideInInspector]
+    [SyncVar] public int currentZoneIndex;
     public GlobalTime _globalTime;
 
     public LightboxManager lightboxes;
     private float _time;
     private bool onlyOnce = true;
     private List<int> zoneIndices = new List<int>(){1, 2, 3};
-    private int counter = 0;
-        
-    public float sceneChangeTimer = 0f;    // TODO change to correct value
+    private int counter = -1;
+    public float sceneChangeTimer;    // TODO change to correct value
     public bool testingMode = true;         
     
     private void Start()
     {
         if (!isServer) return;
         players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
+        _globalTime = FindObjectOfType<GlobalTime>();
         currentZoneIndex = 1;
         //shuffling zones 
         var rnd = new System.Random();
         zoneIndices = zoneIndices.OrderBy(item => rnd.Next()).ToList();
-        InvokeRepeating("changeZoneIndex",Math.Abs(_globalTime._time),30f);
+        InvokeRepeating("changeZoneIndex",Math.Abs(_globalTime._time),50f);
         InvokeRepeating("HillKing", 0f, 0.25f);
     }
 
@@ -44,7 +45,7 @@ public class HillKingScoring : NetworkBehaviour
         {
             //After 90 seconds end game and go to ScoringBoard
             CancelInvoke();
-            ((GameNetworkManager) NetworkManager.singleton).GETGameLevelsManager().AfterLevelEnd();
+            GameObject.FindObjectOfType<GameLevelsManager>().AfterLevelEnd();       
             onlyOnce = false;
         }
     }
@@ -54,7 +55,7 @@ public class HillKingScoring : NetworkBehaviour
         counter++;
         counter %= 3;
         currentZoneIndex = zoneIndices[counter];
-        lightboxes.setActiveBox(currentZoneIndex);
+        
     }
     
     private void HillKing()
@@ -77,13 +78,12 @@ public class HillKingScoring : NetworkBehaviour
                             }
                         }
                     }
-
                     break;
                 case 2:
-                    // center / yellow tower
-                    if (pos.x >= 9 && pos.x <= 12.75)
+                    // yellow tower
+                    if (pos.x >= 5.75 && pos.x <= 9.75)
                     {
-                        if (pos.z >= 1.25 && pos.z <= 8.25)
+                        if (pos.z >= (-6.25) && pos.z <= 0.75)
                         {
                             if (pos.y >= 8.8)
                             {
@@ -91,13 +91,12 @@ public class HillKingScoring : NetworkBehaviour
                             }
                         }
                     }
-
                     break;
                 case 3:
                     // green tower
-                    if (pos.x >= (-7.5) && pos.x <= (-3.5))
+                    if (pos.x >= (-7.25) && pos.x <= (-3.25))
                     {
-                        if (pos.z >= 9.5 && pos.z <= 13.5)
+                        if (pos.z >= (-14.75) && pos.z <= (-10.75))
                         {
                             if (pos.y >= 12.8)
                             {
@@ -105,7 +104,6 @@ public class HillKingScoring : NetworkBehaviour
                             }
                         }
                     }
-
                     break;
                 default:
                     Debug.Log("Error");
@@ -120,7 +118,7 @@ public class HillKingScoring : NetworkBehaviour
         } 
         if (current is null) return;
         current.ChangeScore(1);
-        print("add point to player " + current.GetDisplayName()); // keep me!
+        //print("add point to player " + current.GetDisplayName()); // keep me!
     }
     #region Client
     

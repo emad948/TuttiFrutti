@@ -12,7 +12,7 @@ public class LobbyMenu : MonoBehaviour
     [SerializeField] private GameObject lobbyUi;
     [SerializeField] private Button startGameButton;
     [SerializeField] private TMP_Text[] playersNameTexts = new TMP_Text[4];
-    [SerializeField] private Menu menu;
+    [SerializeField] private menuController _menuController;
 
     private void Start()
     {
@@ -26,7 +26,7 @@ public class LobbyMenu : MonoBehaviour
     {
         GameNetworkManager.ClientOnConnected -= HandleClientConnected;
         NetworkPlayer.AuthorityOnGameHostStateUpdated -= AuthorityHandleGameHostStateUpdated;
-         NetworkPlayer.ClientOnInfoUpdated -= ClientHandleInfoUpdated;
+        NetworkPlayer.ClientOnInfoUpdated -= ClientHandleInfoUpdated;
         GameNetworkManager.singleton.OnDestroy();
     }
 
@@ -44,7 +44,7 @@ public class LobbyMenu : MonoBehaviour
         }
         
         //StartGame button will be disabled if players are less than 2
-        if (!menu.testMode)
+        if (!_menuController.testMode)
         {
             startGameButton.interactable = players.Count > 1;
         }
@@ -73,16 +73,15 @@ public class LobbyMenu : MonoBehaviour
         //Host
         if (NetworkServer.active && NetworkClient.isConnected)
         {
-            NetworkManager.singleton.StopHost();
-            NetworkManager.singleton.OnStopServer();
-            
+            NetworkServer.DisconnectAll();
+            ((GameNetworkManager) NetworkManager.singleton).StopHost();
+            //NetworkManager.singleton.OnStopServer();
         }
         //Client
         else
         {
-            NetworkManager.singleton.StopClient();
-
-            SceneManager.LoadScene(0);
+            ((GameNetworkManager) NetworkManager.singleton).StopClient();
         }
+        SceneManager.LoadScene(0);
     }
 }

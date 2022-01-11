@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Threading;
-
-public class CoinManager : MonoBehaviour {
+using Mirror;
+public class CoinManager : NetworkBehaviour {
     private static CoinManager instance;
     public static CoinManager singleton() {
         if (instance == null) instance = new CoinManager();
@@ -18,7 +18,7 @@ public class CoinManager : MonoBehaviour {
     ArrayList totalSpawnPoints;
     ArrayList availableSpawnPoints;
     
-    ArrayList spawnedCoins;
+    [SyncVar] ArrayList spawnedCoins;
     // Start is called before the first frame update
 
 
@@ -30,7 +30,7 @@ public class CoinManager : MonoBehaviour {
         foreach (var spawnObject in GameObject.FindGameObjectsWithTag("CoinSpawn"))
             totalSpawnPoints.Add(spawnObject.transform.position);
         availableSpawnPoints = new ArrayList(totalSpawnPoints);
-        print(availableSpawnPoints.Count);
+        //print(availableSpawnPoints.Count);
         initPool();
         for (int i = 0; i < targetNum; i++) {
             spawn(selectRandomly(availableSpawnPoints));
@@ -43,9 +43,7 @@ public class CoinManager : MonoBehaviour {
         yield return new WaitForSeconds(2);
         availableSpawnPoints.Add(coin.transform.position);
         coin.BroadcastMessage("Reset");
-        coin.GetComponentInChildren<Animator>().Play(stateName: "Entry");
         
-
         coin.SetActive(false);
         spawnedCoins.Remove(coin);
 
@@ -56,12 +54,6 @@ public class CoinManager : MonoBehaviour {
     }
         StartCoroutine(coroutine());
     }
-    private void collectedDelayed(GameObject coin, GameObject collector){
-                // reset coin and adjust lists
-
-    }
-
-
     void initPool(){
         prefabPool = new GameObject[targetNum];
         for (int i = 0; i < prefabPool.Length; i++){
@@ -80,7 +72,7 @@ public class CoinManager : MonoBehaviour {
     void spawn(Vector3 position) {
         if (spawnedCoins.Count > targetNum) return;
         var spawnedCoin = firstInactive();
-        print(spawnedCoin);
+        //print(spawnedCoin);
         spawnedCoins.Add(spawnedCoin);
         availableSpawnPoints.Remove(position);
         spawnedCoin.transform.position = position;
