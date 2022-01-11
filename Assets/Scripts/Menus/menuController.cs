@@ -8,7 +8,7 @@ using TMPro;
 
 public class menuController : MonoBehaviour
 {
-    private GameObject landingPagePanel;
+    public GameObject landingPagePanel;
     [SerializeField] public bool testMode = false;
     private GameNetworkManager _gameNetworkManager;
     private bool useSteam = true;
@@ -21,7 +21,7 @@ public class menuController : MonoBehaviour
 
     private void Start()
     {
-        //landingPagePanel = GameObject.FindWithTag("LandingPage");
+        if(!landingPagePanel) landingPagePanel = GameObject.FindWithTag("LandingPage");
         _gameNetworkManager = GetComponent<GameNetworkManager>();
         //This is only for development purposes
         if(!useSteam){
