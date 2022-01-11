@@ -1033,7 +1033,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4661487925121870488, guid: 6e51ac3264cdc408fb92bbb7982e7262, type: 3}
   m_PrefabInstance: {fileID: 1425490364}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1425490365}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b0fecffa3f624585964b0d0eb21b18e, type: 3}
@@ -2773,8 +2773,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85c4b73a6d12648f3bf67fb9894efb2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gameNetworkManager: {fileID: 0}
   landingPagePanel: {fileID: 981687556}
-  steamToggleButton: {fileID: 673890082}
+  testMode: 1
+  toggleSteamButton: {fileID: 673890082}
 --- !u!1 &402753107
 GameObject:
   m_ObjectHideFlags: 0
@@ -4440,7 +4442,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 358973367}
         m_TargetAssemblyTypeName: Menu, Assembly-CSharp
-        m_MethodName: toggleSteamButton
+        m_MethodName: toggleUseSteam
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4564,7 +4566,7 @@ MonoBehaviour:
   - {fileID: 1422547624}
   - {fileID: 1649328458}
   - {fileID: 1281715618}
-  _menuController: {fileID: 1425490366}
+  _menu: {fileID: 358973367}
 --- !u!1 &728622646
 GameObject:
   m_ObjectHideFlags: 0
@@ -9938,25 +9940,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6e51ac3264cdc408fb92bbb7982e7262, type: 3}
---- !u!1 &1425490365 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6509473559915431772, guid: 6e51ac3264cdc408fb92bbb7982e7262, type: 3}
-  m_PrefabInstance: {fileID: 1425490364}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1425490366
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1425490365}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1983b51709d7b5a4fb0a51b9dcf4d42f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  landingPagePanel: {fileID: 981687556}
-  testMode: 1
 --- !u!1 &1455043210
 GameObject:
   m_ObjectHideFlags: 0
@@ -16772,7 +16755,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 358973367}
         m_TargetAssemblyTypeName: Menu, Assembly-CSharp
-        m_MethodName: hostingLobby
+        m_MethodName: HostLobby
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

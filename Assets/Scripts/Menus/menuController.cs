@@ -46,6 +46,7 @@ public class menuController : MonoBehaviour
     {
         landingPagePanel = panel;
         landingPagePanel.SetActive(false);
+        Debug.Log(useSteam.ToString());
         if (useSteam)
         {
             //TODO @Emad change lobby to public ?
