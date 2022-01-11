@@ -13,6 +13,7 @@ public class LobbyMenu : MonoBehaviour
     [SerializeField] private Button startGameButton;
     [SerializeField] private TMP_Text[] playersNameTexts = new TMP_Text[4];
     [SerializeField] private menuController _menuController;
+    private bool lobbyUiActive = false;
 
     private void Start()
     {
@@ -54,6 +55,7 @@ public class LobbyMenu : MonoBehaviour
 
     private void HandleClientConnected()
     {
+        lobbyUiActive = !lobbyUiActive;
         lobbyUi.SetActive(true);
     }
 

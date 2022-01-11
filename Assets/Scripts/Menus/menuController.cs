@@ -8,7 +8,7 @@ using TMPro;
 
 public class menuController : MonoBehaviour
 {
-    private GameObject landingPagePanel;
+    public GameObject landingPagePanel;
     [SerializeField] public bool testMode = false;
     private GameNetworkManager _gameNetworkManager;
     private bool useSteam = true;
@@ -75,7 +75,7 @@ public class menuController : MonoBehaviour
         //if lobby creation succeeded
         LobbyId = new CSteamID(callback.m_ulSteamIDLobby);
         
-        Debug.Log("here1 " + this.GetInstanceID());
+        //Debug.Log("here1 " + this.GetInstanceID());
         if (!NetworkServer.active || !NetworkClient.active)
         {
             NetworkManager.singleton.StartHost();
