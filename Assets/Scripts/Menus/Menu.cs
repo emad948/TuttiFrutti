@@ -12,9 +12,10 @@ public class Menu : MonoBehaviour
 
     //public GameObject steamController;
     [SerializeField] private GameObject landingPagePanel;
-    private bool useSteam = true;
+    public bool useSteam = true;
     [SerializeField] public bool testMode = false;
     public Button toggleSteamButton;
+    public TMP_Text steamErrorText;
 
     protected Callback<LobbyCreated_t> lobbyCreated;
     protected Callback<GameLobbyJoinRequested_t> gameLobbyJoinRequested;
@@ -29,6 +30,7 @@ public class Menu : MonoBehaviour
     private void Start()
     {
         _gameNetworkManager = GameObject.FindObjectOfType<GameNetworkManager>();
+        steamErrorText.enabled = false;
         //This is only for development purposes
         if (!useSteam)
         {
@@ -51,16 +53,25 @@ public class Menu : MonoBehaviour
 
     public void HostLobby()
     {
-        landingPagePanel.SetActive(false);
         if (useSteam)
         {
-            //TODO @Emad change lobby to public ?
-            //TODO @Emad change max players to be more than 4 
-            SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, 4);
-            return;
+            if (SteamManager.Initialized)
+            {
+                //TODO @Emad change lobby to public ?
+                landingPagePanel.SetActive(false);
+                SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, 18);
+                return;
+            }
+            else
+            {
+                steamErrorText.enabled = true;
+            }
         }
-
-        NetworkManager.singleton.StartHost();
+        else
+        {
+            landingPagePanel.SetActive(false);
+            NetworkManager.singleton.StartHost();
+        }
     }
 
     public bool getUseSteam()

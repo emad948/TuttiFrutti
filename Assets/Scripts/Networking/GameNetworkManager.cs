@@ -25,7 +25,6 @@ public class GameNetworkManager : NetworkManager
 
     public override void Awake()
     {
-        Debug.Log("abc" + GetInstanceID().ToString());
         base.Awake();
         _menu = GameObject.FindGameObjectWithTag("MainMenuDisplayTag").GetComponent<Menu>();
     }
