@@ -45,11 +45,11 @@ public class InGameMenu : NetworkBehaviour
         Panel.SetActive(true);
     }
     
-    public void LoadMenu()
+    public void LeaveGame()
     {
         if (isServer)
         {
-            NetworkServer.DisconnectAll();
+            NetworkServer.Shutdown();
             ((GameNetworkManager) NetworkManager.singleton).StopHost();
         }
         else
@@ -58,5 +58,4 @@ public class InGameMenu : NetworkBehaviour
         }
         SceneManager.LoadScene(0);
     }
-
 }

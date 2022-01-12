@@ -59,7 +59,6 @@ public class Menu : MonoBehaviour
         }
         
         NetworkManager.singleton.StartHost();
-        //_gameNetworkManager.StartHost();
     }
     
     public bool getUseSteam()
@@ -80,7 +79,6 @@ public class Menu : MonoBehaviour
         //if lobby creation succeeded
         LobbyId = new CSteamID(callback.m_ulSteamIDLobby);
         
-        Debug.Log("here1 " + this.GetInstanceID());
         if (!NetworkServer.active || !NetworkClient.active)
         {
             NetworkManager.singleton.StartHost();
