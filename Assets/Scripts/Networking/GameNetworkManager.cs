@@ -16,27 +16,24 @@ using Random = UnityEngine.Random;
 public class GameNetworkManager : NetworkManager
 {
     [SerializeField] private GameObject characterPrefab;
-
-    //public GameObject steamController;
-    private Transport steamTransport;
     private Menu _menu;
     private bool _gameStarted;
+    private Transport steamTransport;
     public List<NetworkPlayer> PlayersList { get; } = new List<NetworkPlayer>();
     public static event Action ClientOnConnected;
     public static event Action ClientOnDisconnected;
 
     public override void Awake()
     {
+        Debug.Log("abc" + GetInstanceID().ToString());
         base.Awake();
         _menu = GameObject.FindGameObjectWithTag("MainMenuDisplayTag").GetComponent<Menu>();
     }
 
     public void setUseSteam(bool useSteam)
     {
-        //steamTransport = steamController.GetComponent<FizzySteamworks>();
         steamTransport = GetComponent<FizzySteamworks>();
         Transport kcpTransport = GetComponent<KcpTransport>();
-        //var steamManager = steamController.GetComponent<SteamManager>();
         var steamManager = GetComponent<SteamManager>();
         steamManager.enabled = useSteam;
         steamTransport.enabled = useSteam;
@@ -169,15 +166,15 @@ public class GameNetworkManager : NetworkManager
     private string[] _gameLevels = {"Level_HillKing"};
 
     //private string[] _gameLevels = {"Level_HillKing", "Level_Crown", "Level_RunTheLine"}; 
-    private bool gameIsRunning = false; 
+    private bool gameIsRunning = false;
 
     private void resettingLevelsManager()
     {
-            gameIsRunning = false; 
+        gameIsRunning = false;
         PlayersList.Clear(); // also for OnClientDisconnect
-        _gameLevels = new string[]{"Level_HillKing"}; // TODO change to all levels
+        _gameLevels = new string[] {"Level_HillKing"}; // TODO change to all levels
     }
-    
+
     public override void Start()
     {
         //if (!isServer) return;

@@ -5,29 +5,32 @@ using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
 {
-
     [SerializeField] Slider volumeSlider;
 
     // Start is called before the first frame update
     void Start()
     {
-        if(!PlayerPrefs.HasKey("musicVolume")){
+        if (!PlayerPrefs.HasKey("musicVolume"))
+        {
             PlayerPrefs.SetFloat("musicVolume", 1);
         }
-            Load();
+
+        Load();
     }
 
-    public void ChangeVolume(){
+    public void ChangeVolume()
+    {
         AudioListener.volume = volumeSlider.value;
         Save();
     }
 
-    private void Load(){
+    private void Load()
+    {
         volumeSlider.value = PlayerPrefs.GetFloat("musicVolume");
-
     }
 
-    private void Save(){
+    private void Save()
+    {
         PlayerPrefs.SetFloat("musicVolume", volumeSlider.value);
     }
 }

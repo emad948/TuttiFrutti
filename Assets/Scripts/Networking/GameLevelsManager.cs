@@ -13,7 +13,7 @@ using UnityEngine.SceneManagement;
 public class GameLevelsManager : NetworkBehaviour
 {
     public static GameLevelsManager _instance;
-    
+
     void Awake()
     {
         if (_instance != null)
@@ -22,7 +22,7 @@ public class GameLevelsManager : NetworkBehaviour
             {
                 Destroy(_instance.gameObject);
                 _instance = this;
-                DontDestroyOnLoad(gameObject); 
+                DontDestroyOnLoad(gameObject);
             }
             else
             {
@@ -32,14 +32,16 @@ public class GameLevelsManager : NetworkBehaviour
         else
         {
             _instance = this;
-            DontDestroyOnLoad(gameObject); 
+            DontDestroyOnLoad(gameObject);
         }
-    }   
-    private string[] _gameLevels = {"Level_Crown"}; 
+    }
+
+    private string[] _gameLevels = {"Level_Crown"};
+
     //private string[] _gameLevels = {"Level_HillKing", "Level_Crown", "Level_RunTheLine"}; 
     private List<NetworkPlayer> players;
-    private bool gameIsRunning = false;     // TODO figure out when gameIsRunning and change accordingly
-    
+    private bool gameIsRunning = false; // TODO figure out when gameIsRunning and change accordingly
+
     private void Start()
     {
         //DontDestroyOnLoad(this);    // still necessary as this is attached in MainMenu
@@ -52,7 +54,6 @@ public class GameLevelsManager : NetworkBehaviour
     private void Update()
     {
         if (!isServer) return;
-
     }
 
     public void AfterLevelEnd()
@@ -66,7 +67,7 @@ public class GameLevelsManager : NetworkBehaviour
             counter--;
             // TODO @Colin: does not care about even points 
         }
-        
+
         ((GameNetworkManager) NetworkManager.singleton).ServerChangeScene("ScoreBoard");
         Invoke("startLevel", 5f);
     }
@@ -103,7 +104,7 @@ public class GameLevelsManager : NetworkBehaviour
                 break;
         }
     }
-    
+
     #region HelperFunctions
 
     public void ChangeScene(string scene)

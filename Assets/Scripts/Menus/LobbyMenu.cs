@@ -34,7 +34,7 @@ public class LobbyMenu : MonoBehaviour
     public void ClientHandleInfoUpdated()
     {
         List<NetworkPlayer> players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
-        for(int i=0;i<players.Count;i++)
+        for (int i = 0; i < players.Count; i++)
         {
             playersNameTexts[i].text = players[i].GetDisplayName();
         }
@@ -43,14 +43,12 @@ public class LobbyMenu : MonoBehaviour
         {
             playersNameTexts[i].text = "Waiting for player to join.";
         }
-        
+
         //StartGame button will be disabled if players are less than 2
         if (!_menu.testMode)
         {
             startGameButton.interactable = players.Count > 1;
         }
-        
-
     }
 
     private void HandleClientConnected()
@@ -64,7 +62,7 @@ public class LobbyMenu : MonoBehaviour
         //Turns the start/stop game button on/off
         startGameButton.gameObject.SetActive(state);
     }
-   
+
     public void StartGame()
     {
         NetworkClient.connection.identity.GetComponent<NetworkPlayer>().CmdStartGame();
@@ -85,6 +83,7 @@ public class LobbyMenu : MonoBehaviour
         {
             ((GameNetworkManager) NetworkManager.singleton).StopClient();
         }
+
         SceneManager.LoadScene(0);
     }
 }

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-
     public static AudioManager instance;
 
     public AudioMixerGroup mixerGroup;
@@ -49,6 +48,7 @@ public class AudioManager : MonoBehaviour
                         s.source.Pause();
                     }
                 }
+
                 audioPlaying = false;
             }
             else
@@ -57,6 +57,7 @@ public class AudioManager : MonoBehaviour
                 {
                     s.source.UnPause();
                 }
+
                 audioPlaying = true;
             }
         }
@@ -79,6 +80,7 @@ public class AudioManager : MonoBehaviour
             s.source.Play();
         }
     }
+
     public void StopMusic(string sound)
     {
         Sound s = Array.Find(sounds, item => item.name == sound);
@@ -87,6 +89,7 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("Sound: " + name + " not found!");
             return;
         }
+
         if (s.source.isPlaying == true)
         {
             s.source.Stop();

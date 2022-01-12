@@ -24,7 +24,8 @@ public class menuController : MonoBehaviour
         //landingPagePanel = GameObject.FindWithTag("LandingPage");
         _gameNetworkManager = GetComponent<GameNetworkManager>();
         //This is only for development purposes
-        if(!useSteam){
+        if (!useSteam)
+        {
             lobbyCreated = null;
             gameLobbyJoinRequested = null;
             lobbyEntered = null;
@@ -54,7 +55,7 @@ public class menuController : MonoBehaviour
             SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, 4);
             return;
         }
-        
+
         NetworkManager.singleton.StartHost();
     }
 
@@ -75,7 +76,7 @@ public class menuController : MonoBehaviour
 
         //if lobby creation succeeded
         LobbyId = new CSteamID(callback.m_ulSteamIDLobby);
-        
+
         //Debug.Log("here1 " + this.GetInstanceID());
         if (!NetworkServer.active || !NetworkClient.active)
         {
@@ -88,12 +89,12 @@ public class menuController : MonoBehaviour
             SteamUser.GetSteamID().ToString()
         );
     }
-    
+
     private void OnGameLobbyJoinRequested(GameLobbyJoinRequested_t callback)
     {
         SteamMatchmaking.JoinLobby(callback.m_steamIDLobby);
     }
-    
+
     private void OnLobbyEntered(LobbyEnter_t callback)
     {
         //if Host
@@ -105,11 +106,12 @@ public class menuController : MonoBehaviour
         );
         NetworkManager.singleton.networkAddress = hostAddress;
         NetworkManager.singleton.StartClient();
-        
+
         landingPagePanel.SetActive(false);
     }
 
-    public void toggleUseSteam(Button toggleButton){  
+    public void toggleUseSteam(Button toggleButton)
+    {
         var toggleSteamButton = toggleButton;
         useSteam = !useSteam;
         //steamController.SetActive(useSteam);
@@ -122,7 +124,7 @@ public class menuController : MonoBehaviour
         {
             toggleSteamButton.GetComponentInChildren<TMP_Text>().color = Color.red;
         }
+
         this.Start();
     }
-
 }

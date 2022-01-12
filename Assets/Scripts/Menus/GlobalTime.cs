@@ -14,6 +14,7 @@ public class GlobalTime : NetworkBehaviour
     [SyncVar] public float matchTime;
     public GameObject loadingScenePanel;
     private char sepFloat = '.';
+
     private string xAfterDot(float num, int x)
     {
         string b = num.ToString();
@@ -21,7 +22,7 @@ public class GlobalTime : NetworkBehaviour
         string[] seperated = b.Split(sepFloat);
         x = x < seperated[1].Length ? x : seperated[1].Length - 1;
         string afterDot = "";
-        for (int i = 0; i < x ; i++) afterDot += seperated[1][i]; // fix: no more out of bounds in substring
+        for (int i = 0; i < x; i++) afterDot += seperated[1][i]; // fix: no more out of bounds in substring
         return seperated[0] + sepFloat + afterDot;
     }
 
@@ -41,10 +42,12 @@ public class GlobalTime : NetworkBehaviour
                 matchTime -= Time.deltaTime;
             }
         }
+
         if (_time > -4)
         {
             loadingScenePanel.SetActive(false);
         }
+
         if (_time < 0)
         {
             timerText.text = Math.Round(_time).ToString();

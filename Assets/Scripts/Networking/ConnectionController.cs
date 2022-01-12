@@ -10,13 +10,14 @@ public class ConnectionController : NetworkBehaviour
     [SyncVar] private bool hostStopped = false;
 
     // Update is called once per frame
-    void Update()   
+    void Update()
     {
         if (!isServer && hostStopped)
         {
             ((GameNetworkManager) NetworkManager.singleton).StopClient();
         }
     }
+
     // stops the host after all clients have (been) stopped
     private void disconnecting()
     {
@@ -30,7 +31,7 @@ public class ConnectionController : NetworkBehaviour
         {
             //NetworkServer.DisconnectAll();
             hostStopped = true;
-            Invoke("disconnecting",0.5f);
+            Invoke("disconnecting", 0.5f);
         }
         else
         {

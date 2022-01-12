@@ -23,9 +23,9 @@ public class WalkingDust : MonoBehaviour
     {
         _lastFired = Time.time;
         _particles = gameObject.GetComponentInChildren<ParticleSystem>();
-        #pragma warning disable 618
+#pragma warning disable 618
         _stdLifeTime = _particles.startLifetime;
-        #pragma warning restore 618
+#pragma warning restore 618
     }
 
     // Update is called once per frame
@@ -41,11 +41,11 @@ public class WalkingDust : MonoBehaviour
 
         if (Time.time > _lastFired + repeatDelay)
         {
-            #pragma warning disable 618
+#pragma warning disable 618
             _particles.emissionRate = Mathf.Sqrt(controller.speed);
             _particles.startLifetime = _stdLifeTime * Mathf.Sqrt(controller.speed) / Mathf.Sqrt(controller.SprintSpeed);
             _particles.startColor = new Color(0, 0, 0, Mathf.Sqrt(controller.speed) / controller.SprintSpeed);
-            #pragma warning restore 618
+#pragma warning restore 618
             _particles.Play();
             _lastFired = Time.time;
             //print("PARTICLES!");
@@ -54,16 +54,17 @@ public class WalkingDust : MonoBehaviour
 
     private void emitMoreOnLanding()
     {
-            #pragma warning disable 618
-            _particles.startColor = new Color(0, 0, 0, 200);
-            _particles.startLifetime = _stdLifeTime * 2;
-            _particles.emissionRate = 5;
-            #pragma warning restore 618
-            _particles.Play();
-            //_particles.startSpeed = originalSpeed;
-            _lastFired = Time.time;
-            return;        
+#pragma warning disable 618
+        _particles.startColor = new Color(0, 0, 0, 200);
+        _particles.startLifetime = _stdLifeTime * 2;
+        _particles.emissionRate = 5;
+#pragma warning restore 618
+        _particles.Play();
+        //_particles.startSpeed = originalSpeed;
+        _lastFired = Time.time;
+        return;
     }
+
     private bool isLanding()
     {
         if (!controller.grounded) return _wasGrounded = false;

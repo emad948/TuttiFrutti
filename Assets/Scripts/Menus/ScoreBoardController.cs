@@ -25,7 +25,7 @@ public class ScoreBoardController : NetworkBehaviour
         }
 
         players.Sort();
-        
+
         // var counter = PlayersList.Count;
         // foreach (NetworkPlayer player in PlayersList)
         // {
@@ -33,7 +33,7 @@ public class ScoreBoardController : NetworkBehaviour
         //     counter--;
         //     // TODO @Colin: even points?? 
         // }
-        
+
         for (int i = 0; i < players.Count; i++)
         {
             playersTexts[i].text = $"{players[i].GetDisplayName()} : {players[i].GetScore(isWinnerScene)}";
@@ -51,6 +51,7 @@ public class ScoreBoardController : NetworkBehaviour
         {
             ((GameNetworkManager) NetworkManager.singleton).StopClient();
         }
+
         SceneManager.LoadScene(0);
     }
 }

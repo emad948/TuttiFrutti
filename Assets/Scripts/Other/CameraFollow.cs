@@ -17,9 +17,11 @@ public class CameraFollow : MonoBehaviour
     // Start is called before the first frame update
     private Quaternion rotation;
 
-    private void Awake(){
+    private void Awake()
+    {
         rotation = Quaternion.identity;
     }
+
     private void Update()
     {
         CalculateOffset();
@@ -27,26 +29,27 @@ public class CameraFollow : MonoBehaviour
         HandleTranslation();
     }
 
-    private void CalculateOffset(){
-        
+    private void CalculateOffset()
+    {
     }
 
-    private void HandleTranslation(){
+    private void HandleTranslation()
+    {
         transform.position = (offset + target.position);
-        
     }
-    private void HandleRotation(){
+
+    private void HandleRotation()
+    {
         var direction = new Vector3(0, verticalRotation, 0);
-        rotation = Quaternion.Lerp(transform.rotation, target.rotation * Quaternion.Euler(verticalRotation, 0,0), rotationSpeed);
-        
+        rotation = Quaternion.Lerp(transform.rotation, target.rotation * Quaternion.Euler(verticalRotation, 0, 0),
+            rotationSpeed);
+
 
         transform.rotation = rotation;
     }
-    private void SetTransformToFollow(Transform trans){
+
+    private void SetTransformToFollow(Transform trans)
+    {
         this.target = trans;
     }
 }
-
-
-
-
