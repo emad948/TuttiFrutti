@@ -187,15 +187,6 @@ public class GameNetworkManager : NetworkManager
 
     public void AfterLevelEnd()
     {
-        // PlayersList.Sort();
-        // var counter = PlayersList.Count;
-        // foreach (NetworkPlayer player in PlayersList)
-        // {
-        //     player.UpdateTotalScore(counter);
-        //     counter--;
-        //     // TODO @Colin: even points?? 
-        // }
-
         ((GameNetworkManager) NetworkManager.singleton).ServerChangeScene("ScoreBoard");
         Invoke("startLevel", 5f);
     }
