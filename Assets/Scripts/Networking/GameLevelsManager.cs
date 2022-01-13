@@ -36,7 +36,8 @@ public class GameLevelsManager : NetworkBehaviour
         }
     }   
     //private string[] _gameLevels = {"Level_Crown"}; 
-    private string[] _gameLevels = {"Level_HillKing", "Level_Crown", "Level_RunTheLine"}; 
+    //private string[] _gameLevels = {"Level_HillKing", "Level_Crown", "Level_RunTheLine"}; 
+    private string[] _gameLevels = {"Level_RunTheLine"};
     private List<NetworkPlayer> players;
     private bool gameIsRunning = false;     // TODO figure out when gameIsRunning and change accordingly
     
@@ -47,6 +48,7 @@ public class GameLevelsManager : NetworkBehaviour
         players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
         //Shuffle Game Levels
         _gameLevels = RandomStringArrayTool.RandomizeStrings(_gameLevels);
+        
     }
 
     private void Update()
@@ -85,19 +87,19 @@ public class GameLevelsManager : NetworkBehaviour
         string level = GETNextGameLevel();
         switch (level)
         {
-            case "Level_HillKing":
-                ChangeScene("Level_HillKing");
-                break;
+            //case "Level_HillKing":
+             //    ChangeScene("Level_HillKing");
+             //    break;
             case "Level_RunTheLine":
                 ChangeScene("Level_RunTheLine");
                 break;
-            case "Level_Crown":
-                Debug.Log("Here1");
-                ChangeScene("Level_Crown");
-                break;
-            case "WinnerBoard":
-                ChangeScene("WinnerBoard");
-                break;
+             //case "Level_Crown":
+              //   Debug.Log("Here1");
+              //   ChangeScene("Level_Crown");
+               //  break;
+            //case "WinnerBoard":
+            //    ChangeScene("WinnerBoard");
+             //   break;
             default:
                 Debug.Log("Unknown scene name");
                 break;
