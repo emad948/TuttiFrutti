@@ -117,6 +117,8 @@ public class HillKingScoring : NetworkBehaviour
     public void addPointToPlayer(GameObject player)
     {
         NetworkPlayer current = null;
+        Debug.Log("here1");
+        Debug.Log(players);
         foreach (var np in players)
         {
             if (np.playerCharacter.gameObject == player) current = np;

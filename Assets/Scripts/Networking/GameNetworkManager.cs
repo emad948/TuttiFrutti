@@ -44,6 +44,11 @@ public class GameNetworkManager : NetworkManager
         Transport.activeTransport = transport;
     }
 
+    public void Update()
+    {
+        Debug.Log(PlayersList);
+    }
+    
     #region Server
 
     public override void OnServerConnect(NetworkConnection conn)
