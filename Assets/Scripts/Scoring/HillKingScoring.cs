@@ -25,8 +25,9 @@ public class HillKingScoring : NetworkBehaviour
 
     private void Start()
     {
-        if (!isServer) return;
         players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
+        var abc = (GameNetworkManager) NetworkManager.singleton;
+        if (!isServer) return; // move higher again
         _globalTime = FindObjectOfType<GlobalTime>();
         currentZoneIndex = 1;
         //shuffling zones 
@@ -41,11 +42,12 @@ public class HillKingScoring : NetworkBehaviour
         if (!isServer) return;
         _time = _globalTime.matchTime;
         if (_time <= sceneChangeTimer && onlyOnce &&
-            !testingMode) // TODO @Colin change to actual matchTimer and also <= 0
+            !testingMode) 
+            // TODO @Colin change to actual matchTimer and also <= 0
         {
             //After 90 seconds end game and go to ScoringBoard
             CancelInvoke();
-            GameObject.FindObjectOfType<GameNetworkManager>().AfterLevelEnd();
+            ((GameNetworkManager) NetworkManager.singleton).AfterLevelEnd();
             onlyOnce = false;
         }
     }
@@ -117,8 +119,6 @@ public class HillKingScoring : NetworkBehaviour
     public void addPointToPlayer(GameObject player)
     {
         NetworkPlayer current = null;
-        Debug.Log("here1");
-        Debug.Log(players);
         foreach (var np in players)
         {
             if (np.playerCharacter.gameObject == player) current = np;

@@ -12,7 +12,7 @@ public class Menu : MonoBehaviour
 
     //public GameObject steamController;
     [SerializeField] private GameObject landingPagePanel;
-    public bool useSteam = true;
+    private bool useSteam = false;
     [SerializeField] public bool testMode = false;
     public Button toggleSteamButton;
     public TMP_Text steamErrorText;
@@ -29,7 +29,7 @@ public class Menu : MonoBehaviour
 
     private void Start()
     {
-        _gameNetworkManager = GameObject.FindObjectOfType<GameNetworkManager>();
+        _gameNetworkManager = (GameNetworkManager) NetworkManager.singleton;
         steamErrorText.enabled = false;
         //This is only for development purposes
         if (!useSteam)
