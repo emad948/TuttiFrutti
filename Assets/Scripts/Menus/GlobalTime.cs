@@ -12,6 +12,7 @@ public class GlobalTime : NetworkBehaviour
     public TMP_Text timerText;
     [SyncVar] public float _time;
     [SyncVar] public float matchTime;
+    //[SyncVar] public bool levelIsRunning = true;
     public GameObject loadingScenePanel;
     private char sepFloat = '.';
 

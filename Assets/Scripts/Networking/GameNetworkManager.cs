@@ -54,7 +54,6 @@ public class GameNetworkManager : NetworkManager
 
     public override void OnServerDisconnect(NetworkConnection conn)
     {
-        Debug.Log("here2");
         var player = conn.identity.GetComponent<NetworkPlayer>();
         PlayersList.Remove(player);
         base.OnServerDisconnect(conn);
@@ -62,7 +61,7 @@ public class GameNetworkManager : NetworkManager
 
     public override void OnStopServer()
     {
-        Debug.Log("here3");
+        Debug.Log("abc1");
         PlayersList.Clear();
         _gameStarted = false;
     }
@@ -164,7 +163,7 @@ public class GameNetworkManager : NetworkManager
 
     #region (Previously) GameLevelsManager
 
-    private string[] _gameLevels = {"Level_HillKing"};
+    private string[] _gameLevels = {"Level_HillKing", "Level_HillKing"};
 
     //private string[] _gameLevels = {"Level_HillKing", "Level_Crown", "Level_RunTheLine"}; 
     private bool gameIsRunning = false;
@@ -189,13 +188,13 @@ public class GameNetworkManager : NetworkManager
 
     public void AfterLevelEnd()
     {
-        Debug.Log("here1");
         ((GameNetworkManager) NetworkManager.singleton).ServerChangeScene("ScoreBoard");
         Invoke("startLevel", 3f);
     }
 
     public void startLevel()
     {
+        Debug.Log("here15");
         if (gameIsRunning)
         {
             foreach (NetworkPlayer player in PlayersList)

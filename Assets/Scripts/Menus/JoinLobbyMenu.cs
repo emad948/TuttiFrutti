@@ -29,9 +29,9 @@ public class JoinLobbyMenu : MonoBehaviour
         //read the address from the input text
         string address = addressInput.text;
         //tell Mirror to connect to this address
-        NetworkManager.singleton.networkAddress = address;
+        ((GameNetworkManager) NetworkManager.singleton).networkAddress = address;
 
-        NetworkManager.singleton.StartClient();
+        ((GameNetworkManager) NetworkManager.singleton).StartClient();
 
         joinButton.interactable = false;
     }
@@ -47,6 +47,6 @@ public class JoinLobbyMenu : MonoBehaviour
     //Failed to joined 
     private void HandleClientDisconnected()
     {
-        joinButton.interactable = true;
+        //joinButton.interactable = true;
     }
 }

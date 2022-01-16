@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Mirror;
 using TMPro;
 using Unity.VisualScripting;
@@ -11,19 +12,26 @@ public class ScoreBoardController : NetworkBehaviour
     [SerializeField] private TMP_Text[] playersTexts = new TMP_Text[4];
     public bool isWinnerScene;
 
-    private void Start()
+    private void Awake()
     {
-        List<NetworkPlayer> players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
         if (isWinnerScene)
         {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
-            foreach (NetworkPlayer player in players)
+            if (isServer)
             {
-                player.DuplicateScores(); // for the compareTo method (sorting)
+                List<NetworkPlayer> players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
+                foreach (NetworkPlayer player in players)
+                {
+                    player.DuplicateScores(); // for the compareTo method (sorting)
+                }
             }
         }
+    }
 
+    private void Start()
+    {
+        List<NetworkPlayer> players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
         players.Sort();
 
         // var counter = PlayersList.Count;
