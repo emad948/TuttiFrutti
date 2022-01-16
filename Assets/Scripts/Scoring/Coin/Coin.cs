@@ -2,32 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Coin : MonoBehaviour {
-
+public class Coin : MonoBehaviour
+{
     public GameObject Torus;
     public GameObject Indicator;
     private GameObject playerCollected;
     private float fadeState = 0;
 
-    void Update() {
+    void Update()
+    {
         if (!playerCollected) return;
         // animation after collected
-        Vector3 targetPosition = playerCollected.transform.position + Vector3.up - transform.rotation.eulerAngles * 0.5f;
+        Vector3 targetPosition =
+            playerCollected.transform.position + Vector3.up - transform.rotation.eulerAngles * 0.5f;
         Torus.transform.position = Vector3.Lerp(Torus.transform.position, targetPosition, Time.deltaTime * 2);
         fadeState += Time.deltaTime;
         Torus.GetComponentInChildren<Animator>().SetFloat("Fade", fadeState);
-
     }
 
-    private void touched(GameObject other) {
+    private void touched(GameObject other)
+    {
         if (playerCollected || (1 << other.layer & LayerMask.GetMask("Pla_yer")) == 0) return;
         Indicator.SetActive(false);
         playerCollected = other;
         CoinManager.singleton().collected(this.gameObject, other);
-
     }
-    public void Reset() {
-        playerCollected = null; 
+
+    public void Reset()
+    {
+        playerCollected = null;
         fadeState = 0;
         Indicator.SetActive(true);
     }

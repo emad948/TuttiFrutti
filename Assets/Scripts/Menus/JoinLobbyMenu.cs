@@ -17,7 +17,7 @@ public class JoinLobbyMenu : MonoBehaviour
         GameNetworkManager.ClientOnConnected += HandleClientConnected;
         GameNetworkManager.ClientOnDisconnected += HandleClientDisconnected;
     }
-    
+
     private void OnDisable()
     {
         GameNetworkManager.ClientOnConnected -= HandleClientConnected;
@@ -29,10 +29,10 @@ public class JoinLobbyMenu : MonoBehaviour
         //read the address from the input text
         string address = addressInput.text;
         //tell Mirror to connect to this address
-        NetworkManager.singleton.networkAddress = address;
-        
-        NetworkManager.singleton.StartClient();
-        
+        ((GameNetworkManager) NetworkManager.singleton).networkAddress = address;
+
+        ((GameNetworkManager) NetworkManager.singleton).StartClient();
+
         joinButton.interactable = false;
     }
 
@@ -43,11 +43,10 @@ public class JoinLobbyMenu : MonoBehaviour
         gameObject.SetActive(false);
         landingPagePanel.SetActive(false);
     }
-    
+
     //Failed to joined 
     private void HandleClientDisconnected()
     {
-        joinButton.interactable = true;
+        //joinButton.interactable = true;
     }
-    
 }

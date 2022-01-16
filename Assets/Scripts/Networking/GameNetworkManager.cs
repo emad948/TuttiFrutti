@@ -1,4 +1,9 @@
 using System;
+using System.Collections;
+using System.Dynamic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using kcp2k;
 using Mirror;
@@ -11,11 +16,9 @@ using Random = UnityEngine.Random;
 public class GameNetworkManager : NetworkManager
 {
     [SerializeField] private GameObject characterPrefab;
-    //public GameObject steamController;
-    private Transport steamTransport;
-    private menuController _menuController;
-    private GameLevelsManager _gameLevelsManager;
+    private Menu _menu;
     private bool _gameStarted;
+    private Transport steamTransport;
     public List<NetworkPlayer> PlayersList { get; } = new List<NetworkPlayer>();
     public static event Action ClientOnConnected;
     public static event Action ClientOnDisconnected;
@@ -23,15 +26,13 @@ public class GameNetworkManager : NetworkManager
     public override void Awake()
     {
         base.Awake();
-        _menuController = GetComponent<menuController>();
+        _menu = GameObject.FindGameObjectWithTag("MainMenuDisplayTag").GetComponent<Menu>();
     }
-    
+
     public void setUseSteam(bool useSteam)
     {
-        //steamTransport = steamController.GetComponent<FizzySteamworks>();
         steamTransport = GetComponent<FizzySteamworks>();
         Transport kcpTransport = GetComponent<KcpTransport>();
-        //var steamManager = steamController.GetComponent<SteamManager>();
         var steamManager = GetComponent<SteamManager>();
         steamManager.enabled = useSteam;
         steamTransport.enabled = useSteam;
@@ -41,14 +42,10 @@ public class GameNetworkManager : NetworkManager
         else transport = kcpTransport;
 
         Transport.activeTransport = transport;
-
-        Debug.Log("UsingSteam: " + useSteam);
     }
-
+    
     #region Server
 
-    
-  
     public override void OnServerConnect(NetworkConnection conn)
     {
         if (!_gameStarted) return;
@@ -64,31 +61,29 @@ public class GameNetworkManager : NetworkManager
 
     public override void OnStopServer()
     {
+        Debug.Log("abc1");
         PlayersList.Clear();
         _gameStarted = false;
     }
 
     public void StartGame()
     {
-        if (!_menuController.testMode && PlayersList.Count < 2) return;
+        if (!_menu.testMode && PlayersList.Count < 2) return;
 
         _gameStarted = true;
 
-        //Game levels manager will be created we the game starts
-        _gameLevelsManager = GameObject.FindGameObjectWithTag("GameLevelsManager").GetComponent<GameLevelsManager>();
-        
-        _gameLevelsManager.startLevel();
+        startLevel();
     }
-    
+
     public override void OnServerAddPlayer(NetworkConnection conn)
     {
         base.OnServerAddPlayer(conn);
 
         var playerName = "";
 
-        if (_menuController.getUseSteam())
+        if (_menu.getUseSteam())
         {
-            var steamId = SteamMatchmaking.GetLobbyMemberByIndex(_menuController.LobbyId, numPlayers - 1);
+            var steamId = SteamMatchmaking.GetLobbyMemberByIndex(_menu.LobbyId, numPlayers - 1);
             playerName = SteamFriends.GetFriendPersonaName(steamId);
         }
         else
@@ -131,22 +126,6 @@ public class GameNetworkManager : NetworkManager
             }
     }
 
-
-    // public void LeaveGame()
-    // {
-    //     // SceneManager.LoadScene(0);   // or up here?
-    //     if (NetworkServer.active && NetworkClient.isConnected)
-    //     {
-    //         NetworkManager.singleton.StopHost();
-    //     }
-    //     else
-    //     {
-    //         NetworkManager.singleton.StopClient();
-    //     }
-    //     SceneManager.LoadScene(0);
-    // }
-    
-
     #endregion
 
     #region Client
@@ -161,23 +140,108 @@ public class GameNetworkManager : NetworkManager
     {
         base.OnClientDisconnect(conn);
         ClientOnDisconnected?.Invoke();
-        
+
         /*  If disconnected from server for any reason, go back to main menu.
-        *** I don't know, how to reset the client tho, therefore, another connection is currently not possible */        
+        *** I don't know, how to reset the client tho, therefore, another connection is currently not possible */
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        resettingLevelsManager();
         SceneManager.LoadScene(0);
     }
 
     public override void OnStopClient()
     {
-        PlayersList.Clear();
+        resettingLevelsManager();
     }
 
+    public override void OnStopHost()
+    {
+        //resettingLevelsManager(); needed?
+    }
 
     #endregion
 
-    #region HelperFunctions
-    
+    #region (Previously) GameLevelsManager
+
+    private string[] _gameLevels = {"Level_PerfectMatch"};
+
+    //private string[] _gameLevels = {"Level_HillKing", "Level_Crown", "Level_RunTheLine","Level_PerfectMatch"}; 
+    private bool gameIsRunning = false;
+
+    private void resettingLevelsManager()
+    {
+        gameIsRunning = false;
+        PlayersList.Clear(); // also for OnClientDisconnect
+        _gameLevels = new string[] {"Level_PerfectMatch"}; // TODO change to all levels
+        //_gameLevels = new string[] {"Level_HillKing"}; // TODO change to all levels
+    }
+
+    public override void Start()
+    {
+        //if (!isServer) return;
+        //if (NetworkServer.active && NetworkClient.isConnected)
+        //if(mode == NetworkManagerMode.Host)
+        // -----
+        base.Start();
+        //Shuffle Game Levels
+        _gameLevels = RandomStringArrayTool.RandomizeStrings(_gameLevels);
+    }
+
+    public void AfterLevelEnd()
+    {
+        ((GameNetworkManager) NetworkManager.singleton).ServerChangeScene("ScoreBoard");
+        Invoke("startLevel", 3f);
+    }
+
+    public void startLevel()
+    {
+        Debug.Log("here15");
+        if (gameIsRunning)
+        {
+            foreach (NetworkPlayer player in PlayersList)
+            {
+                player.ResetCurrentScore();
+            }
+        }
+
+        gameIsRunning = true;
+        string level = GETNextGameLevel();
+        switch (level)
+        {
+            case "Level_PerfectMatch":
+                ChangeScene("Level_PerfectMatch");
+                break;
+            case "Level_HillKing":
+                ChangeScene("Level_HillKing");
+                break;
+            case "Level_RunTheLine":
+                ChangeScene("Level_RunTheLine");
+                break;
+            case "Level_Crown":
+                ChangeScene("Level_Crown");
+                break;
+                
+            case "WinnerBoard":
+                ChangeScene("WinnerBoard");
+                break;
+            default:
+                Debug.Log("Unknown scene name");
+                break;
+        }
+    }
+
+    public void ChangeScene(string scene)
+    {
+        ((GameNetworkManager) NetworkManager.singleton).ServerChangeScene(scene);
+    }
+
+    public string GETNextGameLevel()
+    {
+        if (_gameLevels.Length == 0) return "WinnerBoard";
+        var nextGameLevel = _gameLevels[0];
+        _gameLevels = _gameLevels.Skip(1).ToArray();
+        return nextGameLevel;
+    }
+
     #endregion
 }

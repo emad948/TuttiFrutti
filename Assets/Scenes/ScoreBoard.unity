@@ -925,7 +925,7 @@ MonoBehaviour:
   - {fileID: 1863200573}
   - {fileID: 1522463946}
   - {fileID: 653730591}
-  isWinnerScene: 1
+  isWinnerScene: 0
 --- !u!114 &1680363925
 MonoBehaviour:
   m_ObjectHideFlags: 0

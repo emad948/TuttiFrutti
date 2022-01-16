@@ -10,10 +10,12 @@ public class InGameMenu : NetworkBehaviour
     public GameObject Panel;
     private bool GameIsPaused = false;
 
-    void Start(){
+    void Start()
+    {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -44,19 +46,19 @@ public class InGameMenu : NetworkBehaviour
         Cursor.lockState = CursorLockMode.None;
         Panel.SetActive(true);
     }
-    
-    public void LoadMenu()
+
+    public void LeaveGame()
     {
         if (isServer)
         {
-            NetworkServer.DisconnectAll();
+            NetworkServer.Shutdown();
             ((GameNetworkManager) NetworkManager.singleton).StopHost();
         }
         else
         {
             ((GameNetworkManager) NetworkManager.singleton).StopClient();
         }
+
         SceneManager.LoadScene(0);
     }
-
 }

@@ -12,28 +12,28 @@ public class HillKingScoring : NetworkBehaviour
 {
     private string currentLevel;
     private List<NetworkPlayer> players;
-    [HideInInspector]
-    [SyncVar] public int currentZoneIndex;
+    [HideInInspector] [SyncVar] public int currentZoneIndex;
     public GlobalTime _globalTime;
 
     public LightboxManager lightboxes;
     private float _time;
     private bool onlyOnce = true;
-    private List<int> zoneIndices = new List<int>(){1, 2, 3};
+    private List<int> zoneIndices = new List<int>() {1, 2, 3};
     private int counter = -1;
-    public float sceneChangeTimer;    // TODO change to correct value
-    public bool testingMode = true;         
-    
+    public float sceneChangeTimer; // TODO change to correct value
+    public bool testingMode = true;
+
     private void Start()
     {
-        if (!isServer) return;
         players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
+        var abc = (GameNetworkManager) NetworkManager.singleton;
+        if (!isServer) return; // move higher again
         _globalTime = FindObjectOfType<GlobalTime>();
         currentZoneIndex = 1;
         //shuffling zones 
         var rnd = new System.Random();
         zoneIndices = zoneIndices.OrderBy(item => rnd.Next()).ToList();
-        InvokeRepeating("changeZoneIndex",Math.Abs(_globalTime._time),50f);
+        InvokeRepeating("changeZoneIndex", Math.Abs(_globalTime._time), 50f);
         InvokeRepeating("HillKing", 0f, 0.25f);
     }
 
@@ -41,11 +41,13 @@ public class HillKingScoring : NetworkBehaviour
     {
         if (!isServer) return;
         _time = _globalTime.matchTime;
-        if (_time <= sceneChangeTimer && onlyOnce && !testingMode) // TODO @Colin change to actual matchTimer and also <= 0
+        if (_time <= sceneChangeTimer && onlyOnce &&
+            !testingMode) 
+            // TODO @Colin change to actual matchTimer and also <= 0
         {
             //After 90 seconds end game and go to ScoringBoard
             CancelInvoke();
-            GameObject.FindObjectOfType<GameLevelsManager>().AfterLevelEnd();       
+            ((GameNetworkManager) NetworkManager.singleton).AfterLevelEnd();
             onlyOnce = false;
         }
     }
@@ -55,9 +57,8 @@ public class HillKingScoring : NetworkBehaviour
         counter++;
         counter %= 3;
         currentZoneIndex = zoneIndices[counter];
-        
     }
-    
+
     private void HillKing()
     {
         // TODO update currentZoneIndex
@@ -78,6 +79,7 @@ public class HillKingScoring : NetworkBehaviour
                             }
                         }
                     }
+
                     break;
                 case 2:
                     // yellow tower
@@ -91,6 +93,7 @@ public class HillKingScoring : NetworkBehaviour
                             }
                         }
                     }
+
                     break;
                 case 3:
                     // green tower
@@ -104,6 +107,7 @@ public class HillKingScoring : NetworkBehaviour
                             }
                         }
                     }
+
                     break;
                 default:
                     Debug.Log("Error");
@@ -111,17 +115,21 @@ public class HillKingScoring : NetworkBehaviour
             }
         }
     }
-    public void addPointToPlayer(GameObject player){
+
+    public void addPointToPlayer(GameObject player)
+    {
         NetworkPlayer current = null;
-        foreach (var np in players){
-            if (np.playerCharacter.gameObject == player) current = np; 
-        } 
+        foreach (var np in players)
+        {
+            if (np.playerCharacter.gameObject == player) current = np;
+        }
+
         if (current is null) return;
         current.ChangeScore(1);
         //print("add point to player " + current.GetDisplayName()); // keep me!
     }
+
     #region Client
-    
 
     #endregion
 }

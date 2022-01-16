@@ -55,11 +55,11 @@ public class UI : MonoBehaviour
         gameStateText.gameObject.SetActive(true);
         if (isWon)
         {
-            SetGameStateText("Qualified!");
+            SetGameStateText("Du bist weiter!");
         }
         else
         {
-            SetGameStateText("Eliminated!");
+            SetGameStateText("Du bist raus!");
         }
 
         Time.timeScale = 0.0f;
