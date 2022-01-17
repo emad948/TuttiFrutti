@@ -61,8 +61,8 @@ public class GameNetworkManager : NetworkManager
 
     public override void OnStopServer()
     {
-        PlayersList.Clear();
-        _gameStarted = false;
+        PlayersList.Clear(); 
+        resettingLevelsManager();
     }
 
     public void StartGame()
@@ -155,7 +155,7 @@ public class GameNetworkManager : NetworkManager
 
     public override void OnStopHost()
     {
-        //resettingLevelsManager(); needed?
+        resettingLevelsManager(); 
     }
 
     #endregion
@@ -165,12 +165,12 @@ public class GameNetworkManager : NetworkManager
     private string[] _gameLevels = {"Level_HillKing"};
 
     //private string[] _gameLevels = {"Level_HillKing", "Level_Crown", "Level_RunTheLine"}; 
-    private bool gameIsRunning = false;
+    //private bool gameIsRunning = false;
 
     private void resettingLevelsManager()
     {
-        gameIsRunning = false;
-        PlayersList.Clear(); // also for OnClientDisconnect
+        _gameStarted = false;
+        PlayersList.Clear();
         _gameLevels = new string[] {"Level_HillKing"}; // TODO change to all levels
     }
 
@@ -193,7 +193,7 @@ public class GameNetworkManager : NetworkManager
 
     public void startLevel()
     {
-        if (gameIsRunning)
+        if (_gameStarted)
         {
             foreach (NetworkPlayer player in PlayersList)
             {
@@ -201,7 +201,7 @@ public class GameNetworkManager : NetworkManager
             }
         }
 
-        gameIsRunning = true;
+        _gameStarted = true;
         string level = GETNextGameLevel();
         switch (level)
         {
