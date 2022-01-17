@@ -11,7 +11,7 @@ public class UI : MonoBehaviour
     public TextMeshProUGUI countdownText;
     private Grid grid;
     
-    private float threeSecondTimer = 3.0f;
+    private float threeSecondTimer = 5.0f;
     
     // Start is called before the first frame update
     void Start()
@@ -59,7 +59,7 @@ public class UI : MonoBehaviour
         }
         else
         {
-            SetGameStateText("Du bist raus!");
+            SetGameStateText("Du hast verloren!");
         }
 
         Time.timeScale = 0.0f;

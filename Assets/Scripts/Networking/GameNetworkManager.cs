@@ -164,16 +164,17 @@ public class GameNetworkManager : NetworkManager
     #region (Previously) GameLevelsManager
 
     private string[] _gameLevels = {"Level_PerfectMatch"};
+    //private string[] _gameLevels = {"Level_HillKing", "Level_HillKing"};
 
-    //private string[] _gameLevels = {"Level_HillKing", "Level_Crown", "Level_RunTheLine","Level_PerfectMatch"}; 
+    //private string[] _gameLevels = {"Level_HillKing", "Level_Crown", "Level_RunTheLine"}; 
     private bool gameIsRunning = false;
 
     private void resettingLevelsManager()
     {
         gameIsRunning = false;
         PlayersList.Clear(); // also for OnClientDisconnect
-        _gameLevels = new string[] {"Level_PerfectMatch"}; // TODO change to all levels
         //_gameLevels = new string[] {"Level_HillKing"}; // TODO change to all levels
+        _gameLevels = new string[] {"Level_PerfectMatch"}; // TODO change to all levels
     }
 
     public override void Start()
@@ -220,7 +221,6 @@ public class GameNetworkManager : NetworkManager
             case "Level_Crown":
                 ChangeScene("Level_Crown");
                 break;
-                
             case "WinnerBoard":
                 ChangeScene("WinnerBoard");
                 break;
