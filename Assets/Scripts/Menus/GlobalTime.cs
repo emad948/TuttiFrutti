@@ -16,7 +16,6 @@ public class GlobalTime : NetworkBehaviour
     public float levelEntryDelayTime = 1f; 
     //[SyncVar] public bool levelIsRunning = true;
     public GameObject loadingScenePanel;
-    private char sepFloat = '.';
 
     private void Awake()
     {
