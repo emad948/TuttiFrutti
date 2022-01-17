@@ -1,0 +1,10 @@
+@Alex
+- Schubsen verstaerkt durch sprinten
++ extra starkes Schubsen (Flummi)
+- EndScene overlayed und Animationen
+- Animationen fuer Scenenwechsel
+
+ 
+
+- Animation fuer Louis (Run_the_line_Level)
+	- Licht z.B. an Kanten von bewegten Objekten 
