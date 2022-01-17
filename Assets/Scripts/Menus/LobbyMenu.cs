@@ -63,6 +63,11 @@ public class LobbyMenu : MonoBehaviour
         startGameButton.gameObject.SetActive(state);
     }
 
+    private void Update()
+    {
+        
+    }
+
     public void StartGame()
     {
         NetworkClient.connection.identity.GetComponent<NetworkPlayer>().CmdStartGame();
