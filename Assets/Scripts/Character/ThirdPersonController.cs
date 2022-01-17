@@ -76,6 +76,7 @@ namespace StarterAssets {
 		private const float _threshold = 0.01f;
 		private bool _hasAnimator;
 		
+		private float _matchDuration; // HACKS
 		// ---------------
 		// --- This is all we sync between server and clients ---
 		// we now consider speed and grounded for local particle emissions
@@ -104,6 +105,7 @@ namespace StarterAssets {
 
 		private void Start()
 		{
+			_matchDuration = _globalTime.matchTime;
 			_identity = GetComponent<NetworkIdentity>();
 			_globalTime = GameObject.FindObjectOfType<GlobalTime>();
 			globalPosition = transform.position;
@@ -124,7 +126,8 @@ namespace StarterAssets {
 
 		private void Update()
 		{
-			if (hasAuthority  && _globalTime.matchTime > 140)
+			//if (hasAuthority  && _globalTime.matchTime > 140) // JUUUUNGE
+			if (hasAuthority  && _globalTime.matchTime <= _matchDuration - 3f) // JUUUUNGE
 			{
 				//_hasAnimator = true;
 				JumpAndGravity();

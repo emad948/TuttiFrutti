@@ -39,12 +39,14 @@ public class HillKingScoring : NetworkBehaviour
 
     private void Update()
     {
+        
         if (!isServer) return;
         _time = _globalTime.matchTime;
         if (_time <= sceneChangeTimer && onlyOnce &&
             !testingMode) 
             // TODO @Colin change to actual matchTimer and also <= 0
         {
+            Debug.Log("Hello from update");
             //After 90 seconds end game and go to ScoringBoard
             CancelInvoke();
             ((GameNetworkManager) NetworkManager.singleton).AfterLevelEnd();

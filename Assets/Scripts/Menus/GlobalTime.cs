@@ -33,7 +33,7 @@ public class GlobalTime : NetworkBehaviour
             }
         }
 
-        if (_time > -4)
+        if (_time > -4) // will be implemented... 
         {
             loadingScenePanel.SetActive(false);
         }
