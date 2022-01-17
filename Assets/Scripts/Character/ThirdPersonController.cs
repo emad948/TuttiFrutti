@@ -76,6 +76,7 @@ namespace StarterAssets {
 		private const float _threshold = 0.01f;
 		private bool _hasAnimator;
 		
+		private float _matchDuration; // HACKS
 		// ---------------
 		// --- This is all we sync between server and clients ---
 		// we now consider speed and grounded for local particle emissions
@@ -106,6 +107,7 @@ namespace StarterAssets {
 		{
 			_identity = GetComponent<NetworkIdentity>();
 			_globalTime = GameObject.FindObjectOfType<GlobalTime>();
+			_matchDuration = _globalTime.matchTime;
 			globalPosition = transform.position;
 			globalRotation = transform.rotation;
 			_hasAnimator = true;
