@@ -162,7 +162,7 @@ public class GameNetworkManager : NetworkManager
 
     #region (Previously) GameLevelsManager
 
-    private string[] _gameLevels = {"Level_Crown"};
+    private string[] _gameLevels = {"Level_HillKing"};
 
     //private string[] _gameLevels = {"Level_HillKing", "Level_Crown", "Level_RunTheLine"}; 
     private bool gameIsRunning = false;
