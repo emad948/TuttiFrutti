@@ -127,7 +127,7 @@ namespace StarterAssets {
 		private void Update()
 		{
 			//if (hasAuthority  && _globalTime.matchTime > 140) // JUUUUNGE
-			if (hasAuthority  && _globalTime.matchTime <= _matchDuration - 3f) // JUUUUNGE
+			if (hasAuthority  && _globalTime.matchTime <= _matchDuration - _globalTime.levelEntryDelayTime)
 			{
 				//_hasAnimator = true;
 				JumpAndGravity();

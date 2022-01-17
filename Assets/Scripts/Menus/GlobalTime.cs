@@ -12,6 +12,8 @@ public class GlobalTime : NetworkBehaviour
     public TMP_Text timerText;
     [SyncVar] public float _time;
     [SyncVar] public float matchTime;
+
+    public float levelEntryDelayTime = 1f; 
     //[SyncVar] public bool levelIsRunning = true;
     public GameObject loadingScenePanel;
     private char sepFloat = '.';
@@ -19,6 +21,7 @@ public class GlobalTime : NetworkBehaviour
     private void Awake()
     {
         loadingScenePanel.SetActive(true);
+        _time = -levelEntryDelayTime;
     }
 
     // Update is called once per frame
