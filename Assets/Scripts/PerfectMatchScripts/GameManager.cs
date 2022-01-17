@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
 
     private int roundNumber = 1;
     public Sprite chosenFruit;
-    private bool hasChosenFruit = false;
+    //private bool hasChosenFruit = false; // so far unused
     public bool gameCanStart = false;
     public bool canNowUpdateImages = false;
     public bool checkRoundFinished = false;
@@ -129,7 +129,7 @@ public class GameManager : MonoBehaviour
         if (roundNumber + 1 <= MAX_ROUND_NUMBER)
         {
             roundNumber += 1;
-            hasChosenFruit = false;
+            //hasChosenFruit = false; // so far unused
             StartCoroutine("CheckRound");
         }
         else
