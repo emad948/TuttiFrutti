@@ -43,7 +43,7 @@ public class GameNetworkManager : NetworkManager
 
         Transport.activeTransport = transport;
     }
-    
+
     #region Server
 
     public override void OnServerConnect(NetworkConnection conn)
@@ -87,7 +87,7 @@ public class GameNetworkManager : NetworkManager
         }
         else
         {
-            playerName = $"Player {numPlayers}";
+            playerName = randomPlayerName();
         }
 
 
@@ -234,6 +234,17 @@ public class GameNetworkManager : NetworkManager
         var nextGameLevel = _gameLevels[0];
         _gameLevels = _gameLevels.Skip(1).ToArray();
         return nextGameLevel;
+    }
+
+    private string randomPlayerName()
+    {
+        var names = new List<string>()
+        {
+            "Orange", "Guava", "Apple", "Banana", "Kiwi", "Pommegranate", "Fig", "Acerola", "Mandarine", "Avocado",
+            "Watermelon", "Lemon", "Pineapple", "Mango", "Plum", "Coconut"
+        };
+        var random = new System.Random();
+        return names[random.Next(names.Count)];
     }
 
     #endregion
