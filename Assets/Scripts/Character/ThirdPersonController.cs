@@ -105,9 +105,9 @@ namespace StarterAssets {
 
 		private void Start()
 		{
-			_matchDuration = _globalTime.matchTime;
 			_identity = GetComponent<NetworkIdentity>();
 			_globalTime = GameObject.FindObjectOfType<GlobalTime>();
+			_matchDuration = _globalTime.matchTime;
 			globalPosition = transform.position;
 			globalRotation = transform.rotation;
 			_hasAnimator = true;
