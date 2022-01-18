@@ -7,7 +7,7 @@ using UnityEngine;
 // detects if you hit another player
 public class PlayerCollision : NetworkBehaviour{
     public float _pushStrength = 1f; 
-    public float runMultiplier = 2f;
+    public float runMultiplier = 1000f;
     private StarterAssets.ThirdPersonController controller;
 
     void Start(){
@@ -18,7 +18,12 @@ public class PlayerCollision : NetworkBehaviour{
         var target = hit.gameObject;
         if (target.tag == "PlayerCharacter"){
             var multiplier = _pushStrength;
-            if (controller.inputRunning) multiplier *= runMultiplier;
+            if (controller.inputRunning) {
+                multiplier *= runMultiplier;
+                target.GetComponent<ExternalForces>().forceDuration = 0.5f;
+            }
+            else target.GetComponent<ExternalForces>().forceDuration = 0.1f;
+
             Vector3 pushDirection = (hit.point - transform.position);
             pushDirection.y = 0;
             pushDirection = pushDirection.normalized;
