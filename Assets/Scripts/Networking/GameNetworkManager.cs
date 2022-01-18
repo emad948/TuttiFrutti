@@ -149,6 +149,7 @@ public class GameNetworkManager : NetworkManager
         Cursor.visible = true;
         resettingLevelsManager();
         SceneManager.LoadScene(0);
+        StopClient();
     }
 
     public override void OnStopClient()
