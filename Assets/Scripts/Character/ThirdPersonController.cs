@@ -89,7 +89,6 @@ namespace StarterAssets {
 		// --- Private ---
 		private GlobalTime _globalTime;
 		private NetworkIdentity _identity; // is server or client?
-		private Vector3 externalForce = Vector3.zero;
 		// ---------------
 		
 		override public void OnStartAuthority()
@@ -99,10 +98,6 @@ namespace StarterAssets {
 			{
 				_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
 			}
-		}
-
-		public void addForce(Vector3 vec){
-			externalForce += vec;
 		}
 
 		private void Start()
@@ -247,7 +242,8 @@ namespace StarterAssets {
 				//print(_animationBlend);
 				_animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
 			}
-			}
+			
+		}
 			
 		private void JumpAndGravity()
 		{

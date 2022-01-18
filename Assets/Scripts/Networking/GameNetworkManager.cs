@@ -170,18 +170,20 @@ public class GameNetworkManager : NetworkManager
     public enum Levels{
         Level_HillKing = 1,
         Level_PerfectMatch = 2,
-        Level_Crown = 3
+        Level_Crown = 3,
+        Level_RunTheLine = 4
     }
 
     private string decodeLevel(Levels l){
         if (l is Levels.Level_HillKing) return "Level_HillKing";
         if (l is Levels.Level_PerfectMatch) return "Level_PerfectMatch";
         if (l is Levels.Level_Crown) return "Level_Crown";
+        if (l is Levels.Level_RunTheLine) return "Level_RunTheLine";
         return "MainMenu";     
     }
 
     public Levels startingLevel;
-    private string[] _allGameLevels = {"Level_PerfectMatch"};
+    private string[] _allGameLevels;
     private string[] _gameLevels;
 
     
@@ -198,7 +200,6 @@ public class GameNetworkManager : NetworkManager
             player.ResetTotalScore();
         }
         PlayersList.Clear();
-        _allGameLevels = new string[]{decodeLevel(startingLevel)};
         _gameLevels = _allGameLevels;
         //  TODO _gameLevels = {"Level_HillKing", "Level_Crown", "Level_RunTheLine", "PerfectMatch"};
     }
