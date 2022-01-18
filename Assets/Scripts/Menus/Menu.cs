@@ -11,7 +11,7 @@ public class Menu : MonoBehaviour
     [HideInInspector] public GameNetworkManager _gameNetworkManager;
 
     //public GameObject steamController;
-    [SerializeField] private GameObject landingPagePanel;
+    public GameObject landingPagePanel;
     private bool useSteam = false;
     [SerializeField] public bool testMode = false;
     public Button toggleSteamButton;

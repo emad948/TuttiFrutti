@@ -314,7 +314,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   force: {x: 0, y: 0, z: 0}
-  forceDuration: 0.1
+  forceDuration: 0.016666668
 --- !u!114 &2755518916081984365
 MonoBehaviour:
   m_ObjectHideFlags: 0

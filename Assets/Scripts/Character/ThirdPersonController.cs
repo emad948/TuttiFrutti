@@ -72,6 +72,8 @@ namespace StarterAssets {
 		public Animator _animator;
 		private CharacterController _controller;
 		private StarterAssetsInputs _input;
+
+		[HideInInspector] public bool inputRunning = false;
 		private GameObject _mainCamera;
 		private const float _threshold = 0.01f;
 		private bool _hasAnimator;
@@ -191,7 +193,7 @@ namespace StarterAssets {
 
 			// set target speed based on move speed, sprint speed and if sprint is pressed
 			float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
-
+			inputRunning = _input.sprint;
 			// a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
 			// note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
