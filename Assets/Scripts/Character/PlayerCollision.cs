@@ -15,6 +15,8 @@ public class PlayerCollision : NetworkBehaviour
     public bool hasCrown { get; set; } = false;
     private bool isCrownLevel = false;
 
+    public GameObject crown;
+
     void Start()
     {
         controller = GetComponent<StarterAssets.ThirdPersonController>();
@@ -45,13 +47,14 @@ public class PlayerCollision : NetworkBehaviour
             // --- the following is for crowning
             if (isCrownLevel)
             {
-                var crown = target.GetComponent<PlayerCollision>().hasCrown;
-                if (crown)
+                var cr = target.GetComponent<PlayerCollision>().hasCrown;
+                if (cr)
                 {
                     target.GetComponent<PlayerCollision>().hasCrown = hasCrown;
-                    // target. setCrownActive = hasCrown;
-                    hasCrown = crown;
-                    // this.GetComponentInParent() .setCrownActive = crown;
+                    target.GetComponent<PlayerCollision>().crown.SetActive(hasCrown);
+                    
+                    hasCrown = cr;
+                    crown.SetActive(cr);
                 }
             }
         }

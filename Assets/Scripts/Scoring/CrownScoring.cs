@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Mirror;
 using UnityEngine;
 
@@ -18,8 +19,21 @@ public class CrownScoring : NetworkBehaviour
         _gameNetMan = ((GameNetworkManager) NetworkManager.singleton);
         players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
         _globalTime = FindObjectOfType<GlobalTime>();
+
+        var count = players.Count;
+        var rnd = new System.Random();
+
+        List<int> zoneIndices = new List<int>();
+        zoneIndices = zoneIndices.OrderBy(item => rnd.Next()).ToList();
         
-        InvokeRepeating("crown", 0f, 0.25f);
+        for (var i = 0; i <= 0; i++)
+        {
+            players[i].playerCharacter.gameObject.GetComponent<PlayerCollision>().hasCrown = true;
+            players[i].playerCharacter.gameObject.GetComponent<PlayerCollision>().crown.SetActive(true);
+        }
+
+
+        InvokeRepeating("crown", 1f, 0.25f);
         InvokeRepeating("updateTime", 0f, 0.1f);
     }
 
