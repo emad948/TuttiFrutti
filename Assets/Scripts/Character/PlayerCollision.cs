@@ -13,7 +13,7 @@ public class PlayerCollision : NetworkBehaviour
     public float runMultiplier = 1000f;
     private StarterAssets.ThirdPersonController controller;
     [SyncVar] public bool hasCrown = false;
-    [SyncVar] bool crownChanged = false;
+    [SyncVar] public bool crownChanged = false;
     private bool isCrownLevel = false;
 
     public GameObject crown;
