@@ -18,16 +18,17 @@ public class PlayerCollision : NetworkBehaviour{
         var target = hit.gameObject;
         if (target.tag == "PlayerCharacter"){
             var multiplier = _pushStrength;
+            var duration = 0.1f;
             if (controller.inputRunning) {
                 multiplier *= runMultiplier;
-                target.GetComponent<ExternalForces>().forceDuration = 0.5f;
+                duration = 0.3f;
             }
-            else target.GetComponent<ExternalForces>().forceDuration = 0.1f;
 
             Vector3 pushDirection = (hit.point - transform.position);
             pushDirection.y = 0;
             pushDirection = pushDirection.normalized;
-            target.GetComponent<ExternalForces>().addForce(pushDirection * multiplier);
+
+            target.GetComponent<ExternalForces>().addForce(pushDirection * multiplier, duration);
          }
     }
 }
