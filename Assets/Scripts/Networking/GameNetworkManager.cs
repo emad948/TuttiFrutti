@@ -167,8 +167,24 @@ public class GameNetworkManager : NetworkManager
     #endregion
 
     #region (Previously) GameLevelsManager
+    public enum Levels{
+        Level_HillKing = 1,
+        Level_PerfectMatch = 2,
+        Level_Crown = 3
+    }
 
-    private string[] _gameLevels = {"Level_PerfectMatch"};
+    private string decodeLevel(Levels l){
+        if (l is Levels.Level_HillKing) return "Level_HillKing";
+        if (l is Levels.Level_PerfectMatch) return "Level_PerfectMatch";
+        if (l is Levels.Level_Crown) return "Level_Crown";
+        return "MainMenu";     
+    }
+
+    public Levels startingLevel;
+    private string[] _allGameLevels = {"Level_PerfectMatch"};
+    private string[] _gameLevels;
+
+    
 
     //private string[] _gameLevels = {"Level_HillKing", "Level_Crown", "Level_RunTheLine", "PerfectMatch"}; 
     //private bool gameIsRunning = false;
@@ -182,19 +198,17 @@ public class GameNetworkManager : NetworkManager
             player.ResetTotalScore();
         }
         PlayersList.Clear();
-        _gameLevels = new string[] {"Level_PerfectMatch"};
+        _allGameLevels = new string[]{decodeLevel(startingLevel)};
+        _gameLevels = _allGameLevels;
         //  TODO _gameLevels = {"Level_HillKing", "Level_Crown", "Level_RunTheLine", "PerfectMatch"};
     }
 
     public override void Start()
     {
-        //if (!isServer) return;
-        //if (NetworkServer.active && NetworkClient.isConnected)
-        //if(mode == NetworkManagerMode.Host)
-        // -----
         base.Start();
+        _allGameLevels = new string[]{decodeLevel(startingLevel)};
         //Shuffle Game Levels
-        _gameLevels = RandomStringArrayTool.RandomizeStrings(_gameLevels);
+        _gameLevels = RandomStringArrayTool.RandomizeStrings(_allGameLevels);
     }
 
     public void AfterLevelEnd()

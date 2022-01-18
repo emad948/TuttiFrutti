@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
-public class PerfectMatchScoring : MonoBehaviour
+public class PerfectMatchScoring : NetworkBehaviour
 {
+
     public GlobalTime globalTime;
     //List<NetworkPlayer> players = ((GameNetworkManager)Mirror.NetworkManager.singleton).PlayersList;
     
@@ -26,4 +27,6 @@ public class PerfectMatchScoring : MonoBehaviour
             //blaa
         }
     }
+
+
 }
