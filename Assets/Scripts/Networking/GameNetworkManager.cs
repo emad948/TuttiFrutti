@@ -85,7 +85,7 @@ public class GameNetworkManager : NetworkManager
 
         if (usingSteam)
         {
-            var steamId = SteamMatchmaking.GetLobbyMemberByIndex(_menu.LobbyId, numPlayers - 1);
+            var steamId = SteamMatchmaking.GetLobbyMemberByIndex(LobbyId, numPlayers - 1);
             playerName = SteamFriends.GetFriendPersonaName(steamId);
         }
         else
@@ -256,4 +256,87 @@ public class GameNetworkManager : NetworkManager
     }
 
     #endregion
+    
+    #region (Previously in) Menu.cs
+    
+    protected Callback<LobbyCreated_t> lobbyCreated;
+    protected Callback<GameLobbyJoinRequested_t> gameLobbyJoinRequested;
+    protected Callback<LobbyEnter_t> lobbyEntered;
+    private const string HOST_ADDRESS = "HOST_ADDRESS";
+    public CSteamID LobbyId { get; private set; } 
+
+    public void menuStart()
+    {
+        if (!usingSteam)
+        {
+            lobbyCreated = null;
+            gameLobbyJoinRequested = null;
+            lobbyEntered = null;
+            return;
+        }
+
+        if (!SteamManager.Initialized)
+        {
+            Debug.LogError("Steam is not Initialized");
+            return;
+        }
+
+        if (steamInitOnlyOnce)
+        {
+            lobbyCreated = Callback<LobbyCreated_t>.Create(OnLobbyCreated);
+            gameLobbyJoinRequested = Callback<GameLobbyJoinRequested_t>.Create(OnGameLobbyJoinRequested);
+            lobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
+            steamInitOnlyOnce = false;
+        }
+    }
+    private void OnLobbyCreated(LobbyCreated_t callback)
+    {
+        //Steam Failed to create a Lobby
+        if (callback.m_eResult != EResult.k_EResultOK)
+        {
+            Debug.LogError("Failed to Create A Steam Lobby");
+            var a = FindObjectOfType<Menu>();
+            a.landingPagePanel.SetActive(true);
+            return;
+        }
+
+        //if lobby creation succeeded
+        LobbyId = new CSteamID(callback.m_ulSteamIDLobby);
+
+        if (!NetworkServer.active || !NetworkClient.active)
+        {
+            this.StartHost();
+        }
+
+        SteamMatchmaking.SetLobbyData
+        (LobbyId,
+            HOST_ADDRESS,
+            SteamUser.GetSteamID().ToString()
+        );
+    }
+
+    private void OnGameLobbyJoinRequested(GameLobbyJoinRequested_t callback)
+    {
+        SteamMatchmaking.JoinLobby(callback.m_steamIDLobby);
+    }
+
+    private void OnLobbyEntered(LobbyEnter_t callback)
+    {
+        //if Host
+        if (NetworkServer.active) return;
+
+        string hostAddress = SteamMatchmaking.GetLobbyData(
+            new CSteamID(callback.m_ulSteamIDLobby),
+            HOST_ADDRESS
+        );
+        networkAddress = hostAddress;
+        StartClient();
+
+        var a = FindObjectOfType<Menu>();
+        a.landingPagePanel.SetActive(false);
+    }
+    
+    
+    #endregion
+
 }
