@@ -18,10 +18,6 @@ public class PlayerCharacter : NetworkBehaviour
    Rigidbody _body;
    
 
- 
-   
-
-
 
 
     #region Server
@@ -48,6 +44,9 @@ public class PlayerCharacter : NetworkBehaviour
             }
         }
 
+    }
+    public bool playerHasAuthority{
+        get{return hasAuthority;}
     }
 
     #endregion
