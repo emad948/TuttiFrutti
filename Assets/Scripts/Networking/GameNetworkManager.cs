@@ -170,7 +170,10 @@ public class GameNetworkManager : NetworkManager
 
     #region (Previously) GameLevelsManager
 
-    private string[] _gameLevels = {"Level_PerfectMatch"};
+    private string[] _allGameLevels = {"Level_PerfectMatch"};
+    private string[] _gameLevels;
+
+    
 
     //private string[] _gameLevels = {"Level_HillKing", "Level_Crown", "Level_RunTheLine", "PerfectMatch"}; 
     //private bool gameIsRunning = false;
@@ -184,7 +187,7 @@ public class GameNetworkManager : NetworkManager
             player.ResetTotalScore();
         }
         PlayersList.Clear();
-        _gameLevels = new string[] {"Level_PerfectMatch"};
+        _gameLevels = _allGameLevels;
         //  TODO _gameLevels = {"Level_HillKing", "Level_Crown", "Level_RunTheLine", "PerfectMatch"};
     }
 
@@ -196,7 +199,7 @@ public class GameNetworkManager : NetworkManager
         // -----
         base.Start();
         //Shuffle Game Levels
-        _gameLevels = RandomStringArrayTool.RandomizeStrings(_gameLevels);
+        _gameLevels = RandomStringArrayTool.RandomizeStrings(_allGameLevels);
     }
 
     public void AfterLevelEnd()
