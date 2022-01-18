@@ -155,12 +155,14 @@ public class GameNetworkManager : NetworkManager
     {
         Debug.Log("here1");
         resettingLevelsManager();
+        base.OnStopClient();
     }
 
     public override void OnStopHost()
     {
         Debug.Log("here4");
         resettingLevelsManager();
+        base.OnStopHost();
     }
 
     #endregion
