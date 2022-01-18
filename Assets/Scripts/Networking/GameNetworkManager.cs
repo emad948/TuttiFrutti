@@ -33,7 +33,7 @@ public class GameNetworkManager : NetworkManager
 
     public void setUseSteam(bool useSteam)
     {
-        usingSteam = true;
+        usingSteam = useSteam;
         steamTransport = GetComponent<FizzySteamworks>();
         Transport kcpTransport = GetComponent<KcpTransport>();
         var steamManager = GetComponent<SteamManager>();
