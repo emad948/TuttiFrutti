@@ -153,11 +153,13 @@ public class GameNetworkManager : NetworkManager
 
     public override void OnStopClient()
     {
+        Debug.Log("here1");
         resettingLevelsManager();
     }
 
     public override void OnStopHost()
     {
+        Debug.Log("here4");
         resettingLevelsManager();
     }
 
@@ -339,7 +341,10 @@ public class GameNetworkManager : NetworkManager
             HOST_ADDRESS
         );
         networkAddress = hostAddress;
+        Debug.Log("here2");
+
         StartClient();
+        Debug.Log("here3");
 
         var a = FindObjectOfType<Menu>();
         a.landingPagePanel.SetActive(false);

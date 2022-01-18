@@ -58,9 +58,9 @@ public class ScoreBoardController : NetworkBehaviour
         {
             if (_gameNetworkManager.usingSteam)
             {
-                // NetworkServer.DisconnectAll();
                 // _gameNetworkManager.StopServer();
                 _gameNetworkManager.StopHost();
+                NetworkServer.DisconnectAll();
             }
             else
             {

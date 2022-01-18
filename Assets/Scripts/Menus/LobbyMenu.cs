@@ -83,9 +83,9 @@ public class LobbyMenu : MonoBehaviour
         {
             if (_gameNetworkManager.usingSteam)
             {
-                // NetworkServer.DisconnectAll();
                 // _gameNetworkManager.StopServer();
                 _gameNetworkManager.StopHost();
+                NetworkServer.DisconnectAll();
             }
             else
             {
