@@ -19,7 +19,6 @@ public class ScoreBoardController : NetworkBehaviour
     {
         _gameNetworkManager = ((GameNetworkManager) NetworkManager.singleton);
         players = _gameNetworkManager.PlayersList;
-
         if (isWinnerScene)
         {
             Cursor.visible = true;

@@ -17,7 +17,7 @@ public class GameNetworkManager : NetworkManager
 {
     [SerializeField] private GameObject characterPrefab;
     private Menu _menu;
-    private bool _gameStarted;
+    private bool _gameStarted;  
     private Transport steamTransport;
     public bool steamInitOnlyOnce { get; set; } = true;
     public bool usingSteam { get; set; } = false;
@@ -142,25 +142,24 @@ public class GameNetworkManager : NetworkManager
     {
         base.OnClientDisconnect();
         ClientOnDisconnected?.Invoke();
-
+        
         /*  If disconnected from server for any reason, go back to main menu.
         *** I don't know, how to reset the client tho, therefore, another connection is currently not possible */
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         resettingLevelsManager();
         SceneManager.LoadScene(0);
+        StopClient();
     }
 
     public override void OnStopClient()
     {
-        Debug.Log("here1");
         resettingLevelsManager();
         base.OnStopClient();
     }
 
     public override void OnStopHost()
     {
-        Debug.Log("here4");
         resettingLevelsManager();
         base.OnStopHost();
     }
@@ -293,13 +292,14 @@ public class GameNetworkManager : NetworkManager
             return;
         }
 
-        //if (steamInitOnlyOnce)
-        //{
+        //SteamManager.
+        if (steamInitOnlyOnce)
+        {
             lobbyCreated = Callback<LobbyCreated_t>.Create(OnLobbyCreated);
             gameLobbyJoinRequested = Callback<GameLobbyJoinRequested_t>.Create(OnGameLobbyJoinRequested);
             lobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
             steamInitOnlyOnce = false;
-        //}
+        }
     }
 
     private void OnLobbyCreated(LobbyCreated_t callback)
