@@ -20,6 +20,7 @@ public class GameNetworkManager : NetworkManager
     private bool _gameStarted;
     private Transport steamTransport;
     public bool steamInitOnlyOnce { get; set; } = true;
+    public bool usingSteam { get; set; } = false;
     public List<NetworkPlayer> PlayersList { get; } = new List<NetworkPlayer>();
     public static event Action ClientOnConnected;
     public static event Action ClientOnDisconnected;
@@ -32,6 +33,7 @@ public class GameNetworkManager : NetworkManager
 
     public void setUseSteam(bool useSteam)
     {
+        usingSteam = true;
         steamTransport = GetComponent<FizzySteamworks>();
         Transport kcpTransport = GetComponent<KcpTransport>();
         var steamManager = GetComponent<SteamManager>();

@@ -14,10 +14,12 @@ public class LobbyMenu : MonoBehaviour
     [SerializeField] private Button startGameButton;
     [SerializeField] private TMP_Text[] playersNameTexts = new TMP_Text[4];
     [SerializeField] private Menu _menu;
+    private GameNetworkManager _gameNetworkManager;
     private bool lobbyUiActive = false;
 
     private void Start()
     {
+        _gameNetworkManager = ((GameNetworkManager) NetworkManager.singleton);
         //When client connects 
         GameNetworkManager.ClientOnConnected += HandleClientConnected;
         NetworkPlayer.AuthorityOnGameHostStateUpdated += AuthorityHandleGameHostStateUpdated;
@@ -67,7 +69,6 @@ public class LobbyMenu : MonoBehaviour
 
     private void Update()
     {
-        
     }
 
     public void StartGame()
@@ -80,17 +81,20 @@ public class LobbyMenu : MonoBehaviour
         //Host
         if (NetworkServer.active && NetworkClient.isConnected)
         {
-            //NetworkServer.DisconnectAll();
-            NetworkServer.Shutdown();
-            ((GameNetworkManager) NetworkManager.singleton).StopHost();
-            //NetworkManager.singleton.OnStopServer();
+            if (_gameNetworkManager.usingSteam)
+            {
+                NetworkServer.DisconnectAll();
+            }
+            else
+            {
+                NetworkServer.Shutdown();
+            }
+            _gameNetworkManager.StopHost();
         }
         //Client
         else
         {
-            ((GameNetworkManager) NetworkManager.singleton).StopClient();
+            _gameNetworkManager.StopClient();
         }
-
-        //SceneManager.LoadScene(0);
     }
 }
