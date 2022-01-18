@@ -235,7 +235,6 @@ namespace StarterAssets {
 			
 			Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
 			
-			if (externalForce.magnitude > 0.1) print(externalForce);
 			// move the player
 			_controller.Move(externalForce * Time.deltaTime + targetDirection.normalized * (speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 
