@@ -47,7 +47,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
-  PersistNetworkManagerToOfflineScene: 0
   runInBackground: 1
   autoStartServerBuild: 1
   serverTickRate: 30
@@ -78,7 +77,7 @@ MonoBehaviour:
   Channels: 0200000001000000
   Timeout: 25
   AllowSteamRelay: 1
-  UseNextGenSteamNetworking: 0
+  UseNextGenSteamNetworking: 1
 --- !u!114 &4661487925121870488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100,7 +99,11 @@ MonoBehaviour:
   CongestionWindow: 0
   SendWindowSize: 4096
   ReceiveWindowSize: 4096
+  MaxRetransmit: 40
   NonAlloc: 1
+  MaximizeSendReceiveBuffersToOSLimit: 1
+  ReliableMaxMessageSize: 298449
+  UnreliableMaxMessageSize: 1199
   debugLog: 0
   statisticsGUI: 0
   statisticsLog: 0
