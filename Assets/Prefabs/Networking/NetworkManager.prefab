@@ -62,7 +62,7 @@ MonoBehaviour:
   spawnPrefabs:
   - {fileID: 3463925584030421660, guid: c4d37ffc75e6f4b67adbb1c0ad5165d0, type: 3}
   characterPrefab: {fileID: 3463925584030421660, guid: c4d37ffc75e6f4b67adbb1c0ad5165d0, type: 3}
-  startingLevel: 2
+  startingLevel: 3
 --- !u!114 &5814695804023759197
 MonoBehaviour:
   m_ObjectHideFlags: 0
