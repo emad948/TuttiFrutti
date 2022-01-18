@@ -269,10 +269,10 @@ public class GameNetworkManager : NetworkManager
     {
         if (!usingSteam)
         {
-            lobbyCreated = null;
-            gameLobbyJoinRequested = null;
-            lobbyEntered = null;
-            return;
+            //lobbyCreated = null;
+            //gameLobbyJoinRequested = null;
+            //lobbyEntered = null;
+            //return;
         }
 
         if (!SteamManager.Initialized)
