@@ -10,17 +10,18 @@ public class ExternalForces : NetworkBehaviour
     [HideInInspector]
     [SyncVar] public Vector3 force = Vector3.zero;
 
-    public float forceDuration = 0.1f;  
-    public void addForce(Vector3 force){
+    [SyncVar] public float forceDuration = 0.1f;  
+    public void addForce(Vector3 force, float duration){
         this.force += force;
-        if (!isServer) CmdSyncForce(force);
+        this.forceDuration = duration;
+        if (!isServer) CmdSyncForce(force, duration);
     }
-    [Command (requiresAuthority=false)] private void CmdSyncForce(Vector3 force){this.force = force;}
+    [Command (requiresAuthority=false)] private void CmdSyncForce(Vector3 force, float duration){this.force = force; this.forceDuration = duration;}
     
     void Update(){
         if (!hasAuthority) return;
         fadeForce();
-        if (!isServer) CmdSyncForce(force);   
+        if (!isServer) CmdSyncForce(force, forceDuration);   
     }
 
     void fadeForce(){

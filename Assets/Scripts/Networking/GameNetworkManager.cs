@@ -264,9 +264,9 @@ public class GameNetworkManager : NetworkManager
     }
 
     #endregion
-
+    
     #region (Previously in) Menu.cs
-
+    
     protected Callback<LobbyCreated_t> lobbyCreated;
     protected Callback<GameLobbyJoinRequested_t> gameLobbyJoinRequested;
     protected Callback<LobbyEnter_t> lobbyEntered;
