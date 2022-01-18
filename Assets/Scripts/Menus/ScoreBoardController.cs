@@ -38,13 +38,13 @@ public class ScoreBoardController : NetworkBehaviour
     {
         players.Sort();
 
-        // var counter = PlayersList.Count;
-        // foreach (NetworkPlayer player in PlayersList)
-        // {
-        //     player.UpdateTotalScore(counter);
-        //     counter--;
-        //     // TODO @Colin: even points?? 
-        // }
+        var counter = players.Count;
+        foreach (NetworkPlayer player in players)
+        {
+            player.UpdateTotalScore(counter);
+            counter--;
+            // TODO @Colin: even points?? 
+        }
 
         for (int i = 0; i < players.Count; i++)
         {
