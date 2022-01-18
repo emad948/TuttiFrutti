@@ -154,11 +154,13 @@ public class GameNetworkManager : NetworkManager
     public override void OnStopClient()
     {
         resettingLevelsManager();
+        base.OnStopClient();
     }
 
     public override void OnStopHost()
     {
         resettingLevelsManager();
+        base.OnStopHost();
     }
 
     #endregion
