@@ -28,6 +28,7 @@ public class PlayerCollision : NetworkBehaviour
         if (!crownChanged) return;
         crownChanged = false;
         crown.SetActive(hasCrown);
+        Debug.Log("has crown updated to: " + hasCrown);
     }
 
     void OnControllerColliderHit(ControllerColliderHit hit)

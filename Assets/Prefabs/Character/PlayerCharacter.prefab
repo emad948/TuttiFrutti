@@ -434,8 +434,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  _pushStrength: 1
+  _pushStrength: 0.01
   runMultiplier: 2
+  hasCrown: 0
+  crownChanged: 0
   crown: {fileID: 2779278556630597959}
 --- !u!114 &5545311627685912596
 MonoBehaviour:
