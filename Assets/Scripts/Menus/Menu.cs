@@ -29,6 +29,7 @@ public class Menu : MonoBehaviour
 
     private void Start()
     {
+        landingPagePanel = GameObject.FindGameObjectWithTag("LandingPage");
         _gameNetworkManager = (GameNetworkManager) NetworkManager.singleton;
         steamErrorText.enabled = false;
         //This is only for development purposes

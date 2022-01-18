@@ -83,7 +83,7 @@ public class GameNetworkManager : NetworkManager
 
         var playerName = "";
 
-        if (_menu.getUseSteam())
+        if (usingSteam)
         {
             var steamId = SteamMatchmaking.GetLobbyMemberByIndex(_menu.LobbyId, numPlayers - 1);
             playerName = SteamFriends.GetFriendPersonaName(steamId);
@@ -173,6 +173,7 @@ public class GameNetworkManager : NetworkManager
     private void resettingLevelsManager()
     {
         _gameStarted = false;
+        usingSteam = false;
         PlayersList.Clear();
         _gameLevels = new string[] {"Level_HillKing"};
         //  TODO _gameLevels = {"Level_HillKing", "Level_Crown", "Level_RunTheLine", "PerfectMatch"};
