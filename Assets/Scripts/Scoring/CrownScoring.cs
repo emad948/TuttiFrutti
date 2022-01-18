@@ -26,10 +26,11 @@ public class CrownScoring : NetworkBehaviour
         List<int> zoneIndices = new List<int>();
         zoneIndices = zoneIndices.OrderBy(item => rnd.Next()).ToList();
         
-        for (var i = 0; i <= 0; i++)
+        for (var i = 0; i <= 0; i++) // TODO Colin: set relative to num players 
         {
-            players[i].playerCharacter.gameObject.GetComponent<PlayerCollision>().hasCrown = true;
-            players[i].playerCharacter.gameObject.GetComponent<PlayerCollision>().crown.SetActive(true);
+            var curCollision = players[i].playerCharacter.gameObject.GetComponent<PlayerCollision>();
+            curCollision.hasCrown = true;
+            curCollision.crownChanged = true;
         }
 
 
