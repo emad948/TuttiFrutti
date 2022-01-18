@@ -358,10 +358,10 @@ public class GameNetworkManager : NetworkManager
             HOST_ADDRESS
         );
         networkAddress = hostAddress;
-        Debug.Log("here2");
+        //Debug.Log("here2");
 
         StartClient();
-        Debug.Log("here3");
+        //Debug.Log("here3");
 
         var a = FindObjectOfType<Menu>();
         a.landingPagePanel.SetActive(false);
