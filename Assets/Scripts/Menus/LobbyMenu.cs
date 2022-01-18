@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class LobbyMenu : MonoBehaviour
 {
     [SerializeField] private GameObject lobbyUi;
+    [SerializeField] private GameObject mainUi;
     [SerializeField] private Button startGameButton;
     [SerializeField] private TMP_Text[] playersNameTexts = new TMP_Text[4];
     [SerializeField] private Menu _menu;
@@ -55,6 +56,7 @@ public class LobbyMenu : MonoBehaviour
     {
         lobbyUiActive = !lobbyUiActive;
         lobbyUi.SetActive(true);
+        mainUi.SetActive(false);
     }
 
     private void AuthorityHandleGameHostStateUpdated(bool state)
