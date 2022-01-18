@@ -174,6 +174,10 @@ public class GameNetworkManager : NetworkManager
     {
         _gameStarted = false;
         usingSteam = false;
+        foreach (NetworkPlayer player in PlayersList)
+        {
+            player.ResetTotalScore();
+        }
         PlayersList.Clear();
         _gameLevels = new string[] {"Level_HillKing"};
         //  TODO _gameLevels = {"Level_HillKing", "Level_Crown", "Level_RunTheLine", "PerfectMatch"};
@@ -193,19 +197,12 @@ public class GameNetworkManager : NetworkManager
     public void AfterLevelEnd()
     {
         ((GameNetworkManager) NetworkManager.singleton).ServerChangeScene("ScoreBoard");
-        Invoke("startLevel", 3f);
+        // has to be bigger then 0f for showing correct (non-zero) scores in scene
+        Invoke("startLevel", 3f); 
     }
 
     public void startLevel()
     {
-        if (_gameStarted)
-        {
-            foreach (NetworkPlayer player in PlayersList)
-            {
-                player.ResetCurrentScore();
-            }
-        }
-
         _gameStarted = true;
         string level = GETNextGameLevel();
         switch (level)
@@ -233,6 +230,17 @@ public class GameNetworkManager : NetworkManager
 
     public void ChangeScene(string scene)
     {
+        if (scene != "WinnerBoard")
+        {
+            if (_gameStarted)
+            {
+                foreach (NetworkPlayer player in PlayersList)
+                {
+                    player.ResetCurrentScore();
+                }
+            }
+        }
+
         ((GameNetworkManager) NetworkManager.singleton).ServerChangeScene(scene);
     }
 
@@ -256,23 +264,23 @@ public class GameNetworkManager : NetworkManager
     }
 
     #endregion
-    
+
     #region (Previously in) Menu.cs
-    
+
     protected Callback<LobbyCreated_t> lobbyCreated;
     protected Callback<GameLobbyJoinRequested_t> gameLobbyJoinRequested;
     protected Callback<LobbyEnter_t> lobbyEntered;
     private const string HOST_ADDRESS = "HOST_ADDRESS";
-    public CSteamID LobbyId { get; private set; } 
+    public CSteamID LobbyId { get; private set; }
 
     public void menuStart()
     {
         if (!usingSteam)
         {
-            lobbyCreated = null;
-            gameLobbyJoinRequested = null;
-            lobbyEntered = null;
-            return;
+            // lobbyCreated = null;
+            // gameLobbyJoinRequested = null;
+            // lobbyEntered = null;
+            // return;
         }
 
         if (!SteamManager.Initialized)
@@ -289,6 +297,7 @@ public class GameNetworkManager : NetworkManager
             steamInitOnlyOnce = false;
         }
     }
+
     private void OnLobbyCreated(LobbyCreated_t callback)
     {
         //Steam Failed to create a Lobby
@@ -335,8 +344,6 @@ public class GameNetworkManager : NetworkManager
         var a = FindObjectOfType<Menu>();
         a.landingPagePanel.SetActive(false);
     }
-    
-    
-    #endregion
 
+    #endregion
 }

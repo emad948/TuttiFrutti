@@ -103,6 +103,8 @@ public class NetworkPlayer : NetworkBehaviour, IComparable<NetworkPlayer>
     [Server]
     public void DuplicateScores() => _currentScore = _totalScore; // for the compareTo method (sorting)
 
+    public void ResetTotalScore() => _totalScore = 0;
+    
     [Command]
     public void CmdStartGame()
     {

@@ -12,18 +12,20 @@ public class ScoreBoardController : NetworkBehaviour
     [SerializeField] private TMP_Text[] playersTexts = new TMP_Text[4];
     public bool isWinnerScene;
     private GameNetworkManager _gameNetworkManager;
+    private List<NetworkPlayer> players;
 
 
     private void Awake()
     {
         _gameNetworkManager = ((GameNetworkManager) NetworkManager.singleton);
+        players = _gameNetworkManager.PlayersList;
+
         if (isWinnerScene)
         {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
             if (isServer)
             {
-                List<NetworkPlayer> players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
                 foreach (NetworkPlayer player in players)
                 {
                     player.DuplicateScores(); // for the compareTo method (sorting)
@@ -34,7 +36,6 @@ public class ScoreBoardController : NetworkBehaviour
 
     private void Start()
     {
-        List<NetworkPlayer> players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
         players.Sort();
 
         // var counter = PlayersList.Count;
@@ -66,7 +67,6 @@ public class ScoreBoardController : NetworkBehaviour
                 NetworkServer.Shutdown();
                 _gameNetworkManager.StopHost();
             }
-
         }
         else
         {
