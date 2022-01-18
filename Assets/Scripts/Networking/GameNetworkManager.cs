@@ -150,6 +150,7 @@ public class GameNetworkManager : NetworkManager
         resettingLevelsManager();
         SceneManager.LoadScene(0);
         StopClient();
+        
     }
 
     public override void OnStopClient()
@@ -294,13 +295,13 @@ public class GameNetworkManager : NetworkManager
             return;
         }
 
-        //if (steamInitOnlyOnce)
-        //{
+        if (steamInitOnlyOnce)
+        {
             lobbyCreated = Callback<LobbyCreated_t>.Create(OnLobbyCreated);
             gameLobbyJoinRequested = Callback<GameLobbyJoinRequested_t>.Create(OnGameLobbyJoinRequested);
             lobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
             steamInitOnlyOnce = false;
-        //}
+        }
     }
 
     private void OnLobbyCreated(LobbyCreated_t callback)

@@ -93,4 +93,6 @@ Material:
     m_Colors:
     - _Color: {r: 0.10849059, g: 0.83638096, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - colorStripe: {r: 0.9415004, g: 1, b: 0.051886797, a: 0}
+    - playerPosition: {r: 0.108, g: 0, b: -0.525, a: 0}
   m_BuildTextureStacks: []
