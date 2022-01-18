@@ -10,7 +10,7 @@ public class ExternalForces : NetworkBehaviour
     [HideInInspector]
     [SyncVar] public Vector3 force = Vector3.zero;
 
-    [SyncVar] public float forceDuration = 0.1f;  
+    [SyncVar] public float forceDuration = 0.035f;  
     public void addForce(Vector3 force, float duration){
         this.force += force;
         this.forceDuration = duration;
@@ -25,7 +25,7 @@ public class ExternalForces : NetworkBehaviour
     }
 
     void fadeForce(){
-        if (force.magnitude < 0.1) {
+        if (force.magnitude < 0.01) {
             force = Vector3.zero;
             return;
         }

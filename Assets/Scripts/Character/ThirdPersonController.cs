@@ -184,7 +184,7 @@ namespace StarterAssets {
 		{
 			// hasAuthority-check already in Update()
 
-			Vector3 externalForce = GetComponent<ExternalForces>().force;
+			
 
 			// set target speed based on move speed, sprint speed and if sprint is pressed
 			float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
@@ -196,7 +196,9 @@ namespace StarterAssets {
 			if (_input.move == Vector2.zero) targetSpeed = 0.0f;
 
 			// a reference to the players current horizontal velocity
-			float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude - OurLib.horizontal(externalForce).magnitude;
+			float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
+			//float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude - OurLib.horizontal(externalForce).magnitude;
+			
 			float speedOffset = 0.1f;
 			float inputMagnitude = _input.analogMovement ? _input.move.magnitude : 1f;
 
@@ -233,7 +235,8 @@ namespace StarterAssets {
 			Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
 			
 			// move the player
-			_controller.Move(externalForce * Time.deltaTime + targetDirection.normalized * (speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+			_controller.Move(targetDirection.normalized * (speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+			//_controller.Move(externalForce * Time.deltaTime + targetDirection.normalized * (speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 
 			// update animator if using character
 			if (_hasAnimator)
@@ -242,7 +245,8 @@ namespace StarterAssets {
 				//print(_animationBlend);
 				_animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
 			}
-			
+			Vector3 externalForce = GetComponent<ExternalForces>().force;
+			transform.position += externalForce;
 		}
 			
 		private void JumpAndGravity()

@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 // detects if you hit another player
 public class PlayerCollision : NetworkBehaviour
 {
-    public float _pushStrength = 1f;
+    public float _pushStrength = 0.1f;
     public float runMultiplier = 1000f;
     private StarterAssets.ThirdPersonController controller;
     public bool hasCrown { get; set; } = false;
