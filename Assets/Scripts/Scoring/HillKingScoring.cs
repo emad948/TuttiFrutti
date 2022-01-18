@@ -26,6 +26,7 @@ public class HillKingScoring : NetworkBehaviour
     private void Start()
     {
         players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
+        
         var abc = (GameNetworkManager) NetworkManager.singleton;
         if (!isServer) return; // move higher again
         _globalTime = FindObjectOfType<GlobalTime>();
