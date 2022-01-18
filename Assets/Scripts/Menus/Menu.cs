@@ -46,9 +46,13 @@ public class Menu : MonoBehaviour
             return;
         }
 
-        lobbyCreated = Callback<LobbyCreated_t>.Create(OnLobbyCreated);
-        gameLobbyJoinRequested = Callback<GameLobbyJoinRequested_t>.Create(OnGameLobbyJoinRequested);
-        lobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
+        if (_gameNetworkManager.steamInitOnlyOnce)
+        {
+            lobbyCreated = Callback<LobbyCreated_t>.Create(OnLobbyCreated);
+            gameLobbyJoinRequested = Callback<GameLobbyJoinRequested_t>.Create(OnGameLobbyJoinRequested);
+            lobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
+            _gameNetworkManager.steamInitOnlyOnce = false;
+        }
     }
 
     public void HostLobby()

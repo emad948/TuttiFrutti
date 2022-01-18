@@ -19,6 +19,7 @@ public class GameNetworkManager : NetworkManager
     private Menu _menu;
     private bool _gameStarted;
     private Transport steamTransport;
+    public bool steamInitOnlyOnce { get; set; } = true;
     public List<NetworkPlayer> PlayersList { get; } = new List<NetworkPlayer>();
     public static event Action ClientOnConnected;
     public static event Action ClientOnDisconnected;
@@ -61,7 +62,7 @@ public class GameNetworkManager : NetworkManager
 
     public override void OnStopServer()
     {
-        PlayersList.Clear(); 
+        PlayersList.Clear();
         resettingLevelsManager();
     }
 
@@ -155,7 +156,7 @@ public class GameNetworkManager : NetworkManager
 
     public override void OnStopHost()
     {
-        resettingLevelsManager(); 
+        resettingLevelsManager();
     }
 
     #endregion
@@ -171,7 +172,7 @@ public class GameNetworkManager : NetworkManager
     {
         _gameStarted = false;
         PlayersList.Clear();
-        _gameLevels = new string[] {"Level_HillKing"}; 
+        _gameLevels = new string[] {"Level_HillKing"};
         //  TODO _gameLevels = {"Level_HillKing", "Level_Crown", "Level_RunTheLine", "PerfectMatch"};
     }
 
