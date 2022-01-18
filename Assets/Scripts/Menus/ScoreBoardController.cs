@@ -11,9 +11,12 @@ public class ScoreBoardController : NetworkBehaviour
 {
     [SerializeField] private TMP_Text[] playersTexts = new TMP_Text[4];
     public bool isWinnerScene;
+    private GameNetworkManager _gameNetworkManager;
+
 
     private void Awake()
     {
+        _gameNetworkManager = ((GameNetworkManager) NetworkManager.singleton);
         if (isWinnerScene)
         {
             Cursor.visible = true;
@@ -52,12 +55,22 @@ public class ScoreBoardController : NetworkBehaviour
     {
         if (isServer)
         {
-            NetworkServer.Shutdown();
-            ((GameNetworkManager) NetworkManager.singleton).StopHost();
+            if (_gameNetworkManager.usingSteam)
+            {
+                // NetworkServer.DisconnectAll();
+                // _gameNetworkManager.StopServer();
+                _gameNetworkManager.StopHost();
+            }
+            else
+            {
+                NetworkServer.Shutdown();
+                _gameNetworkManager.StopHost();
+            }
+
         }
         else
         {
-            ((GameNetworkManager) NetworkManager.singleton).StopClient();
+            _gameNetworkManager.StopClient();
         }
 
         SceneManager.LoadScene(0);

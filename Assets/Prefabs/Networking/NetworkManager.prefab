@@ -55,7 +55,7 @@ MonoBehaviour:
   onlineScene: 
   transport: {fileID: 4661487925121870488}
   networkAddress: localhost
-  maxConnections: 100
+  maxConnections: 20
   authenticator: {fileID: 0}
   playerPrefab: {fileID: 3770279178295928223, guid: 2f865af938afb4f6fa048fb5a1aafced, type: 3}
   autoCreatePlayer: 1
@@ -95,7 +95,7 @@ MonoBehaviour:
   DualMode: 1
   NoDelay: 1
   Interval: 10
-  Timeout: 10000
+  Timeout: 5000
   FastResend: 2
   CongestionWindow: 0
   SendWindowSize: 4096

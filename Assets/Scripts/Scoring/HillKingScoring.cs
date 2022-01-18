@@ -39,6 +39,7 @@ public class HillKingScoring : NetworkBehaviour
 
     private void Update()
     {
+        
         if (!isServer) return;
         _time = _globalTime.matchTime;
         if (_time <= sceneChangeTimer && onlyOnce &&

@@ -37,7 +37,7 @@ public class PlayerCharacter : NetworkBehaviour
 
     private void HandleDisplayNameUpdated(string oldName, string newName)
     {
-        if(!hasAuthority) playerDisplayName.text = newName;
+        playerDisplayName.text = newName;
     }
 
     private void HandleColorUpdated(Color oldColor, Color newColor)

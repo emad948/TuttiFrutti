@@ -19,7 +19,7 @@ public class Grid : MonoBehaviour
     private float twoSecondTimer = 2.0f;
 
     // Booleans
-    private bool tilesOff = false;
+    //private bool tilesOff = false;        // was unused so far
     private bool hasFinishedInitial = false;
     public bool revealingFruit = false;
     private bool hasRemovedIncorrectTiles = false;

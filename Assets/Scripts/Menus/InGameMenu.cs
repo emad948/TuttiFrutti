@@ -9,9 +9,12 @@ public class InGameMenu : NetworkBehaviour
 {
     public GameObject Panel;
     private bool GameIsPaused = false;
+    private GameNetworkManager _gameNetworkManager;
+
 
     void Start()
     {
+        _gameNetworkManager = ((GameNetworkManager) NetworkManager.singleton);
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -51,12 +54,21 @@ public class InGameMenu : NetworkBehaviour
     {
         if (isServer)
         {
-            NetworkServer.Shutdown();
-            ((GameNetworkManager) NetworkManager.singleton).StopHost();
+            if (_gameNetworkManager.usingSteam)
+            {
+                // NetworkServer.DisconnectAll();
+                // _gameNetworkManager.StopServer();
+                _gameNetworkManager.StopHost();
+            }
+            else
+            {
+                NetworkServer.Shutdown();
+                _gameNetworkManager.StopHost();
+            }
         }
         else
         {
-            ((GameNetworkManager) NetworkManager.singleton).StopClient();
+            _gameNetworkManager.StopClient();
         }
 
         SceneManager.LoadScene(0);
