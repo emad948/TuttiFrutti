@@ -7,6 +7,13 @@ done + extra starkes Schubsen (Flummi)
 	- Licht z.B. an Kanten von bewegten Objekten
 
 @Colin
+- (Random Buttons) Fruit Capchta
+- Level Texturierung: 
+	- Change Object Mesh from Rectangle grid to different
+	 angled mesh with different colors
+- Move Steam Button under PlayButton
+- Level-UI: Change colors
+- New Levels maybe?
 
 @Emad
 
