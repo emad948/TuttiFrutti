@@ -499,6 +499,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  globalObserverCamera: {fileID: 1284064503}
   scoring: {fileID: 1846994497}
 --- !u!65 &220185090
 BoxCollider:
