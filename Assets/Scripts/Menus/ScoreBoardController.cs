@@ -37,7 +37,7 @@ public class ScoreBoardController : NetworkBehaviour
     {
         players.Sort();
 
-        if (!isWinnerScene)
+        if (!isWinnerScene && isServer)
         {
             var counter = players.Count;
             foreach (NetworkPlayer player in players)
