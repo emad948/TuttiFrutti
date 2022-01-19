@@ -10,6 +10,8 @@ public class RunLineScoring : NetworkBehaviour
     private List<NetworkPlayer> players;
     private GameNetworkManager _gameNetMan;
     private bool gameIsOver;
+
+    public GlobalTime globalTime;
     
     void Start()
     {
@@ -19,11 +21,15 @@ public class RunLineScoring : NetworkBehaviour
 
     void Update()
     {
+       
+
         if (isServer)
         {
             foreach (NetworkPlayer player in players)
             {
-                if (pos.x >= 5.59 && pos.x >= 81.1)      // coordinates are bigger than
+                var pos = player.playerCharacter.transform.position;   //Playerposition
+                
+                if (pos.x >= 5.59 && pos.y >= 81.1)      // coordinates are bigger than
                 {
                     resultList.Add(player);
                     players.Remove(player);
