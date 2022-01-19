@@ -185,7 +185,7 @@ public class GameNetworkManager : NetworkManager
     public Levels startingLevel;
     private string[] _allGameLevels;
     private string[] _gameLevels;
-
+    public int currentLevelIndex = 0;
     
 
     //private string[] _gameLevels = {"Level_HillKing", "Level_Crown", "Level_RunTheLine", "PerfectMatch"}; 
@@ -193,6 +193,7 @@ public class GameNetworkManager : NetworkManager
 
     private void resettingLevelsManager()
     {
+        currentLevelIndex = 0;
         _gameStarted = false;
         usingSteam = false;
         foreach (NetworkPlayer player in PlayersList)
@@ -265,6 +266,7 @@ public class GameNetworkManager : NetworkManager
     public string GETNextGameLevel()
     {
         if (_gameLevels.Length == 0) return "WinnerBoard";
+        currentLevelIndex++;
         var nextGameLevel = _gameLevels[0];
         _gameLevels = _gameLevels.Skip(1).ToArray();
         return nextGameLevel;

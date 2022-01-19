@@ -248,7 +248,7 @@ GameObject:
   - component: {fileID: 3034938606150430078}
   - component: {fileID: 3034938606150430077}
   m_Layer: 5
-  m_Name: Round
+  m_Name: LevelIndex
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -310,8 +310,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278237183
+  m_fontColor: {r: 1, g: 0.7192065, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -597,8 +597,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278220799
+  m_fontColor: {r: 1, g: 0.4669392, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -838,8 +838,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278242332
+  m_fontColor: {r: 0.10907795, g: 0.8018868, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -984,6 +984,7 @@ MonoBehaviour:
   timerText: {fileID: 3034938606745806837}
   _time: -1
   matchTime: 150
+  levelEntryDelayTime: 1
   loadingScenePanel: {fileID: 3034938606392152597}
 --- !u!114 &3034938606565585898
 MonoBehaviour:
@@ -998,6 +999,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   score: {fileID: 3034938606473674860}
+  levelIndex: {fileID: 3034938606150430077}
 --- !u!1 &3034938606745806827
 GameObject:
   m_ObjectHideFlags: 0
