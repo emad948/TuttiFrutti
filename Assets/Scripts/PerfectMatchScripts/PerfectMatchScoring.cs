@@ -22,8 +22,8 @@ public class PerfectMatchScoring : MonoBehaviour
 
     public void playerFellOut(GameObject player){
         // hier score von player zeitabhaengig erhoehen.
-        if (globalTime.matchTime > 100){ // matchTime wird auf Wert x gesetzt und zu 0 heruntergezaehlt.
-            //blaa
+        if (globalTime.matchTime > 126){ // matchTime wird auf Wert x gesetzt und zu 0 heruntergezaehlt.
+            //player
         }
     }
 }

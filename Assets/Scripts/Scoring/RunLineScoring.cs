@@ -23,14 +23,14 @@ public class RunLineScoring : NetworkBehaviour
         {
             foreach (NetworkPlayer player in players)
             {
-                if (true)      // coordinates are bigger than
+                if (pos.x >= 5.59 && pos.x >= 81.1)      // coordinates are bigger than
                 {
                     resultList.Add(player);
                     players.Remove(player);
                 }
             }
 
-            if (gameIsOver)     // maybe time has ended?
+            if (globalTime.matchTime <=0)     // End when globalTime <0=
             {
                 gameEnded();
             }
@@ -45,14 +45,15 @@ public class RunLineScoring : NetworkBehaviour
             {
                 resultList.Add(players[0]);     // correct Index? 
             }
-            else
-            {
+            //else   Zero point for players who doesnt reach the finishline
+            //{
                 // figure out order of remaining players via difference between pos and finish.pos
                 // and add to resultList
-                foreach (NetworkPlayer player in players)
-                {
-                }
-            }
+            //    foreach (NetworkPlayer player in players)
+            //    {
+
+            //    }
+           // }
         }
         
         var counter = resultList.Count;
