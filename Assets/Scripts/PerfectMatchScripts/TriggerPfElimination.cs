@@ -1,16 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class TriggerPfElimination : MonoBehaviour
+public class TriggerPfElimination : NetworkBehaviour
 {
 
     public PerfectMatchScoring scoring;
     // Start is called before the first frame update
 
     void OnTriggerEnter(Collider other){
-        if(!other.gameObject.GetComponent<PlayerCharacter>().playerHasAuthority) return;
-        print("hasAuthority and fell out!");
+        // Message player
+        
+        // 
+        if(!isServer) return;
         scoring.playerFellOut(other.gameObject);
             // veraendere meine eigenen punkte
     }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.29038987, g: 0.69962335, b: 0.86592114, a: 1}
+  m_IndirectSpecularColor: {r: 0.29039055, g: 0.69962436, b: 0.86592245, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -477,6 +477,7 @@ GameObject:
   - component: {fileID: 220185091}
   - component: {fileID: 220185090}
   - component: {fileID: 220185089}
+  - component: {fileID: 220185092}
   m_Layer: 0
   m_Name: EliminationTrigger
   m_TagString: Untagged
@@ -496,6 +497,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7d99d8c7bbe2fd4b8e3c90b525e0476, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   scoring: {fileID: 1018314697}
 --- !u!65 &220185090
 BoxCollider:
@@ -524,6 +527,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &220185092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 220185088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 1105815981
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 
+  hasSpawned: 0
 --- !u!1 &262419501
 GameObject:
   m_ObjectHideFlags: 0
@@ -1484,6 +1504,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe2f38d50f51a1f429d09186ffd84289, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   globalTime: {fileID: 0}
 --- !u!114 &1018314698 stripped
 MonoBehaviour:
@@ -1782,6 +1804,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1846994498}
   - component: {fileID: 1846994497}
+  - component: {fileID: 1846994499}
   m_Layer: 0
   m_Name: PFScoring
   m_TagString: Untagged
@@ -1801,6 +1824,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe2f38d50f51a1f429d09186ffd84289, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   globalTime: {fileID: 1018314698}
 --- !u!4 &1846994498
 Transform:
@@ -1816,6 +1841,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1846994499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1846994496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 381314290
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 
+  hasSpawned: 0
 --- !u!1 &1935461644 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6522746005251814953, guid: 7418acbb5e37b3845b744dbadd6f79ba, type: 3}
