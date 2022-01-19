@@ -70,7 +70,7 @@ public class GameNetworkManager : NetworkManager
 
     public void StartGame()
     {
-        if (!_menu.testMode && PlayersList.Count < 2) return;
+        //if (!_menu.testMode && PlayersList.Count < 2) return;
 
         _gameStarted = true;
 
