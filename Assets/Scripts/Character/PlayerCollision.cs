@@ -10,7 +10,6 @@ using UnityEngine.SceneManagement;
 public class PlayerCollision : NetworkBehaviour
 {
     public float _pushStrength = 0.1f;
-    public float runMultiplier = 1000f;
     private StarterAssets.ThirdPersonController controller;
     [SyncVar] public bool hasCrown = false;
     private bool hadCrown = false;
@@ -38,19 +37,16 @@ public class PlayerCollision : NetworkBehaviour
         var target = hit.gameObject;
         if (target.tag == "PlayerCharacter")
         {
-            var multiplier = _pushStrength;
-            var duration = 0.1f;
-            if (controller.inputRunning)
-            {
-                multiplier *= runMultiplier;
-                duration = 0.3f;
+            if (controller.inputRunning){
+                var multiplier = _pushStrength;
+                var duration = 0.15f;
+
+                Vector3 pushDirection = (hit.point - transform.position);
+                pushDirection.y = 0;
+                pushDirection = pushDirection.normalized;
+
+                target.GetComponent<ExternalForces>().addForce(pushDirection * multiplier, duration);
             }
-
-            Vector3 pushDirection = (hit.point - transform.position);
-            pushDirection.y = 0;
-            pushDirection = pushDirection.normalized;
-
-            target.GetComponent<ExternalForces>().addForce(pushDirection * multiplier, duration);
 
             // --- the following is for crowning
             if (isCrownLevel)

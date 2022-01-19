@@ -10,6 +10,7 @@ TagManager:
   - GameLevelsManager
   - NetworkManager
   - LandingPage
+  - CoinSpawn
   layers:
   - Default
   - TransparentFX
@@ -44,6 +45,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: ONTOP
+    uniqueID: 3853657081
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
