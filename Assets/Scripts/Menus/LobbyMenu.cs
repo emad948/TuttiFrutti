@@ -48,10 +48,10 @@ public class LobbyMenu : MonoBehaviour
         }
 
         //StartGame button will be disabled if players are less than 2
-        if (!_menu.testMode)
-        {
-            startGameButton.interactable = players.Count > 1;
-        }
+        // if (!_menu.testMode)
+        // {
+        //startGameButton.interactable = players.Count > 1;
+        // }
     }
 
     private void HandleClientConnected()

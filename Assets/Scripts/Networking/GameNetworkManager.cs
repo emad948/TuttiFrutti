@@ -70,7 +70,7 @@ public class GameNetworkManager : NetworkManager
 
     public void StartGame()
     {
-        if (!_menu.testMode && PlayersList.Count < 2) return;
+        //if (!_menu.testMode && PlayersList.Count < 2) return;
 
         _gameStarted = true;
 
@@ -167,14 +167,33 @@ public class GameNetworkManager : NetworkManager
     #endregion
 
     #region (Previously) GameLevelsManager
+    public enum Levels{
+        Level_HillKing = 1,
+        Level_PerfectMatch = 2,
+        Level_Crown = 3,
+        Level_RunTheLine = 4
+    }
 
-    private string[] _gameLevels = {"Level_PerfectMatch"};
+    private string decodeLevel(Levels l){
+        if (l is Levels.Level_HillKing) return "Level_HillKing";
+        if (l is Levels.Level_PerfectMatch) return "Level_PerfectMatch";
+        if (l is Levels.Level_Crown) return "Level_Crown";
+        if (l is Levels.Level_RunTheLine) return "Level_RunTheLine";
+        return "MainMenu";     
+    }
+
+    public Levels startingLevel;
+    private string[] _allGameLevels;
+    private string[] _gameLevels;
+    public int currentLevelIndex = 0;
+    
 
     //private string[] _gameLevels = {"Level_HillKing", "Level_Crown", "Level_RunTheLine", "PerfectMatch"}; 
     //private bool gameIsRunning = false;
 
     private void resettingLevelsManager()
     {
+        currentLevelIndex = 0;
         _gameStarted = false;
         usingSteam = false;
         foreach (NetworkPlayer player in PlayersList)
@@ -182,19 +201,16 @@ public class GameNetworkManager : NetworkManager
             player.ResetTotalScore();
         }
         PlayersList.Clear();
-        _gameLevels = new string[] {"Level_PerfectMatch"};
+        _gameLevels = _allGameLevels;
         //  TODO _gameLevels = {"Level_HillKing", "Level_Crown", "Level_RunTheLine", "PerfectMatch"};
     }
 
     public override void Start()
     {
-        //if (!isServer) return;
-        //if (NetworkServer.active && NetworkClient.isConnected)
-        //if(mode == NetworkManagerMode.Host)
-        // -----
         base.Start();
+        _allGameLevels = new string[]{decodeLevel(startingLevel)};
         //Shuffle Game Levels
-        _gameLevels = RandomStringArrayTool.RandomizeStrings(_gameLevels);
+        _gameLevels = RandomStringArrayTool.RandomizeStrings(_allGameLevels);
     }
 
     public void AfterLevelEnd()
@@ -250,6 +266,7 @@ public class GameNetworkManager : NetworkManager
     public string GETNextGameLevel()
     {
         if (_gameLevels.Length == 0) return "WinnerBoard";
+        currentLevelIndex++;
         var nextGameLevel = _gameLevels[0];
         _gameLevels = _gameLevels.Skip(1).ToArray();
         return nextGameLevel;
@@ -343,10 +360,10 @@ public class GameNetworkManager : NetworkManager
             HOST_ADDRESS
         );
         networkAddress = hostAddress;
-        Debug.Log("here2");
+        //Debug.Log("here2");
 
         StartClient();
-        Debug.Log("here3");
+        //Debug.Log("here3");
 
         var a = FindObjectOfType<Menu>();
         a.landingPagePanel.SetActive(false);

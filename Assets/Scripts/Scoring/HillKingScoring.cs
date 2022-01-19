@@ -22,32 +22,35 @@ public class HillKingScoring : NetworkBehaviour
     private int counter = -1;
     public float sceneChangeTimer; // TODO change to correct value
     public bool testingMode = true;
+    private Hashtable ht;
 
     private void Start()
     {
+        if (!isServer) return;
         players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
-        
-        var abc = (GameNetworkManager) NetworkManager.singleton;
-        if (!isServer) return; // move higher again
         _globalTime = FindObjectOfType<GlobalTime>();
         currentZoneIndex = 1;
         //shuffling zones 
         var rnd = new System.Random();
         zoneIndices = zoneIndices.OrderBy(item => rnd.Next()).ToList();
+        ht = new Hashtable();
+        //NetworkPlayer current = null;
+        foreach (var player in players)
+        {
+            ht.Add(player.playerCharacter.gameObject, player);
+        }
+
+        InvokeRepeating("updateTimer", 0f, 0.1f);
         InvokeRepeating("changeZoneIndex", Math.Abs(_globalTime._time), 50f);
         InvokeRepeating("HillKing", 0f, 0.25f);
     }
 
-    private void Update()
+    private void updateTimer()
     {
-        
-        if (!isServer) return;
         _time = _globalTime.matchTime;
-        if (_time <= sceneChangeTimer && onlyOnce &&
-            !testingMode) 
+        if (_time <= sceneChangeTimer && onlyOnce && !testingMode)
             // TODO @Colin change to actual matchTimer and also <= 0
         {
-            //After 90 seconds end game and go to ScoringBoard
             CancelInvoke();
             ((GameNetworkManager) NetworkManager.singleton).AfterLevelEnd();
             onlyOnce = false;
@@ -120,12 +123,12 @@ public class HillKingScoring : NetworkBehaviour
 
     public void addPointToPlayer(GameObject player)
     {
-        NetworkPlayer current = null;
-        foreach (var np in players)
-        {
-            if (np.playerCharacter.gameObject == player) current = np;
-        }
-
+        NetworkPlayer current = (NetworkPlayer) ht[player];
+        // foreach (var np in players)
+        // {
+        //     if (np.playerCharacter.gameObject == player) current = np;
+        // }
+        
         if (current is null) return;
         current.ChangeScore(1);
         //print("add point to player " + current.GetDisplayName()); // keep me!

@@ -29,13 +29,14 @@ public class PerfectMatchScoring : MonoBehaviour
             if (player.playerCharacter == obj){
                 player.ChangeScore(score);
                 prop.hasFallenOut = true;
+                print("score of player changed!");
             }
         }
     }
 
 
    public void playerFellOut(GameObject player){
-       print("playerFellOut");
+       
         // hier score von player zeitabhaengig erhoehen.
        if (globalTime.matchTime > 125){ // matchTime wird auf Wert x gesetzt und zu 0 heruntergezaehlt.
           
@@ -56,6 +57,7 @@ public class PerfectMatchScoring : MonoBehaviour
         else{
             scoreChangeHelper(player, 6);         //6 points if you clear the level
         }
+        print("playerFellOut");
     }
     public void update(){
 
