@@ -30,10 +30,8 @@ public class CrownScoring : NetworkBehaviour
         {
             var curCollision = players[i].playerCharacter.gameObject.GetComponent<PlayerCollision>();
             curCollision.hasCrown = true;
-            curCollision.crownChanged = true;
         }
-
-
+        
         InvokeRepeating("crown", 1f, 0.25f);
         InvokeRepeating("updateTime", 0f, 0.1f);
     }

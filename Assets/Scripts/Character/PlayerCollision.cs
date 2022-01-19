@@ -13,7 +13,6 @@ public class PlayerCollision : NetworkBehaviour
     public float runMultiplier = 1000f;
     private StarterAssets.ThirdPersonController controller;
     [SyncVar] public bool hasCrown = false;
-    [SyncVar] public bool crownChanged = false;
     private bool isCrownLevel = false;
 
     public GameObject crown;
@@ -24,11 +23,9 @@ public class PlayerCollision : NetworkBehaviour
         if (SceneManager.GetActiveScene().name == "Level_Crown") isCrownLevel = true;
     }
 
-    void Update(){
-        if (!crownChanged) return;
-        crownChanged = false;
+    void Update()
+    {
         crown.SetActive(hasCrown);
-        Debug.Log("has crown updated to: " + hasCrown);
     }
 
     void OnControllerColliderHit(ControllerColliderHit hit)
@@ -69,9 +66,8 @@ public class PlayerCollision : NetworkBehaviour
             }
         }
     }
-    [Command (requiresAuthority=false)] private void syncCrown(bool hasCrown){
+    [Command (requiresAuthority=false)] public void syncCrown(bool hasCrown){
         this.hasCrown = hasCrown;
-        this.crownChanged = true;
     }
     
 }
