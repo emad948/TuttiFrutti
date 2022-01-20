@@ -34,18 +34,18 @@ public class Menu : MonoBehaviour
                 ELobbyType newLobbyType;
                 if (friendsOnlyToggle.isOn)
                 {
-                    Debug.Log("CreateNewLobby: friendsOnlyToggle is on. Making lobby friends only.");
+                    //Debug.Log("CreateNewLobby: friendsOnlyToggle is on. Making lobby friends only.");
                     newLobbyType = ELobbyType.k_ELobbyTypeFriendsOnly;
                 }
                 else
                 {
-                    Debug.Log("CreateNewLobby: friendsOnlyToggle is OFF. Making lobby public.");
+                    //Debug.Log("CreateNewLobby: friendsOnlyToggle is OFF. Making lobby public.");
                     newLobbyType = ELobbyType.k_ELobbyTypePublic;
                 }
 
                 if (!string.IsNullOrEmpty(lobbyNameInputField.text))
                 {
-                    Debug.Log("CreateNewLobby: player created a lobby name of: " + lobbyNameInputField.text);
+                    //Debug.Log("CreateNewLobby: player created a lobby name of: " + lobbyNameInputField.text);
                     didPlayerNameTheLobby = true;
                     lobbyName = lobbyNameInputField.text;
                 }
