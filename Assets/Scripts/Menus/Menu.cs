@@ -8,7 +8,7 @@ using TMPro;
 
 public class Menu : MonoBehaviour
 {
-    [HideInInspector] public GameNetworkManager _gameNetworkManager;
+    [HideInInspector] public GameNetworkManager _gameNatMan;
     public GameObject landingPagePanel;
     private bool useSteam = false;
     //[SerializeField] public bool testMode = false;
@@ -17,9 +17,10 @@ public class Menu : MonoBehaviour
 
     private void Start()
     {
-        _gameNetworkManager = (GameNetworkManager) NetworkManager.singleton;
-        _gameNetworkManager.menuStart();
+        _gameNatMan = (GameNetworkManager) NetworkManager.singleton;
+        _gameNatMan.menuStart();
         steamErrorText.enabled = false;
+        _gameNatMan.setUseSteam(false);
     }
 
     public void HostLobby()
@@ -41,7 +42,7 @@ public class Menu : MonoBehaviour
         else
         {
             landingPagePanel.SetActive(false);
-            _gameNetworkManager.StartHost();
+            _gameNatMan.StartHost();
         }
     }
 
@@ -59,7 +60,7 @@ public class Menu : MonoBehaviour
     public void toggleUseSteam()
     {
         useSteam = !useSteam;
-        _gameNetworkManager.setUseSteam(useSteam);
+        _gameNatMan.setUseSteam(useSteam);
         // if (useSteam)
         // {
         //     toggleSteamButton.GetComponentInChildren<TMP_Text>().color = Color.green;
@@ -68,6 +69,6 @@ public class Menu : MonoBehaviour
         // {
         //     toggleSteamButton.GetComponentInChildren<TMP_Text>().color = Color.red;
         // }
-        _gameNetworkManager.menuStart();
+        _gameNatMan.menuStart();
     }
 }
