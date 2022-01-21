@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
 // Instantiates the NetworkManager Object (including it´s children) once at the start of the game. 
@@ -13,6 +14,7 @@ public class netManInit : MonoBehaviour
     {
         if (_instance != null)
         {
+            ((GameNetworkManager) NetworkManager.singleton)._menu = GameObject.FindGameObjectWithTag("MainMenuDisplayTag").GetComponent<Menu>();
             Destroy(this);
         }
         else

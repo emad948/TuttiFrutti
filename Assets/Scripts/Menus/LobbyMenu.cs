@@ -84,6 +84,6 @@ public class LobbyMenu : MonoBehaviour
         }
 
         _gameNetworkManager.StopClient();
-        // TODO SceneManager.LoadScene(0);
+        SceneManager.LoadScene(0);
     }
 }

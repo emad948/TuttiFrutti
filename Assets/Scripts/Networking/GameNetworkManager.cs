@@ -16,7 +16,7 @@ using Random = UnityEngine.Random;
 public class GameNetworkManager : NetworkManager
 {
     [SerializeField] private GameObject characterPrefab;
-    private Menu _menu;
+    public Menu _menu;
     private bool _gameStarted;
     private Transport steamTransport;
     public bool steamInitOnlyOnce { get; set; } = true;

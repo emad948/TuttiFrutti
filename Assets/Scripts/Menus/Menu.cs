@@ -91,6 +91,12 @@ public class Menu : MonoBehaviour
         _gameNatMan.menuStart();
     }
 
+    public void setUseSteam(bool steam)
+    {
+        useSteam = steam;
+        _gameNatMan.setUseSteam(steam);
+    }
+
     // For SteamLobbies
     // Source: https://github.com/FatRodzianko/steamworks-tutorial/blob/main/LICENSE
 
@@ -153,7 +159,7 @@ public class Menu : MonoBehaviour
                             SteamMatchmaking.GetLobbyMemberLimit((CSteamID) lobbyIDS[i].m_SteamID);
                         newLobbyListItemScript.SetLobbyItemValues();
 
-
+                        if(ContentPanel == null) Debug.Log("here5");
                         newLobbyListItem.transform.SetParent(ContentPanel.transform);
                         newLobbyListItem.transform.localScale = Vector3.one;
 
@@ -175,7 +181,7 @@ public class Menu : MonoBehaviour
                         SteamMatchmaking.GetLobbyMemberLimit((CSteamID) lobbyIDS[i].m_SteamID);
                     newLobbyListItemScript.SetLobbyItemValues();
 
-
+                    if(ContentPanel == null) Debug.Log("here5");
                     newLobbyListItem.transform.SetParent(ContentPanel.transform);
                     newLobbyListItem.transform.localScale = Vector3.one;
 
