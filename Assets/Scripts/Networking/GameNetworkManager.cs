@@ -353,6 +353,28 @@ public class GameNetworkManager : NetworkManager
 
     // SteamLobby END
 
+    // SteamFriends START
+
+    public void FriendsLobbies()
+    {
+        List<CSteamID> lobbyIDS = new List<CSteamID>();
+        int cFriends = SteamFriends.GetFriendCount(EFriendFlags.k_EFriendFlagImmediate);
+        for (int i = 0; i < cFriends; i++)
+        {
+            FriendGameInfo_t friendGameInfo;
+            CSteamID steamIDFriend = SteamFriends.GetFriendByIndex(i, EFriendFlags.k_EFriendFlagImmediate);
+            if (SteamFriends.GetFriendGamePlayed(steamIDFriend, out friendGameInfo) &&
+                friendGameInfo.m_steamIDLobby.IsValid())
+            {
+                lobbyIDS.Add(steamIDFriend);
+            }
+        }
+        if (_menu.listOfLobbyListItems.Count > 0) _menu.DestroyOldLobbyListItems();
+        _menu.DisplayFriendsLobbies(lobbyIDS);
+    }
+
+    // SteamFriends END
+
 
     private const string HOST_ADDRESS = "HOST_ADDRESS";
     public CSteamID LobbyId { get; private set; }

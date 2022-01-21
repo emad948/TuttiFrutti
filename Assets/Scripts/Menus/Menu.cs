@@ -29,7 +29,7 @@ public class Menu : MonoBehaviour
     {
         if (useSteam)
         {
-            if (SteamManager.Initialized ) // TODO: && has internet connection
+            if (SteamManager.Initialized) // TODO: && has internet connection
             {
                 landingPagePanel.SetActive(false);
 
@@ -101,13 +101,15 @@ public class Menu : MonoBehaviour
     // Source: https://github.com/FatRodzianko/steamworks-tutorial/blob/main/LICENSE
 
     [Header("Lobby List UI")] [SerializeField]
-    private GameObject LobbyListPanel; 
+    private GameObject LobbyListPanel;
 
     [SerializeField] private GameObject LobbyListItemPrefab;
     [SerializeField] private GameObject ContentPanel;
-    [SerializeField] private GameObject LobbyListScrollRect;
     [SerializeField] private TMP_InputField searchBox;
     public bool didPlayerSearchForLobbies = false;
+
+    [Header("Friends Lobby List UI")] [SerializeField]
+    private GameObject FriendsLobbyContentPanel;
 
     [Header("Create Lobby UI")] [SerializeField]
     private GameObject CreateLobbyPanel;
@@ -122,7 +124,7 @@ public class Menu : MonoBehaviour
     public void GetListOfLobbies()
     {
         //Debug.Log("Trying to get list of available lobbies ...");
-        LobbyListPanel.SetActive(true);
+        //LobbyListPanel.SetActive(true);
 
         _gameNatMan.GetListOfLobbies();
     }
@@ -159,7 +161,7 @@ public class Menu : MonoBehaviour
                             SteamMatchmaking.GetLobbyMemberLimit((CSteamID) lobbyIDS[i].m_SteamID);
                         newLobbyListItemScript.SetLobbyItemValues();
 
-                        if(ContentPanel == null) Debug.Log("here5");
+                        if (ContentPanel == null) Debug.Log("here5");
                         newLobbyListItem.transform.SetParent(ContentPanel.transform);
                         newLobbyListItem.transform.localScale = Vector3.one;
 
@@ -181,7 +183,6 @@ public class Menu : MonoBehaviour
                         SteamMatchmaking.GetLobbyMemberLimit((CSteamID) lobbyIDS[i].m_SteamID);
                     newLobbyListItemScript.SetLobbyItemValues();
 
-                    if(ContentPanel == null) Debug.Log("here5");
                     newLobbyListItem.transform.SetParent(ContentPanel.transform);
                     newLobbyListItem.transform.localScale = Vector3.one;
 
@@ -195,6 +196,33 @@ public class Menu : MonoBehaviour
         if (didPlayerSearchForLobbies)
             didPlayerSearchForLobbies = false;
     }
+
+    public void getAndDisplayFriendsLobbies()
+    {
+        _gameNatMan.FriendsLobbies();
+    }
+    
+    public void DisplayFriendsLobbies(List<CSteamID> lobbyIDS)
+    {
+        for (int i = 0; i < lobbyIDS.Count; i++)
+        {
+            GameObject newLobbyListItem = Instantiate(LobbyListItemPrefab) as GameObject;
+            LobbyListItem newLobbyListItemScript = newLobbyListItem.GetComponent<LobbyListItem>();
+
+            newLobbyListItemScript.lobbySteamId = (CSteamID) lobbyIDS[i].m_SteamID;
+            newLobbyListItemScript.lobbyName =
+                SteamMatchmaking.GetLobbyData((CSteamID) lobbyIDS[i].m_SteamID, "name");
+            newLobbyListItemScript.numberOfPlayers =
+                SteamMatchmaking.GetNumLobbyMembers((CSteamID) lobbyIDS[i].m_SteamID);
+            newLobbyListItemScript.maxNumberOfPlayers =
+                SteamMatchmaking.GetLobbyMemberLimit((CSteamID) lobbyIDS[i].m_SteamID);
+            newLobbyListItemScript.SetLobbyItemValues();
+            newLobbyListItem.transform.SetParent(FriendsLobbyContentPanel.transform);
+            newLobbyListItem.transform.localScale = Vector3.one;
+            listOfLobbyListItems.Add(newLobbyListItem);
+        }
+    }
+
 
     public void DestroyOldLobbyListItems()
     {
