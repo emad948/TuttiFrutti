@@ -1,8 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Linq;
 using Mirror;
-using System;
+using Mirror.Examples.Chat;
+using UnityEngine;
+using TMPro;
+using UnityEngine.SceneManagement;
 public class PerfectMatchScoring : MonoBehaviour
 {
 
@@ -14,10 +18,12 @@ public class PerfectMatchScoring : MonoBehaviour
     private List<(NetworkPlayer, AddProperties)> players;
     private GameNetworkManager _gameNetMan;
     public GlobalTime globalTime;
+    private float _time;
     //List<NetworkPlayer> players = ((GameNetworkManager)Mirror.NetworkManager.singleton).PlayersList;
     
     void Start(){
-        
+        _gameNetMan = ((GameNetworkManager) NetworkManager.singleton);
+        globalTime = FindObjectOfType<GlobalTime>();
         players = new List<(NetworkPlayer, AddProperties)>();
         foreach(var player in ((GameNetworkManager)NetworkManager.singleton).PlayersList){
             players.Add( (player, new AddProperties()) ); // adding tuple 
@@ -38,18 +44,18 @@ public class PerfectMatchScoring : MonoBehaviour
    public void playerFellOut(GameObject player){
        
         // hier score von player zeitabhaengig erhoehen.
-       if (globalTime.matchTime > 125){ // matchTime wird auf Wert x gesetzt und zu 0 heruntergezaehlt.
+       if (globalTime.matchTime > 52){ // matchTime wird auf Wert x gesetzt und zu 0 heruntergezaehlt.
           
             scoreChangeHelper(player, 0);        //0 Points if you fall in the first Round
                        
         }
-        else if (globalTime.matchTime > 105 && globalTime.matchTime <125 ){ // matchTime wird auf Wert x gesetzt und zu 0 heruntergezaehlt.
+        else if (globalTime.matchTime > 33 && globalTime.matchTime <51 ){ // matchTime wird auf Wert x gesetzt und zu 0 heruntergezaehlt.
           
             scoreChangeHelper(player, 2);         //2 Points if you fall in the secound Round
                        
                       
         }
-        else if (globalTime.matchTime > 85 && globalTime.matchTime <105){ // matchTime wird auf Wert x gesetzt und zu 0 heruntergezaehlt.
+        else if (globalTime.matchTime > 18 && globalTime.matchTime <32){ // matchTime wird auf Wert x gesetzt und zu 0 heruntergezaehlt.
           
            scoreChangeHelper(player, 4);          //4 points if you fall in the third round
                         
@@ -65,6 +71,7 @@ public class PerfectMatchScoring : MonoBehaviour
 
 
  public void gameEnds(){
+     
         foreach ((NetworkPlayer player, AddProperties prop) in players)
         {
             if (!prop.hasFallenOut){
@@ -74,18 +81,16 @@ public class PerfectMatchScoring : MonoBehaviour
         }
 
         if(globalTime.matchTime <=0){
-            _gameNetMan.AfterLevelEnd();
+            ending();
         }
     }
+private void ending(){
 
+        
+            _gameNetMan.AfterLevelEnd();
+        
+    }
     
 
-//Player dont fell off an cleared the level
-    //public void clear(GameObject player){
-      // if(!notfalling && globalTime.matchTime ==0){
-     //       player.ChangeScore(6); 
 
-       //     _gameNetMan.AfterLevelEnd();
-      //  }
-    //}
 }
