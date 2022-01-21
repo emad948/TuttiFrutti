@@ -448,6 +448,7 @@ public class GameNetworkManager : NetworkManager
             new CSteamID(callback.m_ulSteamIDLobby),
             HOST_ADDRESS
         );
+        Debug.Log("Debug: hostAddres: " + hostAddress);
         networkAddress = hostAddress;
 
         StartClient();
