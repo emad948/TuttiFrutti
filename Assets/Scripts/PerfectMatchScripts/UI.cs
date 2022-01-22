@@ -1,7 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using TMPro;
+using System.Linq;
+using Mirror;
+using Mirror.Examples.Chat;
 using UnityEngine;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 public class UI : MonoBehaviour
 {
@@ -10,6 +15,8 @@ public class UI : MonoBehaviour
     public TextMeshProUGUI gameStateText;
     public TextMeshProUGUI countdownText;
     private Grid grid;
+    private GameNetworkManager _gameNetMan;
+    public GlobalTime globalTime;
     
     private float threeSecondTimer = 3.0f;
     
@@ -17,6 +24,8 @@ public class UI : MonoBehaviour
     void Start()
     {
         grid = FindObjectOfType<Grid>();
+        _gameNetMan = ((GameNetworkManager) NetworkManager.singleton);
+        globalTime = FindObjectOfType<GlobalTime>();
     }
 
     // Update is called once per frame
@@ -53,16 +62,17 @@ public class UI : MonoBehaviour
     {
         gameStateUI.SetActive(true);
         gameStateText.gameObject.SetActive(true);
-    //if (isWon)
-    //{
-     //   SetGameStateText("Du weiter!");
-    //}
-    //else
-    //{
-      //       SetGameStateText("Du bist ausgeschieden!");
-    //}
-
-        //Time.timeScale = 0.0f;
+    if (isWon)
+    {
+        SetGameStateText("Du weiter!");
+      
+    }
+    else
+    {
+             SetGameStateText("Du bist ausgeschieden!");
+    }
+            _gameNetMan.AfterLevelEnd();
+            print("gameEnds4");
     }
 
 }

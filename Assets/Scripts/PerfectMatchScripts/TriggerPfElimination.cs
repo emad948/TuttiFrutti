@@ -7,28 +7,39 @@ using TMPro;
 public class TriggerPfElimination : NetworkBehaviour
 {
 
-    public TextMeshProUGUI gameStateText;
+    public TextMeshProUGUI FellOutGameText;
+    public GameObject timerText;
+    public GameObject FellOutText;
     public GameObject gameStateUI;
     public PerfectMatchScoring scoring;
     // Start is called before the first frame update
 
-    public void SetGameStateText(string text)
+  public void SetText(string text)
     {
-        gameStateText.text = text;
+        FellOutText.GetComponent<TextMeshProUGUI>().text = text;
     }
+    
+    public void SetFelloutGameStateText(string text)
+    {
+        FellOutGameText.text = text;
+    }
+    public void SetGameFelloutState(bool isWon)
+    {
+        gameStateUI.SetActive(true);
+        FellOutGameText.gameObject.SetActive(true);
+          
+        print("gameEnds44");
+    }
+
+  
 
     void OnTriggerEnter(Collider other){
         // Message player
-        gameStateUI.SetActive(true);
-        gameStateText.gameObject.SetActive(true);
-        SetGameStateText("Du bist ausgeschieden2");
+       SetGameFelloutState(false);
         // 
         if(!isServer) return;
         scoring.playerFellOut(other.gameObject);
-        gameStateUI.SetActive(true);
-        gameStateText.gameObject.SetActive(true);
         
-         SetGameStateText("Du bist ausgeschieden!");
             // veraendere meine eigenen punkte
     }
 }

@@ -20,6 +20,10 @@ public class PerfectMatchScoring : MonoBehaviour
     public GlobalTime globalTime;
     private float _time;
     //List<NetworkPlayer> players = ((GameNetworkManager)Mirror.NetworkManager.singleton).PlayersList;
+
+
+    public float sceneChangeTimer; // TODO change to correct value
+    public bool testingMode = true;
     
     void Start(){
         _gameNetMan = ((GameNetworkManager) NetworkManager.singleton);
@@ -70,27 +74,19 @@ public class PerfectMatchScoring : MonoBehaviour
     }
 
 
- public void gameEnds(){
+ public void gameEndScoring(){
      
         foreach ((NetworkPlayer player, AddProperties prop) in players)
         {
             if (!prop.hasFallenOut){
                 // spieler ist nicht rausgefallen. Beispiel, maximalen Score zuweisen:
                 player.ChangeScore(8);
+                print("gameEndChangeScore");
             }
         }
-
-        if(globalTime.matchTime <=0){
-            ending();
-        }
-    }
-private void ending(){
-
-        
-            _gameNetMan.AfterLevelEnd();
-        
-    }
     
+    }
+
 
 
 }
