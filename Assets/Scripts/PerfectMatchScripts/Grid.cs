@@ -170,11 +170,11 @@ public class Grid : MonoBehaviour
                     tile.name = prefix + ("-") + sprite.name;
                     tile.transform.parent = platformParent.transform;
                     
-                    zAmount += 1.5f;
+                    zAmount += 1.8f;
                     index++;
                 }
 
-                xAmount += 1.5f;
+                xAmount += 1.8f;
                 zAmount = -1.5f;
             }
         }
