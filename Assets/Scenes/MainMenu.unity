@@ -4069,6 +4069,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   landingPagePanel: {fileID: 981687556}
   steamErrorText: {fileID: 1830391399}
+  afterSteam: {fileID: 495846596}
+  locallyOrSteam: {fileID: 1119148354}
   LobbyListPanel: {fileID: 934504059}
   LobbyListItemPrefab: {fileID: 7900303412838315278, guid: 4f15629a0a102324f89ddf6bd94b6f11, type: 3}
   ContentPanel: {fileID: 639655100}
@@ -9955,43 +9957,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 358973367}
         m_TargetAssemblyTypeName: Menu, Assembly-CSharp
-        m_MethodName: toggleUseSteam
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1119148354}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 495846596}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 358973367}
-        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
-        m_MethodName: steamNotInit
+        m_MethodName: SteamCheckStartGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11050,7 +11016,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 358973367}
         m_TargetAssemblyTypeName: Menu, Assembly-CSharp
-        m_MethodName: toggleUseSteam
+        m_MethodName: StartGameWithSteam
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -19908,6 +19874,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1215216321}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1830391399}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

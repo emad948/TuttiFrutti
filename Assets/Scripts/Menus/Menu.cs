@@ -67,9 +67,22 @@ public class Menu : MonoBehaviour
         }
     }
 
-    public void steamNotInit()
+    public GameObject afterSteam;
+    public GameObject locallyOrSteam;
+    
+    public void SteamCheckStartGame()
     {
-        if (!SteamManager.Initialized) steamErrorText.enabled = true;
+        if (!SteamManager.Initialized)
+        {
+            steamErrorText.enabled = true;
+        }
+        else
+        {
+            StartGameWithSteam();
+            steamErrorText.enabled = false;
+            afterSteam.SetActive(true);
+            locallyOrSteam.SetActive(false);
+        }
     }
 
 
@@ -84,7 +97,7 @@ public class Menu : MonoBehaviour
         Application.Quit();
     }
 
-    public void toggleUseSteam()
+    public void StartGameWithSteam()
     {
         useSteam = !useSteam;
         _gameNatMan.setUseSteam(useSteam);
