@@ -14,7 +14,12 @@ public class ScoreBoardController : NetworkBehaviour
     private GameNetworkManager _gameNetworkManager;
     private List<NetworkPlayer> players;
 
-
+    
+    // TODO @Emad
+    //1- show players score as your score 
+    //2-show  player ranking
+    //3-show top 10 players
+    
     private void Awake()
     {
         _gameNetworkManager = ((GameNetworkManager) NetworkManager.singleton);
