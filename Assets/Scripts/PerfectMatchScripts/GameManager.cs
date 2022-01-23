@@ -24,7 +24,7 @@ public class GameManager : NetworkBehaviour
     private const int TOTAL_NUMBER_OF_FRUIT = 16;
     private const int MAX_ROUND_NUMBER = 3;
     [SyncVar] private int roundNumber = 1;
-    
+
     private void Awake()
     {
         PopulateFruitDictionary();
@@ -64,8 +64,9 @@ public class GameManager : NetworkBehaviour
        
     }
     
-    IEnumerator ChooseBasedOnRound(int amountOfFruit, int amountOfEach)
+    [Server] IEnumerator ChooseBasedOnRound(int amountOfFruit, int amountOfEach)
     {
+        print("running chooseBasedOnRound");
         chosenFruitsList.Clear();
         
         // Populate list with all hashset values first.
@@ -132,7 +133,7 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-    public void IncreaseRound() // only call on server in grid
+    [Server] public void IncreaseRound() // only call on server in grid
     {
         if (isClientOnly) return;
         if (roundNumber + 1 <= MAX_ROUND_NUMBER)
@@ -148,7 +149,7 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-    public void ChooseFruit()
+    [Server] public void ChooseFruit()
     {
         foreach (var fruitInHashset in chosenFruitHashSet)
         {
