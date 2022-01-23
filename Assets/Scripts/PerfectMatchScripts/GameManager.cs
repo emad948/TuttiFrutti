@@ -9,21 +9,22 @@ using Mirror;
 public class GameManager : NetworkBehaviour
 {
 
-    private Dictionary<int,Sprite> fruitDictionary = new Dictionary<int, Sprite>();
     [HideInInspector]public readonly SyncList<int> chosenFruitsList = new SyncList<int>();
-    private readonly SyncHashSet<int> chosenFruitHashSet = new SyncHashSet<int>();
-    [HideInInspector] readonly public SyncHashSet<int> alreadyChosenFruitHashSet = new SyncHashSet<int>();
-    private const int TOTAL_NUMBER_OF_FRUIT = 16;
-    private const int MAX_ROUND_NUMBER = 3;
-
-    [SyncVar] private int roundNumber = 1;
     [SyncVar] public int chosenFruit;
-    //private bool hasChosenFruit = false; // so far unused
     [SyncVar] public bool gameCanStart = false;
     [SyncVar] public bool canNowUpdateImages = false;
     [SyncVar] public bool checkRoundFinished = false;
     [SyncVar] public bool isGameOver = false;
     [SyncVar] public bool hasFailed = false;
+
+    // PRIVATES
+    private Dictionary<int,Sprite> fruitDictionary = new Dictionary<int, Sprite>();
+    private readonly SyncHashSet<int> chosenFruitHashSet = new SyncHashSet<int>();
+    [HideInInspector] readonly private SyncHashSet<int> alreadyChosenFruitHashSet = new SyncHashSet<int>();
+    private const int TOTAL_NUMBER_OF_FRUIT = 16;
+    private const int MAX_ROUND_NUMBER = 3;
+    [SyncVar] private int roundNumber = 1;
+    
     private void Awake()
     {
         PopulateFruitDictionary();
@@ -43,9 +44,6 @@ public class GameManager : NetworkBehaviour
     public Sprite decodeSprite(int n){
         return fruitDictionary[n];
     }
-
-
-
 
     public IEnumerator CheckRound()
     {
@@ -136,7 +134,7 @@ public class GameManager : NetworkBehaviour
 
     public void IncreaseRound() // only call on server in grid
     {
-        if (!isServer) return;
+        if (isClientOnly) return;
         if (roundNumber + 1 <= MAX_ROUND_NUMBER)
         {
             roundNumber += 1;

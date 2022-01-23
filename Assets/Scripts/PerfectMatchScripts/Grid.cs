@@ -51,7 +51,7 @@ public class Grid : MonoBehaviour
                 StartCoroutine("ToggleInitialImagesTiles");
             }
             
-            if (perfectMatchManager.hasFailed)
+            if (perfectMatchManager.hasFailed) // game over
             {
                 ui.gameObject.transform.GetChild(0).gameObject.SetActive(true);
                 ui.GetComponent<UI>().SetGameState(false);
@@ -174,7 +174,11 @@ public class Grid : MonoBehaviour
                 xAmount += 1.8f;
                 zAmount = -1.5f;
             }
-
+        string strFruitList = String.Empty;
+        foreach (var num in perfectMatchManager.chosenFruitsList){
+            strFruitList += num + ", ";
+        }
+        print(strFruitList);
         StoreAllTileTransforms();
     }
 
