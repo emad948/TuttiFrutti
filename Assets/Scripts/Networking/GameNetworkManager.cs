@@ -16,8 +16,8 @@ using Random = UnityEngine.Random;
 public class GameNetworkManager : NetworkManager
 {
     [SerializeField] private GameObject characterPrefab;
-    private Menu _menu;
-    private bool _gameStarted;  
+    [HideInInspector] public Menu _menu;
+    private bool _gameStarted;
     private Transport steamTransport;
     public bool steamInitOnlyOnce { get; set; } = true;
     public bool usingSteam { get; set; } = false;
@@ -142,7 +142,7 @@ public class GameNetworkManager : NetworkManager
     {
         base.OnClientDisconnect();
         ClientOnDisconnected?.Invoke();
-        
+
         /*  If disconnected from server for any reason, go back to main menu.
         *** I don't know, how to reset the client tho, therefore, another connection is currently not possible */
         Cursor.lockState = CursorLockMode.None;
@@ -167,26 +167,29 @@ public class GameNetworkManager : NetworkManager
     #endregion
 
     #region (Previously) GameLevelsManager
-    public enum Levels{
+
+    public enum Levels
+    {
         Level_HillKing = 1,
         Level_PerfectMatch = 2,
         Level_Crown = 3,
         Level_RunTheLine = 4
     }
 
-    private string decodeLevel(Levels l){
+    private string decodeLevel(Levels l)
+    {
         if (l is Levels.Level_HillKing) return "Level_HillKing";
         if (l is Levels.Level_PerfectMatch) return "Level_PerfectMatch";
         if (l is Levels.Level_Crown) return "Level_Crown";
         if (l is Levels.Level_RunTheLine) return "Level_RunTheLine";
-        return "MainMenu";     
+        return "MainMenu";
     }
 
     public Levels startingLevel;
     private string[] _allGameLevels;
     private string[] _gameLevels;
     public int currentLevelIndex = 0;
-    
+
 
     //private string[] _gameLevels = {"Level_HillKing", "Level_Crown", "Level_RunTheLine", "PerfectMatch"}; 
     //private bool gameIsRunning = false;
@@ -200,6 +203,7 @@ public class GameNetworkManager : NetworkManager
         {
             player.ResetTotalScore();
         }
+
         PlayersList.Clear();
         _gameLevels = _allGameLevels;
         //  TODO _gameLevels = {"Level_HillKing", "Level_Crown", "Level_RunTheLine", "PerfectMatch"};
@@ -208,7 +212,7 @@ public class GameNetworkManager : NetworkManager
     public override void Start()
     {
         base.Start();
-        _allGameLevels = new string[]{decodeLevel(startingLevel)};
+        _allGameLevels = new string[] {decodeLevel(startingLevel)};
         //Shuffle Game Levels
         _gameLevels = RandomStringArrayTool.RandomizeStrings(_allGameLevels);
     }
@@ -217,7 +221,7 @@ public class GameNetworkManager : NetworkManager
     {
         ((GameNetworkManager) NetworkManager.singleton).ServerChangeScene("ScoreBoard");
         // has to be bigger then 0f for showing correct (non-zero) scores in scene
-        Invoke("startLevel", 3f); 
+        Invoke("startLevel", 3f);
     }
 
     public void startLevel()
@@ -284,12 +288,94 @@ public class GameNetworkManager : NetworkManager
     }
 
     #endregion
-    
+
     #region (Previously in) Menu.cs
-    
+
     protected Callback<LobbyCreated_t> lobbyCreated;
     protected Callback<GameLobbyJoinRequested_t> gameLobbyJoinRequested;
     protected Callback<LobbyEnter_t> lobbyEntered;
+
+    // SteamLobby START
+    protected Callback<LobbyMatchList_t> Callback_lobbyList;
+    protected Callback<LobbyDataUpdate_t> Callback_lobbyInfo;
+    private List<GameObject> listOfLobbyListItems = new List<GameObject>();
+    public ulong current_lobbyID;
+    public List<CSteamID> lobbyIDS = new List<CSteamID>();
+
+    struct LobbyMetaData
+    {
+        public string m_Key;
+        public string m_Value;
+    }
+
+    struct LobbyMembers
+    {
+        public CSteamID m_SteamID;
+        public LobbyMetaData[] m_Data;
+    }
+
+    struct Lobby
+    {
+        public CSteamID m_SteamID;
+        public CSteamID m_Owner;
+        public LobbyMembers[] m_Members;
+        public int m_MemberLimit;
+        public LobbyMetaData[] m_Data;
+    }
+
+    public void GetListOfLobbies()
+    {
+        if (lobbyIDS.Count > 0)
+            lobbyIDS.Clear();
+
+        SteamMatchmaking.AddRequestLobbyListFilterSlotsAvailable(1);
+
+        SteamAPICall_t try_getList = SteamMatchmaking.RequestLobbyList();
+    }
+
+    void OnGetLobbiesList(LobbyMatchList_t result)
+    {
+        //Debug.Log("Found " + result.m_nLobbiesMatching + " lobbies!");
+        if (_menu.listOfLobbyListItems.Count > 0)
+            _menu.DestroyOldLobbyListItems();
+        for (int i = 0; i < result.m_nLobbiesMatching; i++)
+        {
+            CSteamID lobbyID = SteamMatchmaking.GetLobbyByIndex(i);
+            lobbyIDS.Add(lobbyID);
+            SteamMatchmaking.RequestLobbyData(lobbyID);
+        }
+    }
+
+    void OnGetLobbyInfo(LobbyDataUpdate_t result)
+    {
+        _menu.DisplayLobbies(lobbyIDS, result);
+    }
+
+    // SteamLobby END
+
+    // SteamFriends START
+
+    public void FriendsLobbies()
+    {
+        List<CSteamID> lobbyIDS = new List<CSteamID>();
+        int cFriends = SteamFriends.GetFriendCount(EFriendFlags.k_EFriendFlagImmediate);
+        for (int i = 0; i < cFriends; i++)
+        {
+            FriendGameInfo_t friendGameInfo;
+            CSteamID steamIDFriend = SteamFriends.GetFriendByIndex(i, EFriendFlags.k_EFriendFlagImmediate);
+            if (SteamFriends.GetFriendGamePlayed(steamIDFriend, out friendGameInfo) &&
+                friendGameInfo.m_steamIDLobby.IsValid())
+            {
+                lobbyIDS.Add(steamIDFriend);
+            }
+        }
+        if (_menu.listOfLobbyListItems.Count > 0) _menu.DestroyOldLobbyListItems();
+        _menu.DisplayFriendsLobbies(lobbyIDS);
+    }
+
+    // SteamFriends END
+
+
     private const string HOST_ADDRESS = "HOST_ADDRESS";
     public CSteamID LobbyId { get; private set; }
 
@@ -315,6 +401,8 @@ public class GameNetworkManager : NetworkManager
             lobbyCreated = Callback<LobbyCreated_t>.Create(OnLobbyCreated);
             gameLobbyJoinRequested = Callback<GameLobbyJoinRequested_t>.Create(OnGameLobbyJoinRequested);
             lobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
+            Callback_lobbyList = Callback<LobbyMatchList_t>.Create(OnGetLobbiesList);
+            Callback_lobbyInfo = Callback<LobbyDataUpdate_t>.Create(OnGetLobbyInfo);
             steamInitOnlyOnce = false;
         }
     }
@@ -347,6 +435,7 @@ public class GameNetworkManager : NetworkManager
 
     private void OnGameLobbyJoinRequested(GameLobbyJoinRequested_t callback)
     {
+        Debug.Log("LobbyJoin via SteamFriends JoinGame");
         SteamMatchmaking.JoinLobby(callback.m_steamIDLobby);
     }
 
@@ -359,11 +448,10 @@ public class GameNetworkManager : NetworkManager
             new CSteamID(callback.m_ulSteamIDLobby),
             HOST_ADDRESS
         );
+        Debug.Log("Debug: hostAddres: " + hostAddress);
         networkAddress = hostAddress;
-        //Debug.Log("here2");
 
         StartClient();
-        //Debug.Log("here3");
 
         var a = FindObjectOfType<Menu>();
         a.landingPagePanel.SetActive(false);

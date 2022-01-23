@@ -8,7 +8,8 @@ public class MovingPoles : MonoBehaviour
     private List<Vector3> orgPos;
     private List<float> wiggleSpeeds;
     private float wiggleDistance = 2.1f;
-
+    public GlobalTime _globalTime;
+    
     private List<float> offsets = new List<float>() // because of syncronization
     {
         71, 25, 6, 136, 77, 80, 42, 102, 116, 75, 142, 31, 108, 152, 151, 73, 22, 52, 134, 137, 33, 68, 154, 145, 62,
@@ -39,7 +40,7 @@ public class MovingPoles : MonoBehaviour
         var i = 0;
         foreach (GameObject go in poles)
         {
-            float yPosition = Mathf.Abs(Mathf.Cos(Time.time * wiggleSpeeds[i] + offsets[i]) * wiggleDistance);
+            float yPosition = Mathf.Abs(Mathf.Cos(_globalTime._time * wiggleSpeeds[i] + offsets[i]) * wiggleDistance);
             go.transform.localPosition = orgPos[i] + new Vector3(0, yPosition, 0);
             i++;
         }

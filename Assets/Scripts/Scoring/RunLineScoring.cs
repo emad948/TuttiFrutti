@@ -12,11 +12,15 @@ public class RunLineScoring : NetworkBehaviour
     private bool gameIsOver;
 
     public GlobalTime globalTime;
-    
+
     void Start()
     {
-        _gameNetMan = ((GameNetworkManager) NetworkManager.singleton);
-        players = ((GameNetworkManager) NetworkManager.singleton).PlayersList; 
+        if (isServer)
+        {
+            resultList = new List<NetworkPlayer>();
+            _gameNetMan = ((GameNetworkManager) NetworkManager.singleton);
+            players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
+        }
     }
 
     void Update()

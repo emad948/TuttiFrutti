@@ -1,0 +1,39 @@
+% Title
+\newcommand{\myTitle}
+{
+  TuttiFrutti
+}
+% Subtitle
+\newcommand{\myHeadTitle}
+{
+  here?
+}
+
+\newcommand{\mySubTitle}
+{
+subtitle? 
+}
+
+%%%%%%%%%% Title slide code %%%%%%%%%%%
+\begin{center}
+  \begin{tikzpicture}
+  % Title & Subtitle
+\node
+[
+    %above=0.5cm,
+    align=center,
+    fill=green!50!blue!30!white,
+    rounded corners,
+    inner xsep=5pt,
+    inner ysep=5pt,
+    minimum width=0.9\textwidth,
+    text width=0.9\textwidth
+]
+{
+    \myHeadTitle \\[3pt]
+    \LARGE \myTitle \\[3pt]
+    \small \mySubTitle \\
+};
+
+\end{tikzpicture}
+\end{center}

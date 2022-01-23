@@ -78,25 +78,12 @@ public class LobbyMenu : MonoBehaviour
 
     public void LeaveLobby()
     {
-        //Host
         if (NetworkServer.active && NetworkClient.isConnected)
         {
-            if (_gameNetworkManager.usingSteam)
-            {
-                // _gameNetworkManager.StopServer();
-                _gameNetworkManager.StopHost();
-                NetworkServer.DisconnectAll();
-            }
-            else
-            {
-                NetworkServer.Shutdown();
-                _gameNetworkManager.StopHost();
-            }
+            NetworkServer.Shutdown();
         }
-        //Client
-        else
-        {
-            _gameNetworkManager.StopClient();
-        }
+
+        _gameNetworkManager.StopClient();
+        SceneManager.LoadScene(0);
     }
 }

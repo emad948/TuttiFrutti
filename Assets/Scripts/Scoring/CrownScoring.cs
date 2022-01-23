@@ -18,7 +18,6 @@ public class CrownScoring : NetworkBehaviour
         if (!isServer) return;
         _gameNetMan = ((GameNetworkManager) NetworkManager.singleton);
         players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
-        _globalTime = FindObjectOfType<GlobalTime>();
 
         var count = players.Count;
         var rnd = new System.Random();
@@ -32,8 +31,8 @@ public class CrownScoring : NetworkBehaviour
             curCollision.hasCrown = true;
         }
         
-        InvokeRepeating("crown", 1f, 0.25f);
-        InvokeRepeating("updateTime", 0f, 0.1f);
+        InvokeRepeating("crown", 3f, 0.25f);
+        InvokeRepeating("updateTime", 3f, 0.1f);
     }
 
     private void updateTime()

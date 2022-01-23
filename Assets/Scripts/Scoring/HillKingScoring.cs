@@ -28,7 +28,7 @@ public class HillKingScoring : NetworkBehaviour
     {
         if (!isServer) return;
         players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
-        _globalTime = FindObjectOfType<GlobalTime>();
+        //_globalTime = FindObjectOfType<GlobalTime>();
         currentZoneIndex = 1;
         //shuffling zones 
         var rnd = new System.Random();

@@ -11,8 +11,9 @@ done + extra starkes Schubsen (Flummi)
 - Level Texturierung: 
 	- Change Object Mesh from Rectangle grid to different
 	 angled mesh with different colors
-- Level-UI: Change colors
 - New Levels maybe?
+- Show SteamFriends after PlayButton
+- Vote for Level 
 
 @Emad
 
