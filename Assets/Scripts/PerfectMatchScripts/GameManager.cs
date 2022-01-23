@@ -47,8 +47,9 @@ public class GameManager : NetworkBehaviour
         return fruitDictionary[n];
     }
 
-    public IEnumerator CheckRound()
+    [Server] public IEnumerator CheckRound()
     {
+        if (isClientOnly) yield return null;
         switch (roundNumber)
         {
             case 1:
@@ -136,9 +137,8 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-    [Server] public void IncreaseRound() // only call on server in grid
+    public void IncreaseRound() // only call on server in grid
     {
-        if (isClientOnly) return;
         if (roundNumber + 1 <= MAX_ROUND_NUMBER)
         {
             roundNumber += 1;
