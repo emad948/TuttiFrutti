@@ -13,6 +13,7 @@ public class ScoreBoardController : NetworkBehaviour
     public bool isWinnerScene;
     private GameNetworkManager _gameNetworkManager;
     private List<NetworkPlayer> players;
+    
 
     
     // TODO @Emad
@@ -55,7 +56,21 @@ public class ScoreBoardController : NetworkBehaviour
 
         for (int i = 0; i < players.Count; i++)
         {
-            playersTexts[i].text = $"{players[i].GetDisplayName()} : {players[i].GetScore(isWinnerScene)}";
+            int rank = i + 1;
+            string rankString;
+            switch (rank)
+            {
+                default:
+                    rankString = rank + "TH"; break;
+                case 1:
+                    rankString = "1ST"; break;
+                case 2:
+                    rankString = "2ND"; break;
+                case 3:
+                    rankString = "3RD"; break;
+                
+            }
+            playersTexts[i].text = $"{rankString} {players[i].GetDisplayName()} : {players[i].GetScore(isWinnerScene)}";
         }
     }
 
