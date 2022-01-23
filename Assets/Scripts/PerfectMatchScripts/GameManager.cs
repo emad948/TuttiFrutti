@@ -27,7 +27,7 @@ public class GameManager : NetworkBehaviour
     private void Awake()
     {
         PopulateFruitDictionary();
-        if (!isServer) return;
+        //if (!isServer) return;
         StartCoroutine("CheckRound");
     }
     
