@@ -9,13 +9,16 @@ using UnityEngine.UI;
 
 public class ScoreBoardController : NetworkBehaviour
 {
-    [SerializeField] private TMP_Text[] playersTexts = new TMP_Text[4];
     public bool isWinnerScene;
     private GameNetworkManager _gameNetworkManager;
     private List<NetworkPlayer> players;
     
+    [SerializeField] private Text[] posTexts = new Text[10];
+    [SerializeField] private Text[] scoresTexts = new Text[10];
+    [SerializeField] private Text[] namesTexts = new Text[10];
 
-    
+
+
     // TODO @Emad
     //1- show players score as your score 
     //2-show  player ranking
@@ -41,6 +44,7 @@ public class ScoreBoardController : NetworkBehaviour
 
     private void Start()
     {
+        
         players.Sort();
 
         if (!isWinnerScene && isServer)
@@ -54,8 +58,11 @@ public class ScoreBoardController : NetworkBehaviour
             }
         }
 
+
+        float templateHeight = 20f;
         for (int i = 0; i < players.Count; i++)
         {
+            
             int rank = i + 1;
             string rankString;
             switch (rank)
@@ -70,7 +77,13 @@ public class ScoreBoardController : NetworkBehaviour
                     rankString = "3RD"; break;
                 
             }
-            playersTexts[i].text = $"{rankString} {players[i].GetDisplayName()} : {players[i].GetScore(isWinnerScene)}";
+
+            posTexts[i].text = rankString;
+            scoresTexts[i].text = players[i].GetScore(isWinnerScene);
+            namesTexts[i].text = players[i].GetDisplayName();
+
+            
+
         }
     }
 
