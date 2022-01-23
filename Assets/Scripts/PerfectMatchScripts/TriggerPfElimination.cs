@@ -37,14 +37,15 @@ public class TriggerPfElimination : NetworkBehaviour
 
     void OnTriggerEnter(Collider other){
         // Message player
-       SetGameFelloutState(false);
+        SetGameFelloutState(false);
         // 
-        if(!isServer) return;
-        scoring.playerFellOut(other.gameObject);
-
         if (other.gameObject.GetComponent<PlayerCharacter>().playerHasAuthority){
             observerCamera.SetActive(true);
         }
+
+        if(!isServer) return;
+        scoring.playerFellOut(other.gameObject);
+
         
             // veraendere meine eigenen punkte
     }
