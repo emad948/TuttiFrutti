@@ -13,11 +13,13 @@ public class GameManager : NetworkBehaviour
     [SyncVar] public int chosenFruit;
     [SyncVar] public bool gameCanStart = false;
     [SyncVar] public bool canNowUpdateImages = false;
-    [SyncVar] public bool checkRoundFinished = false;
+    [SyncVar] public int checkRoundFinished = 0;
+    private int updatedRounds = 0;
     [SyncVar] public bool isGameOver = false;
     [SyncVar] public bool hasFailed = false;
 
     // PRIVATES
+    private bool hasUpdated = false;
     private Dictionary<int,Sprite> fruitDictionary = new Dictionary<int, Sprite>();
     private readonly SyncHashSet<int> chosenFruitHashSet = new SyncHashSet<int>();
     [HideInInspector] readonly private SyncHashSet<int> alreadyChosenFruitHashSet = new SyncHashSet<int>();
@@ -59,7 +61,7 @@ public class GameManager : NetworkBehaviour
                 StartCoroutine(ChooseBasedOnRound(6,3));
                 break;
         }
-        checkRoundFinished = true;
+        checkRoundFinished = roundNumber;
         yield return new WaitUntil(()=> canNowUpdateImages);
        
     }
@@ -104,13 +106,14 @@ public class GameManager : NetworkBehaviour
 
         gameCanStart = true;
         canNowUpdateImages = true;
+        hasUpdated = true;
 
         yield return null;
     }
 
     public IEnumerator UpdateImages(List<GameObject> tilesTransforms)
     {
-        yield return new WaitUntil(()=> checkRoundFinished);
+        yield return new WaitUntil(()=> checkRoundFinished > ++roundNumber);
         int index = 0;
       
         foreach (var tile in tilesTransforms)
