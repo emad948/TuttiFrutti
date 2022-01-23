@@ -10,14 +10,14 @@ public class GameManager : NetworkBehaviour
 {
 
     private Dictionary<int,Sprite> fruitDictionary = new Dictionary<int, Sprite>();
-    [HideInInspector]public readonly SyncList<enumFruits> chosenFruitsList = new SyncList<enumFruits>();
-    private readonly SyncHashSet<enumFruits> chosenFruitHashSet = new SyncHashSet<enumFruits>();
-    [HideInInspector] readonly public SyncHashSet<enumFruits> alreadyChosenFruitHashSet = new SyncHashSet<enumFruits>();
+    [HideInInspector]public readonly SyncList<int> chosenFruitsList = new SyncList<int>();
+    private readonly SyncHashSet<int> chosenFruitHashSet = new SyncHashSet<int>();
+    [HideInInspector] readonly public SyncHashSet<int> alreadyChosenFruitHashSet = new SyncHashSet<int>();
     private const int TOTAL_NUMBER_OF_FRUIT = 16;
     private const int MAX_ROUND_NUMBER = 3;
 
     [SyncVar] private int roundNumber = 1;
-    [SyncVar] public enumFruits chosenFruit;
+    [SyncVar] public int chosenFruit;
     //private bool hasChosenFruit = false; // so far unused
     [SyncVar] public bool gameCanStart = false;
     [SyncVar] public bool canNowUpdateImages = false;
@@ -30,17 +30,6 @@ public class GameManager : NetworkBehaviour
         if (isClientOnly) return;
         StartCoroutine("CheckRound");
     }
-    
-    public enum enumFruits : int{
-        apple = 1,
-        banana = 2,
-        cherry = 3,
-        orange = 4,
-        watermelon = 5,
-        grape = 6
-    } 
-    public readonly SyncList<enumFruits> intFruits = new SyncList<enumFruits>(); 
-
     void PopulateFruitDictionary()
     {
         fruitDictionary.Add(1,Resources.Load<Sprite>("Images/apple"));
@@ -53,9 +42,6 @@ public class GameManager : NetworkBehaviour
 
     public Sprite decodeSprite(int n){
         return fruitDictionary[n];
-    }
-    public Sprite decodeSprite(enumFruits n){
-        return fruitDictionary[(int)n];
     }
 
 
@@ -91,7 +77,7 @@ public class GameManager : NetworkBehaviour
         while (chosenFruitHashSet.Count < amountOfFruit)
         {
             int choosenFruit = Random.Range(1, fruitDictionary.Count + 1);
-            chosenFruitHashSet.Add((enumFruits)choosenFruit);
+            chosenFruitHashSet.Add(choosenFruit);
         }
 
         // Choose fruit for the round.
@@ -113,7 +99,7 @@ public class GameManager : NetworkBehaviour
         }
             
         // Shuffle list
-        List<enumFruits> result = chosenFruitsList.OrderBy(x => Guid.NewGuid()).ToList();
+        List<int> result = chosenFruitsList.OrderBy(x => Guid.NewGuid()).ToList();
         chosenFruitsList.Clear();
         foreach (var item in result) chosenFruitsList.Add(item);
 

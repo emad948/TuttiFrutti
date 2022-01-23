@@ -143,8 +143,6 @@ public class Grid : MonoBehaviour
     IEnumerator GeneratePlatform()
     {
         yield return new WaitUntil(() => perfectMatchManager.gameCanStart);
-        for (int q = 0; q < 1; q++)
-        {
             platformParent = new GameObject();
             platformParent.name = "Platform";
             platformParent.transform.parent = gameObject.transform;
@@ -176,7 +174,6 @@ public class Grid : MonoBehaviour
                 xAmount += 1.8f;
                 zAmount = -1.5f;
             }
-        }
 
         StoreAllTileTransforms();
     }
