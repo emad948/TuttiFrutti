@@ -14,6 +14,7 @@ done + extra starkes Schubsen (Flummi)
 - New Levels maybe?
 - Show SteamFriends after PlayButton
 - Vote for Level 
+- Limit crown exchange frequency (with the same player) to something like 0.5 sec.
 
 @Emad
 

@@ -11,6 +11,8 @@ public class TriggerPfElimination : NetworkBehaviour
     public GameObject timerText;
     public GameObject FellOutText;
     public GameObject gameStateUI;
+
+    public GameObject observerCamera;
     public PerfectMatchScoring scoring;
     // Start is called before the first frame update
 
@@ -39,6 +41,10 @@ public class TriggerPfElimination : NetworkBehaviour
         // 
         if(!isServer) return;
         scoring.playerFellOut(other.gameObject);
+
+        if (other.gameObject.GetComponent<PlayerCharacter>().playerHasAuthority){
+            observerCamera.SetActive(true);
+        }
         
             // veraendere meine eigenen punkte
     }
