@@ -10,7 +10,7 @@ public class Grid : MonoBehaviour
     private const int xCount = 4;
     private int yCount = 4;
     private GameObject platform;
-    private GameManager gameManager;
+    [SerializeField] private GameManager perfectMatchManager;
 
     private GameObject platformParent;
     private List<GameObject> tilesTransforms = new List<GameObject>();
@@ -32,7 +32,6 @@ public class Grid : MonoBehaviour
     {
         // Load platform prefab from resources.
         platform = Resources.Load<GameObject>("Prefabs/platformPurple");
-        gameManager = FindObjectOfType<GameManager>();
         StartCoroutine("GeneratePlatform");   
     }
 
@@ -52,13 +51,13 @@ public class Grid : MonoBehaviour
                 StartCoroutine("ToggleInitialImagesTiles");
             }
             
-            if (gameManager.hasFailed)
+            if (perfectMatchManager.hasFailed)
             {
                 ui.gameObject.transform.GetChild(0).gameObject.SetActive(true);
                 ui.GetComponent<UI>().SetGameState(false);
             }
 
-            if (!gameManager.isGameOver)
+            if (!perfectMatchManager.isGameOver)
             {
                 // Update UI with timer.
                 ui.gameObject.transform.GetChild(0).gameObject.SetActive(!hasRemovedIncorrectTiles);
@@ -126,8 +125,8 @@ public class Grid : MonoBehaviour
                             hasRemovedIncorrectTiles = false;
 
                             // Choose next fruit
-                            gameManager.IncreaseRound();
-                            StartCoroutine(gameManager.UpdateImages(tilesTransforms));
+                            perfectMatchManager.IncreaseRound();
+                            StartCoroutine(perfectMatchManager.UpdateImages(tilesTransforms));
                         }
                     }
                 }
@@ -143,7 +142,7 @@ public class Grid : MonoBehaviour
 
     IEnumerator GeneratePlatform()
     {
-        yield return new WaitUntil(() => gameManager.gameCanStart);
+        yield return new WaitUntil(() => perfectMatchManager.gameCanStart);
         for (int q = 0; q < 1; q++)
         {
             platformParent = new GameObject();
@@ -164,7 +163,7 @@ public class Grid : MonoBehaviour
 
                     string prefix = Random.Range(0, 2) % 2 == 0 ? "X" : "Y";
 
-                    Sprite sprite = gameManager.decodeFruit(gameManager.chosenFruitsList[index]);
+                    Sprite sprite = perfectMatchManager.decodeSprite(perfectMatchManager.chosenFruitsList[index]);
                     tile.GetComponent<PlatformTile>().SetImage(sprite);
                     tile.GetComponent<PlatformTile>().SetCanvasActive(false);
                     tile.name = prefix + ("-") + sprite.name;
@@ -201,7 +200,7 @@ public class Grid : MonoBehaviour
             {
                 if (remove)
                 {
-                    if (tile.transform.name.Contains(gameManager.decodeFruit(gameManager.chosenFruit).name))
+                    if (tile.transform.name.Contains(perfectMatchManager.decodeSprite(perfectMatchManager.chosenFruit).name))
                     {
                         tile.transform.gameObject.SetActive(true);
                     }

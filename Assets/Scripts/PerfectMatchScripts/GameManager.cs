@@ -51,10 +51,10 @@ public class GameManager : NetworkBehaviour
         fruitDictionary.Add(6,Resources.Load<Sprite>("Images/grape"));
     }
 
-    public Sprite decodeFruit(int n){
+    public Sprite decodeSprite(int n){
         return fruitDictionary[n];
     }
-    public Sprite decodeFruit(enumFruits n){
+    public Sprite decodeSprite(enumFruits n){
         return fruitDictionary[(int)n];
     }
 
@@ -134,10 +134,10 @@ public class GameManager : NetworkBehaviour
                 {
                     if (index < chosenFruitsList.Count)
                     {
-                        tile.GetComponentInChildren<PlatformTile>().SetImage(decodeFruit((int)chosenFruitsList[index]));
+                        tile.GetComponentInChildren<PlatformTile>().SetImage(decodeSprite((int)chosenFruitsList[index]));
                         
                         string prefix = Random.Range(0, 2) % 2 == 0 ? "X" : "Y";
-                        tile.name = prefix + ("-") + decodeFruit((int)chosenFruitsList[index]).name;
+                        tile.name = prefix + ("-") + decodeSprite((int)chosenFruitsList[index]).name;
                         if (prefix == "Y")
                         {
                             tile.GetComponentInChildren<PlatformTile>().SetCanvasActive(false);
