@@ -16,14 +16,14 @@ public class GameManager : NetworkBehaviour
     private const int TOTAL_NUMBER_OF_FRUIT = 16;
     private const int MAX_ROUND_NUMBER = 3;
 
-    private int roundNumber = 1;
-    public Sprite chosenFruit;
+    [SyncVar] private int roundNumber = 1;
+    [SyncVar] public enumFruits chosenFruit;
     //private bool hasChosenFruit = false; // so far unused
-    public bool gameCanStart = false;
-    public bool canNowUpdateImages = false;
-    public bool checkRoundFinished = false;
-    public bool isGameOver = false;
-    public bool hasFailed = false;
+    [SyncVar] public bool gameCanStart = false;
+    [SyncVar] public bool canNowUpdateImages = false;
+    [SyncVar] public bool checkRoundFinished = false;
+    [SyncVar] public bool isGameOver = false;
+    [SyncVar] public bool hasFailed = false;
     private void Awake()
     {
         PopulateFruitDictionary();
@@ -51,7 +51,7 @@ public class GameManager : NetworkBehaviour
         fruitDictionary.Add(6,Resources.Load<Sprite>("Images/grape"));
     }
 
-    public Sprite decodeSprite(int n){
+    public Sprite decodeFruit(int n){
         return fruitDictionary[n];
     }
 
@@ -86,9 +86,8 @@ public class GameManager : NetworkBehaviour
         // Get the amount of individual fruit needed.
         while (chosenFruitHashSet.Count < amountOfFruit)
         {
-            int randomFruitPosition = Random.Range(1, fruitDictionary.Count + 1);
-            Sprite fruitChosen = fruitDictionary[randomFruitPosition];
-            chosenFruitHashSet.Add(fruitChosen);
+            int choosenFruit = Random.Range(1, fruitDictionary.Count + 1);
+            chosenFruitHashSet.Add((enumFruits)choosenFruit);
         }
 
         // Choose fruit for the round.
@@ -101,7 +100,7 @@ public class GameManager : NetworkBehaviour
 
             while (howManyInListAlready < amountOfEach && chosenFruitsList.Count <= TOTAL_NUMBER_OF_FRUIT)
             {
-                howManyInListAlready = chosenFruitsList.Count(fruitName => fruitName.name.Contains(fruit.name));
+                howManyInListAlready = chosenFruitsList.Count(fruitName => fruitName == fruit);
                 if (howManyInListAlready < amountOfEach)
                 {
                     chosenFruitsList.Add(fruit);
@@ -110,7 +109,10 @@ public class GameManager : NetworkBehaviour
         }
             
         // Shuffle list
-        chosenFruitsList = chosenFruitsList.OrderBy(x => Guid.NewGuid()).ToList();
+        List<enumFruits> result = chosenFruitsList.OrderBy(x => Guid.NewGuid()).ToList();
+        chosenFruitsList.Clear();
+        foreach (var item in result) chosenFruitsList.Add(item);
+
         gameCanStart = true;
         canNowUpdateImages = true;
 
@@ -128,10 +130,10 @@ public class GameManager : NetworkBehaviour
                 {
                     if (index < chosenFruitsList.Count)
                     {
-                        tile.GetComponentInChildren<PlatformTile>().SetImage(chosenFruitsList[index]);
+                        tile.GetComponentInChildren<PlatformTile>().SetImage(decodeFruit((int)chosenFruitsList[index]));
                         
                         string prefix = Random.Range(0, 2) % 2 == 0 ? "X" : "Y";
-                        tile.name = prefix + ("-") + chosenFruitsList[index].name;
+                        tile.name = prefix + ("-") + decodeFruit((int)chosenFruitsList[index]).name;
                         if (prefix == "Y")
                         {
                             tile.GetComponentInChildren<PlatformTile>().SetCanvasActive(false);
@@ -142,8 +144,9 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-    public void IncreaseRound()
+    public void IncreaseRound() // only call on server in grid
     {
+        if (!isServer) return;
         if (roundNumber + 1 <= MAX_ROUND_NUMBER)
         {
             roundNumber += 1;
