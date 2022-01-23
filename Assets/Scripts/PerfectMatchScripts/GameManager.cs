@@ -25,13 +25,13 @@ public class GameManager : NetworkBehaviour
     [HideInInspector] readonly private SyncHashSet<int> alreadyChosenFruitHashSet = new SyncHashSet<int>();
     private const int TOTAL_NUMBER_OF_FRUIT = 16;
     private const int MAX_ROUND_NUMBER = 3;
-    [SyncVar] private int roundNumber = 1;
+    [SyncVar] private int roundNumber = 0;
 
     private void Awake()
     {
         PopulateFruitDictionary();
         if (isClientOnly) return;
-        StartCoroutine("CheckRound");
+        IncreaseRound();
     }
     void PopulateFruitDictionary()
     {
@@ -62,7 +62,6 @@ public class GameManager : NetworkBehaviour
                 StartCoroutine(ChooseBasedOnRound(6,3));
                 break;
         }
-        checkRoundFinished = roundNumber;
         yield return new WaitUntil(()=> canNowUpdateImages);
        
     }
@@ -114,7 +113,7 @@ public class GameManager : NetworkBehaviour
 
     public IEnumerator UpdateImages(List<GameObject> tilesTransforms)
     {
-        yield return new WaitUntil(()=> checkRoundFinished > ++roundNumber);
+        yield return new WaitUntil(()=> updatedRounds < roundNumber);
         int index = 0;
       
         foreach (var tile in tilesTransforms)
@@ -137,7 +136,7 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-    public void IncreaseRound() // only call on server in grid
+    [Server] public void IncreaseRound() // only call on server in grid
     {
         if (roundNumber + 1 <= MAX_ROUND_NUMBER)
         {
