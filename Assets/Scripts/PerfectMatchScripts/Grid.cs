@@ -164,7 +164,7 @@ public class Grid : MonoBehaviour
 
                     string prefix = Random.Range(0, 2) % 2 == 0 ? "X" : "Y";
 
-                    Sprite sprite = gameManager.chosenFruitsList[index];
+                    Sprite sprite = gameManager.decodeFruit(gameManager.chosenFruitsList[index]);
                     tile.GetComponent<PlatformTile>().SetImage(sprite);
                     tile.GetComponent<PlatformTile>().SetCanvasActive(false);
                     tile.name = prefix + ("-") + sprite.name;
@@ -201,7 +201,7 @@ public class Grid : MonoBehaviour
             {
                 if (remove)
                 {
-                    if (tile.transform.name.Contains(gameManager.chosenFruit.name))
+                    if (tile.transform.name.Contains(gameManager.decodeFruit(gameManager.chosenFruit).name))
                     {
                         tile.transform.gameObject.SetActive(true);
                     }

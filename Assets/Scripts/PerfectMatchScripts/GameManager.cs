@@ -10,7 +10,7 @@ public class GameManager : NetworkBehaviour
 {
 
     private Dictionary<int,Sprite> fruitDictionary = new Dictionary<int, Sprite>();
-    [HideInInspector]private readonly SyncList<enumFruits> chosenFruitsList = new SyncList<enumFruits>();
+    [HideInInspector]public readonly SyncList<enumFruits> chosenFruitsList = new SyncList<enumFruits>();
     private readonly SyncHashSet<enumFruits> chosenFruitHashSet = new SyncHashSet<enumFruits>();
     [HideInInspector] readonly public SyncHashSet<enumFruits> alreadyChosenFruitHashSet = new SyncHashSet<enumFruits>();
     private const int TOTAL_NUMBER_OF_FRUIT = 16;
@@ -54,6 +54,10 @@ public class GameManager : NetworkBehaviour
     public Sprite decodeFruit(int n){
         return fruitDictionary[n];
     }
+    public Sprite decodeFruit(enumFruits n){
+        return fruitDictionary[(int)n];
+    }
+
 
 
 
