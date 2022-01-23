@@ -4,14 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using Mirror;
 
-public class GameManager : MonoBehaviour
+public class GameManager : NetworkBehaviour
 {
 
     private Dictionary<int,Sprite> fruitDictionary = new Dictionary<int, Sprite>();
-    [HideInInspector]public List<Sprite> chosenFruitsList = new List<Sprite>();
-    private HashSet<Sprite> chosenFruitHashSet = new HashSet<Sprite>();
-    [HideInInspector] public HashSet<Sprite> alreadyChosenFruitHashSet = new HashSet<Sprite>();
+    [HideInInspector]private readonly SyncList<enumFruits> chosenFruitsList = new SyncList<enumFruits>();
+    private readonly SyncHashSet<enumFruits> chosenFruitHashSet = new SyncHashSet<enumFruits>();
+    [HideInInspector] readonly public SyncHashSet<enumFruits> alreadyChosenFruitHashSet = new SyncHashSet<enumFruits>();
     private const int TOTAL_NUMBER_OF_FRUIT = 16;
     private const int MAX_ROUND_NUMBER = 3;
 
@@ -26,9 +27,20 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         PopulateFruitDictionary();
+        if (!isServer) return;
         StartCoroutine("CheckRound");
     }
     
+    public enum enumFruits : int{
+        apple = 1,
+        banana = 2,
+        cherry = 3,
+        orange = 4,
+        watermelon = 5,
+        grape = 6
+    } 
+    public readonly SyncList<enumFruits> intFruits = new SyncList<enumFruits>(); 
+
     void PopulateFruitDictionary()
     {
         fruitDictionary.Add(1,Resources.Load<Sprite>("Images/apple"));
@@ -38,7 +50,13 @@ public class GameManager : MonoBehaviour
         fruitDictionary.Add(5,Resources.Load<Sprite>("Images/watermelon"));
         fruitDictionary.Add(6,Resources.Load<Sprite>("Images/grape"));
     }
-    
+
+    public Sprite decodeSprite(int n){
+        return fruitDictionary[n];
+    }
+
+
+
     public IEnumerator CheckRound()
     {
         switch (roundNumber)
