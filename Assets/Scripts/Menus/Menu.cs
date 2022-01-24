@@ -49,7 +49,7 @@ public class Menu : MonoBehaviour
                 {
                     //Debug.Log("CreateNewLobby: player created a lobby name of: " + lobbyNameInputField.text);
                     didPlayerNameTheLobby = true;
-                    lobbyName = lobbyNameInputField.text;
+                    //lobbyName = lobbyNameInputField.text;
                 }
 
                 SteamMatchmaking.CreateLobby(newLobbyType, _gameNatMan.maxConnections);
@@ -131,7 +131,7 @@ public class Menu : MonoBehaviour
     [SerializeField] private Toggle friendsOnlyToggle;
 
     public bool didPlayerNameTheLobby = false;
-    public string lobbyName;
+    //public string lobbyName;
     public List<GameObject> listOfLobbyListItems = new List<GameObject>();
 
     public void GetListOfLobbies()
@@ -144,7 +144,7 @@ public class Menu : MonoBehaviour
 
     public void JoinLobby(CSteamID lobbyId)
     {
-        //Debug.Log("JoinLobby: Will try to join lobby with steam id: " + lobbyId.ToString());
+        Debug.Log("JoinLobby: Will try to join lobby with steam id: " + lobbyId.ToString());
         SteamMatchmaking.JoinLobby(lobbyId);
     }
 
@@ -174,9 +174,16 @@ public class Menu : MonoBehaviour
                             SteamMatchmaking.GetLobbyMemberLimit((CSteamID) lobbyIDS[i].m_SteamID);
                         newLobbyListItemScript.SetLobbyItemValues();
 
-                        if (ContentPanel == null) Debug.Log("here5");
-                        newLobbyListItem.transform.SetParent(ContentPanel.transform);
-                        newLobbyListItem.transform.localScale = Vector3.one;
+                        if (_gameNatMan.publicLobbies)
+                        {
+                            newLobbyListItem.transform.SetParent(ContentPanel.transform);
+                            newLobbyListItem.transform.localScale = Vector3.one;
+                        }
+                        else
+                        {
+                            newLobbyListItem.transform.SetParent(FriendsLobbyContentPanel.transform);
+                            newLobbyListItem.transform.localScale = Vector3.one;
+                        }
 
                         listOfLobbyListItems.Add(newLobbyListItem);
                     }
@@ -195,9 +202,16 @@ public class Menu : MonoBehaviour
                     newLobbyListItemScript.maxNumberOfPlayers =
                         SteamMatchmaking.GetLobbyMemberLimit((CSteamID) lobbyIDS[i].m_SteamID);
                     newLobbyListItemScript.SetLobbyItemValues();
-
-                    newLobbyListItem.transform.SetParent(ContentPanel.transform);
-                    newLobbyListItem.transform.localScale = Vector3.one;
+                    if (_gameNatMan.publicLobbies)
+                    {
+                        newLobbyListItem.transform.SetParent(ContentPanel.transform);
+                        newLobbyListItem.transform.localScale = Vector3.one;
+                    }
+                    else
+                    {
+                        newLobbyListItem.transform.SetParent(FriendsLobbyContentPanel.transform);
+                        newLobbyListItem.transform.localScale = Vector3.one;
+                    }
 
                     listOfLobbyListItems.Add(newLobbyListItem);
                 }
@@ -215,28 +229,6 @@ public class Menu : MonoBehaviour
         _gameNatMan.FriendsLobbies();
     }
     
-    public void DisplayFriendsLobbies(List<CSteamID> lobbyIDS)
-    {
-        for (int i = 0; i < lobbyIDS.Count; i++)
-        {
-            GameObject newLobbyListItem = Instantiate(LobbyListItemPrefab) as GameObject;
-            LobbyListItem newLobbyListItemScript = newLobbyListItem.GetComponent<LobbyListItem>();
-
-            newLobbyListItemScript.lobbySteamId = (CSteamID) lobbyIDS[i].m_SteamID;
-            newLobbyListItemScript.lobbyName =
-                SteamMatchmaking.GetLobbyData((CSteamID) lobbyIDS[i].m_SteamID, "name");
-            newLobbyListItemScript.numberOfPlayers =
-                SteamMatchmaking.GetNumLobbyMembers((CSteamID) lobbyIDS[i].m_SteamID);
-            newLobbyListItemScript.maxNumberOfPlayers =
-                SteamMatchmaking.GetLobbyMemberLimit((CSteamID) lobbyIDS[i].m_SteamID);
-            newLobbyListItemScript.SetLobbyItemValues();
-            newLobbyListItem.transform.SetParent(FriendsLobbyContentPanel.transform);
-            newLobbyListItem.transform.localScale = Vector3.one;
-            listOfLobbyListItems.Add(newLobbyListItem);
-        }
-    }
-
-
     public void DestroyOldLobbyListItems()
     {
         //Debug.Log("DestroyOldLobbyListItems");

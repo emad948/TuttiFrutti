@@ -4081,7 +4081,6 @@ MonoBehaviour:
   lobbyNameInputField: {fileID: 1267114208}
   friendsOnlyToggle: {fileID: 1145472975}
   didPlayerNameTheLobby: 0
-  lobbyName: 
   listOfLobbyListItems: []
 --- !u!1 &360589618
 GameObject:
