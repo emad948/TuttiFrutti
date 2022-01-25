@@ -4081,6 +4081,7 @@ MonoBehaviour:
   lobbyNameInputField: {fileID: 1267114208}
   friendsOnlyToggle: {fileID: 1145472975}
   didPlayerNameTheLobby: 0
+  lobbyName: 
   listOfLobbyListItems: []
 --- !u!1 &360589618
 GameObject:
@@ -25448,7 +25449,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Enter Lobby Name
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f5b0a98a5cab902419932130ef20055f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 91b034315fe18c748971e7e4aeb21ff2, type: 2}
   m_sharedMaterial: {fileID: 2659737939583667314, guid: f5b0a98a5cab902419932130ef20055f, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -25512,7 +25513,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1908453294

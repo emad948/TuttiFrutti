@@ -12,7 +12,7 @@ public class LobbyMenu : MonoBehaviour
     [SerializeField] private GameObject lobbyUi;
     [SerializeField] private GameObject mainUi;
     [SerializeField] private Button startGameButton;
-    [SerializeField] private TMP_Text[] playersNameTexts = new TMP_Text[4];
+    [SerializeField] private TMP_Text[] playersNameTexts;
     [SerializeField] private Menu _menu;
     private GameNetworkManager _gameNetworkManager;
     private bool lobbyUiActive = false;
