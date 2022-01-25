@@ -13,7 +13,6 @@ public class GameManager : NetworkBehaviour
     [SyncVar] public int chosenFruit;
     [SyncVar] public bool gameCanStart = false;
     [SyncVar] public bool canNowUpdateImages = false;
-    [SyncVar] public int checkRoundFinished = 0;
     private int updatedRounds = 0;
     [SyncVar] public bool isGameOver = false;
     [SyncVar] public bool hasFailed = false;
