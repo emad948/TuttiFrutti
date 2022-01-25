@@ -25,7 +25,7 @@ public class LobbyListItem : MonoBehaviour
     {
         LobbyNameText.text = lobbyName;
         NumerOfPlayersText.text =
-            "Number of Players: " + numberOfPlayers.ToString() + "/" + maxNumberOfPlayers.ToString();
+            "Players: " + numberOfPlayers.ToString() + "/" + maxNumberOfPlayers.ToString();
     }
 
     public void JoinLobby()

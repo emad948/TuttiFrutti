@@ -332,6 +332,8 @@ public class GameNetworkManager : NetworkManager
         if (lobbyIDS.Count > 0)
             lobbyIDS.Clear();
         SteamMatchmaking.AddRequestLobbyListFilterSlotsAvailable(1);
+        SteamMatchmaking.AddRequestLobbyListStringFilter("gameName", "TuttiFrutti",
+            ELobbyComparison.k_ELobbyComparisonEqual);
         SteamAPICall_t try_getList = SteamMatchmaking.RequestLobbyList();
     }
 
@@ -346,22 +348,21 @@ public class GameNetworkManager : NetworkManager
                 CSteamID lobbyID = SteamMatchmaking.GetLobbyByIndex(i);
                 lobbyIDS.Add(lobbyID);
                 SteamMatchmaking.RequestLobbyData(lobbyID);
-                Debug.Log("here8");
             }
         }
         else
         {
             List<CSteamID> lobbyIDS = new List<CSteamID>();
-            int cFriends = SteamFriends.GetFriendCount(EFriendFlags.k_EFriendFlagImmediate);
+            EFriendFlags friendFlags = EFriendFlags.k_EFriendFlagImmediate;
+            int cFriends = SteamFriends.GetFriendCount(friendFlags);
             for (int i = 0; i < cFriends; i++)
             {
                 FriendGameInfo_t friendGameInfo;
-                CSteamID steamIDFriend = SteamFriends.GetFriendByIndex(i, EFriendFlags.k_EFriendFlagImmediate);
+                CSteamID steamIDFriend = SteamFriends.GetFriendByIndex(i, friendFlags);
                 if (SteamFriends.GetFriendGamePlayed(steamIDFriend, out friendGameInfo) &&
                     friendGameInfo.m_steamIDLobby.IsValid())
                 {
-                    Debug.Log("here5");
-                    lobbyIDS.Add(steamIDFriend);
+                    lobbyIDS.Add(friendGameInfo.m_steamIDLobby);
                     SteamMatchmaking.RequestLobbyData(steamIDFriend);
                 }
             }
@@ -372,37 +373,10 @@ public class GameNetworkManager : NetworkManager
 
     void OnGetLobbyInfo(LobbyDataUpdate_t result)
     {
-        Debug.Log("here1");
         _menu.DisplayLobbies(lobbyIDS, result);
     }
 
     // SteamLobby END
-
-    // SteamFriends START
-
-    public void FriendsLobbies()
-    {
-        publicLobbies = false;
-        if (_menu.listOfLobbyListItems.Count > 0) _menu.DestroyOldLobbyListItems();
-        List<CSteamID> lobbyIDS = new List<CSteamID>();
-        int cFriends = SteamFriends.GetFriendCount(EFriendFlags.k_EFriendFlagImmediate);
-        Debug.Log("cFriends " + cFriends.ToString());
-        for (int i = 0; i < cFriends; i++)
-        {
-            FriendGameInfo_t friendGameInfo;
-            CSteamID steamIDFriend = SteamFriends.GetFriendByIndex(i, EFriendFlags.k_EFriendFlagImmediate);
-            if (SteamFriends.GetFriendGamePlayed(steamIDFriend, out friendGameInfo) &&
-                friendGameInfo.m_steamIDLobby.IsValid())
-            {
-                lobbyIDS.Add(steamIDFriend);
-            }
-        }
-
-        //_menu.DisplayFriendsLobbies(lobbyIDS);
-    }
-
-    // SteamFriends END
-
 
     private const string HOST_ADDRESS = "HOST_ADDRESS";
     public CSteamID LobbyId { get; private set; }
@@ -441,12 +415,11 @@ public class GameNetworkManager : NetworkManager
         if (callback.m_eResult != EResult.k_EResultOK)
         {
             Debug.LogError("Failed to Create A Steam Lobby");
-            var a = FindObjectOfType<Menu>();
-            a.landingPagePanel.SetActive(true);
+            FindObjectOfType<Menu>().landingPagePanel.SetActive(true);
             return;
         }
-        //if lobby creation succeeded
 
+        //if lobby creation succeeded
         if (!NetworkServer.active || !NetworkClient.active)
         {
             this.StartHost();
@@ -457,39 +430,55 @@ public class GameNetworkManager : NetworkManager
             HOST_ADDRESS,
             SteamUser.GetSteamID().ToString()
         );
+        if (_menu.didPlayerNameTheLobby)
+        {
+            SteamMatchmaking.SetLobbyData(
+                new CSteamID(callback.m_ulSteamIDLobby),
+                "name",
+                _menu.lobbyName
+            );
+        }
+        else
+        {
+            SteamMatchmaking.SetLobbyData(
+                new CSteamID(callback.m_ulSteamIDLobby),
+                "name",
+                SteamFriends.GetPersonaName().ToString() + "'s lobby"
+            );
+        }
+
+        // for filtering results when searching lobbies
         SteamMatchmaking.SetLobbyData(
             new CSteamID(callback.m_ulSteamIDLobby),
-            "name",
-            SteamFriends.GetPersonaName().ToString() + "'s lobby"
-            // TODO change to chosen name or! "%player's lobby"
+            "gameName",
+            "TuttiFrutti"
         );
     }
 
     private void OnGameLobbyJoinRequested(GameLobbyJoinRequested_t callback)
     {
-        Debug.Log("LobbyJoin via SteamFriends JoinGame");
         SteamMatchmaking.JoinLobby(callback.m_steamIDLobby);
     }
 
     private void OnLobbyEntered(LobbyEnter_t callback)
     {
         if (NetworkServer.active) return; //if Host
-
         string hostAddress = SteamMatchmaking.GetLobbyData(
-            new CSteamID(callback.m_ulSteamIDLobby),
+            (CSteamID) callback.m_ulSteamIDLobby,
             HOST_ADDRESS
         );
+
+        networkAddress = hostAddress;
+        // ---
         Debug.Log("hostName: " + SteamMatchmaking.GetLobbyData(
-            new CSteamID(callback.m_ulSteamIDLobby),
+            (CSteamID) callback.m_ulSteamIDLobby,
             "name"
         ).ToString());
         Debug.Log("hostAddress: " + hostAddress);
-        networkAddress = hostAddress;
-
+        // ---
         StartClient();
 
-        var a = FindObjectOfType<Menu>();
-        a.landingPagePanel.SetActive(false);
+        FindObjectOfType<Menu>().landingPagePanel.SetActive(false);
     }
 
     #endregion
