@@ -360,7 +360,7 @@ public class GameNetworkManager : NetworkManager
                     friendGameInfo.m_steamIDLobby.IsValid())
                 {
                     lobbyIDS.Add(friendGameInfo.m_steamIDLobby);
-                    SteamMatchmaking.RequestLobbyData(steamIDFriend);
+                    SteamMatchmaking.RequestLobbyData(friendGameInfo.m_steamIDLobby);
                 }
             }
 
