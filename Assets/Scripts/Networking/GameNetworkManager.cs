@@ -326,31 +326,53 @@ public class GameNetworkManager : NetworkManager
         public LobbyMetaData[] m_Data;
     }
 
-    public void GetListOfLobbies()
+    public void GetListOfLobbies(bool _public)
     {
+        publicLobbies = _public;
         if (lobbyIDS.Count > 0)
             lobbyIDS.Clear();
-
         SteamMatchmaking.AddRequestLobbyListFilterSlotsAvailable(1);
-
         SteamAPICall_t try_getList = SteamMatchmaking.RequestLobbyList();
     }
 
     void OnGetLobbiesList(LobbyMatchList_t result)
     {
-        publicLobbies = true;
         if (_menu.listOfLobbyListItems.Count > 0)
             _menu.DestroyOldLobbyListItems();
-        for (int i = 0; i < result.m_nLobbiesMatching; i++)
+        if (publicLobbies)
         {
-            CSteamID lobbyID = SteamMatchmaking.GetLobbyByIndex(i);
-            lobbyIDS.Add(lobbyID);
-            var b = SteamMatchmaking.RequestLobbyData(lobbyID);
+            for (int i = 0; i < result.m_nLobbiesMatching; i++)
+            {
+                CSteamID lobbyID = SteamMatchmaking.GetLobbyByIndex(i);
+                lobbyIDS.Add(lobbyID);
+                SteamMatchmaking.RequestLobbyData(lobbyID);
+                Debug.Log("here8");
+            }
+        }
+        else
+        {
+            List<CSteamID> lobbyIDS = new List<CSteamID>();
+            int cFriends = SteamFriends.GetFriendCount(EFriendFlags.k_EFriendFlagImmediate);
+            for (int i = 0; i < cFriends; i++)
+            {
+                FriendGameInfo_t friendGameInfo;
+                CSteamID steamIDFriend = SteamFriends.GetFriendByIndex(i, EFriendFlags.k_EFriendFlagImmediate);
+                if (SteamFriends.GetFriendGamePlayed(steamIDFriend, out friendGameInfo) &&
+                    friendGameInfo.m_steamIDLobby.IsValid())
+                {
+                    Debug.Log("here5");
+                    lobbyIDS.Add(steamIDFriend);
+                    SteamMatchmaking.RequestLobbyData(steamIDFriend);
+                }
+            }
+
+            _menu.DisplayFriendsLobbies(lobbyIDS);
         }
     }
 
     void OnGetLobbyInfo(LobbyDataUpdate_t result)
     {
+        Debug.Log("here1");
         _menu.DisplayLobbies(lobbyIDS, result);
     }
 
@@ -364,6 +386,7 @@ public class GameNetworkManager : NetworkManager
         if (_menu.listOfLobbyListItems.Count > 0) _menu.DestroyOldLobbyListItems();
         List<CSteamID> lobbyIDS = new List<CSteamID>();
         int cFriends = SteamFriends.GetFriendCount(EFriendFlags.k_EFriendFlagImmediate);
+        Debug.Log("cFriends " + cFriends.ToString());
         for (int i = 0; i < cFriends; i++)
         {
             FriendGameInfo_t friendGameInfo;
@@ -374,6 +397,8 @@ public class GameNetworkManager : NetworkManager
                 lobbyIDS.Add(steamIDFriend);
             }
         }
+
+        //_menu.DisplayFriendsLobbies(lobbyIDS);
     }
 
     // SteamFriends END

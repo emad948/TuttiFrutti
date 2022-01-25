@@ -69,7 +69,7 @@ public class Menu : MonoBehaviour
 
     public GameObject afterSteam;
     public GameObject locallyOrSteam;
-    
+
     public void SteamCheckStartGame()
     {
         if (!SteamManager.Initialized)
@@ -131,15 +131,13 @@ public class Menu : MonoBehaviour
     [SerializeField] private Toggle friendsOnlyToggle;
 
     public bool didPlayerNameTheLobby = false;
+
     //public string lobbyName;
     public List<GameObject> listOfLobbyListItems = new List<GameObject>();
 
-    public void GetListOfLobbies()
+    public void GetListOfLobbies(bool _public)
     {
-        //Debug.Log("Trying to get list of available lobbies ...");
-        //LobbyListPanel.SetActive(true);
-
-        _gameNatMan.GetListOfLobbies();
+        _gameNatMan.GetListOfLobbies(_public);
     }
 
     public void JoinLobby(CSteamID lobbyId)
@@ -152,45 +150,13 @@ public class Menu : MonoBehaviour
     {
         for (int i = 0; i < lobbyIDS.Count; i++)
         {
-            if (lobbyIDS[i].m_SteamID == result.m_ulSteamIDLobby)
+            //if (lobbyIDS[i].m_SteamID == result.m_ulSteamIDLobby)
+            //{
+            if (didPlayerSearchForLobbies)
             {
-                //Debug.Log("Lobby " + i + " :: " + SteamMatchmaking.GetLobbyData((CSteamID)lobbyIDS[i].m_SteamID, "name") + " number of players: " + SteamMatchmaking.GetNumLobbyMembers((CSteamID)lobbyIDS[i].m_SteamID).ToString() + " max players: " + SteamMatchmaking.GetLobbyMemberLimit((CSteamID)lobbyIDS[i].m_SteamID).ToString());
-
-                if (didPlayerSearchForLobbies)
+                if (SteamMatchmaking.GetLobbyData((CSteamID) lobbyIDS[i].m_SteamID, "name").ToLower()
+                    .Contains(searchBox.text.ToLower()))
                 {
-                    //Debug.Log("OnGetLobbyInfo: Player searched for lobbies");
-                    if (SteamMatchmaking.GetLobbyData((CSteamID) lobbyIDS[i].m_SteamID, "name").ToLower()
-                        .Contains(searchBox.text.ToLower()))
-                    {
-                        GameObject newLobbyListItem = Instantiate(LobbyListItemPrefab) as GameObject;
-                        LobbyListItem newLobbyListItemScript = newLobbyListItem.GetComponent<LobbyListItem>();
-
-                        newLobbyListItemScript.lobbySteamId = (CSteamID) lobbyIDS[i].m_SteamID;
-                        newLobbyListItemScript.lobbyName =
-                            SteamMatchmaking.GetLobbyData((CSteamID) lobbyIDS[i].m_SteamID, "name");
-                        newLobbyListItemScript.numberOfPlayers =
-                            SteamMatchmaking.GetNumLobbyMembers((CSteamID) lobbyIDS[i].m_SteamID);
-                        newLobbyListItemScript.maxNumberOfPlayers =
-                            SteamMatchmaking.GetLobbyMemberLimit((CSteamID) lobbyIDS[i].m_SteamID);
-                        newLobbyListItemScript.SetLobbyItemValues();
-
-                        if (_gameNatMan.publicLobbies)
-                        {
-                            newLobbyListItem.transform.SetParent(ContentPanel.transform);
-                            newLobbyListItem.transform.localScale = Vector3.one;
-                        }
-                        else
-                        {
-                            newLobbyListItem.transform.SetParent(FriendsLobbyContentPanel.transform);
-                            newLobbyListItem.transform.localScale = Vector3.one;
-                        }
-
-                        listOfLobbyListItems.Add(newLobbyListItem);
-                    }
-                }
-                else
-                {
-                    //Debug.Log("OnGetLobbyInfo: Player DID NOT search for lobbies");
                     GameObject newLobbyListItem = Instantiate(LobbyListItemPrefab) as GameObject;
                     LobbyListItem newLobbyListItemScript = newLobbyListItem.GetComponent<LobbyListItem>();
 
@@ -202,20 +168,54 @@ public class Menu : MonoBehaviour
                     newLobbyListItemScript.maxNumberOfPlayers =
                         SteamMatchmaking.GetLobbyMemberLimit((CSteamID) lobbyIDS[i].m_SteamID);
                     newLobbyListItemScript.SetLobbyItemValues();
+
                     if (_gameNatMan.publicLobbies)
                     {
+                        Debug.Log("here3.1");
+
                         newLobbyListItem.transform.SetParent(ContentPanel.transform);
                         newLobbyListItem.transform.localScale = Vector3.one;
                     }
                     else
                     {
+                        Debug.Log("here3.2");
                         newLobbyListItem.transform.SetParent(FriendsLobbyContentPanel.transform);
                         newLobbyListItem.transform.localScale = Vector3.one;
                     }
 
                     listOfLobbyListItems.Add(newLobbyListItem);
                 }
+            }
+            else
+            {
+                GameObject newLobbyListItem = Instantiate(LobbyListItemPrefab) as GameObject;
+                LobbyListItem newLobbyListItemScript = newLobbyListItem.GetComponent<LobbyListItem>();
 
+                newLobbyListItemScript.lobbySteamId = (CSteamID) lobbyIDS[i].m_SteamID;
+                newLobbyListItemScript.lobbyName =
+                    SteamMatchmaking.GetLobbyData((CSteamID) lobbyIDS[i].m_SteamID, "name");
+                newLobbyListItemScript.numberOfPlayers =
+                    SteamMatchmaking.GetNumLobbyMembers((CSteamID) lobbyIDS[i].m_SteamID);
+                newLobbyListItemScript.maxNumberOfPlayers =
+                    SteamMatchmaking.GetLobbyMemberLimit((CSteamID) lobbyIDS[i].m_SteamID);
+                newLobbyListItemScript.SetLobbyItemValues();
+                if (_gameNatMan.publicLobbies)
+                {
+                    Debug.Log("here3.3");
+
+                    newLobbyListItem.transform.SetParent(ContentPanel.transform);
+                    newLobbyListItem.transform.localScale = Vector3.one;
+                }
+                else
+                {
+                    Debug.Log("here3.4");
+
+                    newLobbyListItem.transform.SetParent(FriendsLobbyContentPanel.transform);
+                    newLobbyListItem.transform.localScale = Vector3.one;
+                }
+
+                listOfLobbyListItems.Add(newLobbyListItem);
+                //}
                 return;
             }
         }
@@ -224,11 +224,27 @@ public class Menu : MonoBehaviour
             didPlayerSearchForLobbies = false;
     }
 
-    public void getAndDisplayFriendsLobbies()
+    public void DisplayFriendsLobbies(List<CSteamID> lobbyIDS)
     {
-        _gameNatMan.FriendsLobbies();
+        for (int i = 0; i < lobbyIDS.Count; i++)
+        {
+            GameObject newLobbyListItem = Instantiate(LobbyListItemPrefab) as GameObject;
+            LobbyListItem newLobbyListItemScript = newLobbyListItem.GetComponent<LobbyListItem>();
+
+            newLobbyListItemScript.lobbySteamId = (CSteamID) lobbyIDS[i].m_SteamID;
+            newLobbyListItemScript.lobbyName =
+                SteamMatchmaking.GetLobbyData((CSteamID) lobbyIDS[i].m_SteamID, "name");
+            newLobbyListItemScript.numberOfPlayers =
+                SteamMatchmaking.GetNumLobbyMembers((CSteamID) lobbyIDS[i].m_SteamID);
+            newLobbyListItemScript.maxNumberOfPlayers =
+                SteamMatchmaking.GetLobbyMemberLimit((CSteamID) lobbyIDS[i].m_SteamID);
+            newLobbyListItemScript.SetLobbyItemValues();
+            newLobbyListItem.transform.SetParent(FriendsLobbyContentPanel.transform);
+            newLobbyListItem.transform.localScale = Vector3.one;
+            listOfLobbyListItems.Add(newLobbyListItem);
+        }
     }
-    
+
     public void DestroyOldLobbyListItems()
     {
         //Debug.Log("DestroyOldLobbyListItems");
@@ -251,6 +267,6 @@ public class Menu : MonoBehaviour
         else
             didPlayerSearchForLobbies = false;
 
-        GetListOfLobbies();
+        GetListOfLobbies(true); // TODO change depending on if friends/public
     }
 }
