@@ -11,6 +11,8 @@ public class LobbyMenu : MonoBehaviour
 {
     [SerializeField] private GameObject lobbyUi;
     [SerializeField] private GameObject mainUi;
+    [SerializeField] private GameObject lobbyPanel;
+    [SerializeField] private GameObject lobbyFriendsPanel;
     [SerializeField] private Button startGameButton;
     [SerializeField] private TMP_Text[] playersNameTexts;
     [SerializeField] private Menu _menu;
@@ -59,6 +61,8 @@ public class LobbyMenu : MonoBehaviour
         lobbyUiActive = !lobbyUiActive;
         lobbyUi.SetActive(true);
         mainUi.SetActive(false);
+        lobbyPanel.SetActive(false);
+        lobbyFriendsPanel.SetActive(false);
     }
 
     private void AuthorityHandleGameHostStateUpdated(bool state)

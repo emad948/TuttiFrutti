@@ -7782,6 +7782,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lobbyUi: {fileID: 2142588048}
   mainUi: {fileID: 1215216321}
+  lobbyPanel: {fileID: 934504059}
+  lobbyFriendsPanel: {fileID: 810222329}
   startGameButton: {fileID: 1635563965}
   playersNameTexts:
   - {fileID: 1422547624}
