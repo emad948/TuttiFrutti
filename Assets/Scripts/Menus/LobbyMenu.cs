@@ -80,6 +80,7 @@ public class LobbyMenu : MonoBehaviour
     {
         if (NetworkServer.active && NetworkClient.isConnected)
         {
+            _gameNetworkManager.StopHost();
             NetworkServer.Shutdown();
         }
 

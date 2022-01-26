@@ -58,6 +58,7 @@ public class ScoreBoardController : NetworkBehaviour
     {
         if (isServer)
         {
+            _gameNetworkManager.StopHost();
             NetworkServer.Shutdown();
         }
 

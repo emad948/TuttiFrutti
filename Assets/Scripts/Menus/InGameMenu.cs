@@ -54,6 +54,7 @@ public class InGameMenu : NetworkBehaviour
     {
         if (isServer)
         {
+            _gameNetworkManager.StopHost();
             NetworkServer.Shutdown();
         }
 
