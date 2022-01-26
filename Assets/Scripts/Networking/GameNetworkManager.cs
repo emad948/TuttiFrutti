@@ -96,21 +96,19 @@ public class GameNetworkManager : NetworkManager
             playerName = randomPlayerName();
         }
 
-
         var player = conn.identity.GetComponent<NetworkPlayer>();
-
+        var randomColor = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
         PlayersList.Add(player);
 
+        if (PlayersList.Count == 1)
+        {
+            //if the playersList contain only 1 player this player is the host
+            player.SetGameHost(true);
+            player.lobbyName = _menu.lobbyName;
+        }
 
         player.SetDisplayName(playerName);
-
-
-        var randomColor = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-
         player.SetColor(randomColor);
-
-        //if the playersList contain only 1 player this player is the host
-        player.SetGameHost(PlayersList.Count == 1);
     }
 
     public override void OnServerSceneChanged(string sceneName)

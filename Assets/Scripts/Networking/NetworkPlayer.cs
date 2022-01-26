@@ -13,7 +13,10 @@ public class NetworkPlayer : NetworkBehaviour, IComparable<NetworkPlayer>
     [SyncVar] [SerializeField] private Color color;
 
     [SyncVar(hook = nameof(AuthorityHandleUpdateGameHostState))]
-    private bool _isGameHost = false;
+    public bool _isGameHost = false;
+    
+    
+    [SyncVar] public string lobbyName = "lobbyNameNotSet";
 
     //Scores
     [SyncVar(hook = nameof(HandleScoreUpdated))]

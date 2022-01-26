@@ -53,7 +53,6 @@ public class Menu : MonoBehaviour
                     didPlayerNameTheLobby = true;
                     lobbyName = lobbyNameInputField.text;
                 }
-
                 SteamMatchmaking.CreateLobby(newLobbyType, _gameNatMan.maxConnections);
                 return;
             }
@@ -64,6 +63,7 @@ public class Menu : MonoBehaviour
         }
         else
         {
+            lobbyName = localLobbyName_InputField.text;
             landingPagePanel.SetActive(false);
             _gameNatMan.StartHost();
         }
@@ -71,7 +71,7 @@ public class Menu : MonoBehaviour
 
     public void setLobbyName(string name)
     {
-        lobbyNameText.text = name;
+        //lobbyNameText.text = name;
     }
 
     public GameObject afterSteam;
@@ -135,6 +135,8 @@ public class Menu : MonoBehaviour
     private GameObject CreateLobbyPanel;
 
     [SerializeField] private TMP_InputField lobbyNameInputField;
+    [SerializeField] private TMP_InputField localLobbyName_InputField;
+
     [SerializeField] private Toggle friendsOnlyToggle;
 
     public bool didPlayerNameTheLobby = false;

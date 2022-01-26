@@ -19,6 +19,8 @@ public class LobbyMenu : MonoBehaviour
     [SerializeField] private Menu _menu;
     private GameNetworkManager _gameNatMan;
     private bool lobbyUiActive = false;
+    public TMP_Text lobbyNameText;
+
 
     private void Start()
     {
@@ -34,27 +36,21 @@ public class LobbyMenu : MonoBehaviour
         GameNetworkManager.ClientOnConnected -= HandleClientConnected;
         NetworkPlayer.AuthorityOnGameHostStateUpdated -= AuthorityHandleGameHostStateUpdated;
         NetworkPlayer.ClientOnInfoUpdated -= ClientHandleInfoUpdated;
-        //((GameNetworkManager) NetworkManager.singleton).OnDestroy();
     }
 
     public void ClientHandleInfoUpdated()
     {
-        List<NetworkPlayer> players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
+        List<NetworkPlayer> players = _gameNatMan.PlayersList;
         for (int i = 0; i < players.Count; i++)
         {
             playersNameTexts[i].text = players[i].GetDisplayName();
+            if (players[i]._isGameHost) lobbyNameText.text = players[i].lobbyName;
         }
 
         for (int i = players.Count; i < playersNameTexts.Length; i++)
         {
             playersNameTexts[i].text = "Waiting for player to join.";
         }
-
-        //StartGame button will be disabled if players are less than 2
-        // if (!_menu.testMode)
-        // {
-        //startGameButton.interactable = players.Count > 1;
-        // }
     }
 
     private void HandleClientConnected()
@@ -64,6 +60,11 @@ public class LobbyMenu : MonoBehaviour
         mainUi.SetActive(false);
         lobbyPanel.SetActive(false);
         lobbyFriendsPanel.SetActive(false);
+        List<NetworkPlayer> players = _gameNatMan.PlayersList;
+        for (int i = 0; i < players.Count; i++)
+        {
+            Debug.Log(players[i].GetIsGameHost() + " " + players[i].lobbyName);
+        }
     }
 
     private void AuthorityHandleGameHostStateUpdated(bool state)
