@@ -13,6 +13,8 @@ public class Menu : MonoBehaviour
     public GameObject landingPagePanel;
 
     private bool useSteam = false;
+    public TMP_Text lobbyNameText;
+
 
     //[SerializeField] public bool testMode = false;
     public TMP_Text steamErrorText;
@@ -65,6 +67,11 @@ public class Menu : MonoBehaviour
             landingPagePanel.SetActive(false);
             _gameNatMan.StartHost();
         }
+    }
+
+    public void setLobbyName(string name)
+    {
+        lobbyNameText.text = name;
     }
 
     public GameObject afterSteam;

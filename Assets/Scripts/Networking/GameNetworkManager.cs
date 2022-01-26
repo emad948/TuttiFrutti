@@ -26,6 +26,7 @@ public class GameNetworkManager : NetworkManager
     public static event Action ClientOnDisconnected;
     private const string HOST_ADDRESS = "HOST_ADDRESS";
     public CSteamID LobbyId { get; private set; }
+    public CSteamID currentLobbyID { get; private set; }
 
     public override void Awake()
     {
@@ -415,6 +416,7 @@ public class GameNetworkManager : NetworkManager
         }
 
         LobbyId = new CSteamID(callback.m_ulSteamIDLobby);
+        currentLobbyID = LobbyId;
         if (!NetworkServer.active || !NetworkClient.active)
         {
             this.StartHost();
@@ -457,22 +459,19 @@ public class GameNetworkManager : NetworkManager
 
     private void OnLobbyEntered(LobbyEnter_t callback)
     {
-        if (NetworkServer.active) return; //if Host
-        string hostAddress = SteamMatchmaking.GetLobbyData(
-            (CSteamID) callback.m_ulSteamIDLobby,
-            HOST_ADDRESS
-        );
-
-        networkAddress = hostAddress;
-        // ---
-        Debug.Log("hostName: " + SteamMatchmaking.GetLobbyData(
+        string lobbyName = SteamMatchmaking.GetLobbyData(
             (CSteamID) callback.m_ulSteamIDLobby,
             "name"
-        ).ToString());
-        Debug.Log("hostAddress: " + hostAddress);
-        // ---
+        );
+        FindObjectOfType<Menu>().setLobbyName(lobbyName);
+        if (NetworkServer.active) return; //if Host
+        currentLobbyID = (CSteamID) callback.m_ulSteamIDLobby;
+        string hostAddress = SteamMatchmaking.GetLobbyData(
+            currentLobbyID,
+            HOST_ADDRESS
+        );
+        networkAddress = hostAddress;
         StartClient();
-
         FindObjectOfType<Menu>().landingPagePanel.SetActive(false);
     }
 

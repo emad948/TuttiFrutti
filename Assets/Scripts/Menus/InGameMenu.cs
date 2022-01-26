@@ -10,12 +10,12 @@ public class InGameMenu : NetworkBehaviour
 {
     public GameObject Panel;
     private bool GameIsPaused = false;
-    private GameNetworkManager _gameNetworkManager;
+    private GameNetworkManager _gameNatMan;
 
 
     void Start()
     {
-        _gameNetworkManager = ((GameNetworkManager) NetworkManager.singleton);
+        _gameNatMan = ((GameNetworkManager) NetworkManager.singleton);
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -53,18 +53,18 @@ public class InGameMenu : NetworkBehaviour
 
     public void LeaveGame()
     {
-        if (isServer)
+        if (_gameNatMan.usingSteam)
         {
-            _gameNetworkManager.StopHost();
-            NetworkServer.Shutdown();
-        }
-        
-        if (_gameNetworkManager.usingSteam)
-        {
-            SteamMatchmaking.LeaveLobby(SteamUser.GetSteamID());
+            SteamMatchmaking.LeaveLobby(_gameNatMan.currentLobbyID);
         }
 
-        _gameNetworkManager.StopClient();
+        if (isServer)
+        {
+            _gameNatMan.StopHost();
+            NetworkServer.Shutdown();
+        }
+
+        _gameNatMan.StopClient();
 
         SceneManager.LoadScene(0);
     }
