@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mirror;
+using Steamworks;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -60,6 +61,11 @@ public class ScoreBoardController : NetworkBehaviour
         {
             _gameNetworkManager.StopHost();
             NetworkServer.Shutdown();
+        }
+        
+        if (_gameNetworkManager.usingSteam)
+        {
+            SteamMatchmaking.LeaveLobby(SteamUser.GetSteamID());
         }
 
         _gameNetworkManager.StopClient();

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
+using Steamworks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -86,6 +87,11 @@ public class LobbyMenu : MonoBehaviour
         {
             _gameNetworkManager.StopHost();
             NetworkServer.Shutdown();
+        }
+
+        if (_gameNetworkManager.usingSteam)
+        {
+            SteamMatchmaking.LeaveLobby(SteamUser.GetSteamID());
         }
 
         _gameNetworkManager.StopClient();

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
+using Steamworks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -56,6 +57,11 @@ public class InGameMenu : NetworkBehaviour
         {
             _gameNetworkManager.StopHost();
             NetworkServer.Shutdown();
+        }
+        
+        if (_gameNetworkManager.usingSteam)
+        {
+            SteamMatchmaking.LeaveLobby(SteamUser.GetSteamID());
         }
 
         _gameNetworkManager.StopClient();
