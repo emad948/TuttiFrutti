@@ -329,6 +329,7 @@ public class GameNetworkManager : NetworkManager
         if (lobbyIDS.Count > 0)
             lobbyIDS.Clear();
         SteamMatchmaking.AddRequestLobbyListFilterSlotsAvailable(1);
+        SteamMatchmaking.AddRequestLobbyListDistanceFilter(ELobbyDistanceFilter.k_ELobbyDistanceFilterWorldwide);
         SteamMatchmaking.AddRequestLobbyListStringFilter("gameName", "TuttiFrutti",
             ELobbyComparison.k_ELobbyComparisonEqual);
         SteamAPICall_t try_getList = SteamMatchmaking.RequestLobbyList();
