@@ -37,10 +37,10 @@ public class TriggerPfElimination : NetworkBehaviour
 
     void OnTriggerEnter(Collider other){
         // Message player
-        SetGameFelloutState(false);
         // 
         if (other.gameObject.GetComponent<PlayerCharacter>().playerHasAuthority){
             observerCamera.SetActive(true);
+            SetGameFelloutState(false);
         }
 
         if(!isServer) return;
