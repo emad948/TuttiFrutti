@@ -11,13 +11,34 @@ public class Menu : MonoBehaviour
 {
     private GameNetworkManager _gameNatMan;
     public GameObject landingPagePanel;
-
     private bool useSteam = false;
     public TMP_Text lobbyNameText;
-
-
-    //[SerializeField] public bool testMode = false;
     public TMP_Text steamErrorText;
+    public GameObject afterSteam;
+    public GameObject locallyOrSteam;
+
+    // For SteamLobbies
+    // Source: https://github.com/FatRodzianko/steamworks-tutorial/blob/main/LICENSE
+    [Header("Lobby List UI")] [SerializeField]
+    private GameObject LobbyListPanel;
+
+    [SerializeField] private GameObject LobbyListItemPrefab;
+    [SerializeField] private GameObject ContentPanel;
+    [SerializeField] private TMP_InputField searchBox;
+    public bool didPlayerSearchForLobbies = false;
+
+    [Header("Friends Lobby List UI")] [SerializeField]
+    private GameObject FriendsLobbyContentPanel;
+
+    [Header("Create Lobby UI")] [SerializeField]
+    private GameObject CreateLobbyPanel;
+
+    [SerializeField] private TMP_InputField lobbyNameInputField;
+    [SerializeField] private TMP_InputField localLobbyName_InputField;
+    [SerializeField] private Toggle friendsOnlyToggle;
+    public bool didPlayerNameTheLobby = false;
+    public string lobbyName;
+    public List<GameObject> listOfLobbyListItems = new List<GameObject>();
 
     private void Start()
     {
@@ -25,6 +46,7 @@ public class Menu : MonoBehaviour
         _gameNatMan.menuStart();
         steamErrorText.enabled = false;
         _gameNatMan.setUseSteam(false);
+        _gameNatMan.updateMenuReference();
     }
 
     public void HostLobby()
@@ -50,6 +72,7 @@ public class Menu : MonoBehaviour
                     didPlayerNameTheLobby = true;
                     lobbyName = lobbyNameInputField.text;
                 }
+
                 SteamMatchmaking.CreateLobby(newLobbyType, _gameNatMan.maxConnections);
                 return;
             }
@@ -66,14 +89,6 @@ public class Menu : MonoBehaviour
         }
     }
 
-    public void setLobbyName(string name)
-    {
-        //lobbyNameText.text = name;
-    }
-
-    public GameObject afterSteam;
-    public GameObject locallyOrSteam;
-
     public void SteamCheckStartGame()
     {
         if (!SteamManager.Initialized)
@@ -88,7 +103,6 @@ public class Menu : MonoBehaviour
             locallyOrSteam.SetActive(false);
         }
     }
-
 
     public bool getUseSteam()
     {
@@ -113,33 +127,6 @@ public class Menu : MonoBehaviour
         useSteam = steam;
         _gameNatMan.setUseSteam(steam);
     }
-
-    // For SteamLobbies
-    // Source: https://github.com/FatRodzianko/steamworks-tutorial/blob/main/LICENSE
-
-    [Header("Lobby List UI")] [SerializeField]
-    private GameObject LobbyListPanel;
-
-    [SerializeField] private GameObject LobbyListItemPrefab;
-    [SerializeField] private GameObject ContentPanel;
-    [SerializeField] private TMP_InputField searchBox;
-    public bool didPlayerSearchForLobbies = false;
-
-    [Header("Friends Lobby List UI")] [SerializeField]
-    private GameObject FriendsLobbyContentPanel;
-
-    [Header("Create Lobby UI")] [SerializeField]
-    private GameObject CreateLobbyPanel;
-
-    [SerializeField] private TMP_InputField lobbyNameInputField;
-    [SerializeField] private TMP_InputField localLobbyName_InputField;
-
-    [SerializeField] private Toggle friendsOnlyToggle;
-
-    public bool didPlayerNameTheLobby = false;
-
-    public string lobbyName;
-    public List<GameObject> listOfLobbyListItems = new List<GameObject>();
 
     public void GetListOfLobbies(bool _public)
     {

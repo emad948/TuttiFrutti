@@ -27,7 +27,51 @@ public class GameNetworkManager : NetworkManager
     private const string HOST_ADDRESS = "HOST_ADDRESS";
     public CSteamID LobbyId { get; private set; }
     public CSteamID currentLobbyID { get; private set; }
+    protected Callback<LobbyCreated_t> lobbyCreated;
+    protected Callback<GameLobbyJoinRequested_t> gameLobbyJoinRequested;
+    protected Callback<LobbyEnter_t> lobbyEntered;
+    protected Callback<LobbyMatchList_t> Callback_lobbyList;
+    protected Callback<LobbyDataUpdate_t> Callback_lobbyInfo;
 
+    private List<GameObject> listOfLobbyListItems = new List<GameObject>();
+
+    public List<CSteamID> lobbyIDS = new List<CSteamID>();
+    public bool publicLobbies = true;
+
+    public Levels startingLevel;
+    private string[] _allGameLevels;
+    private string[] _gameLevels;
+    public int currentLevelIndex = 0;
+    
+    struct LobbyMetaData
+    {
+        public string m_Key;
+        public string m_Value;
+    }
+
+    struct LobbyMembers
+    {
+        public CSteamID m_SteamID;
+        public LobbyMetaData[] m_Data;
+    }
+
+    struct Lobby
+    {
+        public CSteamID m_SteamID;
+        public CSteamID m_Owner;
+        public LobbyMembers[] m_Members;
+        public int m_MemberLimit;
+        public LobbyMetaData[] m_Data;
+    }
+    
+    public enum Levels
+    {
+        Level_HillKing = 1,
+        Level_PerfectMatch = 2,
+        Level_Crown = 3,
+        Level_RunTheLine = 4
+    }
+    
     public override void Awake()
     {
         base.Awake();
@@ -48,6 +92,11 @@ public class GameNetworkManager : NetworkManager
         else transport = kcpTransport;
 
         Transport.activeTransport = transport;
+    }
+
+    public void updateMenuReference()
+    {
+        _menu = GameObject.FindGameObjectWithTag("MainMenuDisplayTag").GetComponent<Menu>();
     }
 
     #region Server
@@ -73,10 +122,7 @@ public class GameNetworkManager : NetworkManager
 
     public void StartGame()
     {
-        //if (!_menu.testMode && PlayersList.Count < 2) return;
-
         _gameStarted = true;
-
         startLevel();
     }
 
@@ -102,7 +148,7 @@ public class GameNetworkManager : NetworkManager
 
         if (PlayersList.Count == 1)
         {
-            //if the playersList contain only 1 player this player is the host
+            // if the playersList contain only 1 player this player is the host
             player.SetGameHost(true);
             player.lobbyName = _menu.lobbyName;
         }
@@ -143,9 +189,6 @@ public class GameNetworkManager : NetworkManager
     {
         base.OnClientDisconnect();
         ClientOnDisconnected?.Invoke();
-
-        /*  If disconnected from server for any reason, go back to main menu.
-        *** I don't know, how to reset the client tho, therefore, another connection is currently not possible */
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         resettingLevelsManager();
@@ -169,13 +212,7 @@ public class GameNetworkManager : NetworkManager
 
     #region (Previously) GameLevelsManager
 
-    public enum Levels
-    {
-        Level_HillKing = 1,
-        Level_PerfectMatch = 2,
-        Level_Crown = 3,
-        Level_RunTheLine = 4
-    }
+  
 
     private string decodeLevel(Levels l)
     {
@@ -186,10 +223,6 @@ public class GameNetworkManager : NetworkManager
         return "MainMenu";
     }
 
-    public Levels startingLevel;
-    private string[] _allGameLevels;
-    private string[] _gameLevels;
-    public int currentLevelIndex = 0;
 
 
     private void resettingLevelsManager()
@@ -288,40 +321,6 @@ public class GameNetworkManager : NetworkManager
 
     #region (Previously in) Menu.cs
 
-    protected Callback<LobbyCreated_t> lobbyCreated;
-    protected Callback<GameLobbyJoinRequested_t> gameLobbyJoinRequested;
-    protected Callback<LobbyEnter_t> lobbyEntered;
-
-    // SteamLobby START
-    protected Callback<LobbyMatchList_t> Callback_lobbyList;
-    protected Callback<LobbyDataUpdate_t> Callback_lobbyInfo;
-
-    private List<GameObject> listOfLobbyListItems = new List<GameObject>();
-
-    public List<CSteamID> lobbyIDS = new List<CSteamID>();
-    public bool publicLobbies = true;
-
-    struct LobbyMetaData
-    {
-        public string m_Key;
-        public string m_Value;
-    }
-
-    struct LobbyMembers
-    {
-        public CSteamID m_SteamID;
-        public LobbyMetaData[] m_Data;
-    }
-
-    struct Lobby
-    {
-        public CSteamID m_SteamID;
-        public CSteamID m_Owner;
-        public LobbyMembers[] m_Members;
-        public int m_MemberLimit;
-        public LobbyMetaData[] m_Data;
-    }
-
     public void GetListOfLobbies(bool _public)
     {
         publicLobbies = _public;
@@ -378,21 +377,12 @@ public class GameNetworkManager : NetworkManager
 
     public void menuStart()
     {
-        if (!usingSteam)
-        {
-            // lobbyCreated = null;
-            // gameLobbyJoinRequested = null;
-            // lobbyEntered = null;
-            // return;
-        }
-
         if (!SteamManager.Initialized)
         {
             Debug.LogError("Steam is not Initialized");
             return;
         }
 
-        //SteamManager.
         if (steamInitOnlyOnce)
         {
             lobbyCreated = Callback<LobbyCreated_t>.Create(OnLobbyCreated);
@@ -457,11 +447,6 @@ public class GameNetworkManager : NetworkManager
 
     private void OnLobbyEntered(LobbyEnter_t callback)
     {
-        string lobbyName = SteamMatchmaking.GetLobbyData(
-            (CSteamID) callback.m_ulSteamIDLobby,
-            "name"
-        );
-        FindObjectOfType<Menu>().setLobbyName(lobbyName);
         if (NetworkServer.active) return; //if Host
         currentLobbyID = (CSteamID) callback.m_ulSteamIDLobby;
         string hostAddress = SteamMatchmaking.GetLobbyData(

@@ -61,10 +61,6 @@ public class LobbyMenu : MonoBehaviour
         lobbyPanel.SetActive(false);
         lobbyFriendsPanel.SetActive(false);
         List<NetworkPlayer> players = _gameNatMan.PlayersList;
-        for (int i = 0; i < players.Count; i++)
-        {
-            Debug.Log(players[i].GetIsGameHost() + " " + players[i].lobbyName);
-        }
     }
 
     private void AuthorityHandleGameHostStateUpdated(bool state)
