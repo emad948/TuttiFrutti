@@ -16,6 +16,8 @@ public class ScoreBoardController : NetworkBehaviour
     [SerializeField] private Text[] posTexts = new Text[10];
     [SerializeField] private Text[] scoresTexts = new Text[10];
     [SerializeField] private Text[] namesTexts = new Text[10];
+    [SerializeField] private GameObject[] medals = new GameObject[3];
+    [SerializeField] private GameObject[] entryBackground = new GameObject[5];
 
 
 
@@ -62,6 +64,15 @@ public class ScoreBoardController : NetworkBehaviour
         float templateHeight = 20f;
         for (int i = 0; i < players.Count; i++)
         {
+            if (i  % 2 == 0)
+            {
+                entryBackground[i].GameObject().SetActive(true);
+            }
+            
+            if (i < 3)
+            {
+                medals[i].GameObject().SetActive(true);
+            }
             
             int rank = i + 1;
             string rankString;
