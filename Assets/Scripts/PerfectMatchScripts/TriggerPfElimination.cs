@@ -29,10 +29,14 @@ public class TriggerPfElimination : NetworkBehaviour
     {
         gameStateUI.SetActive(true);
         FellOutGameText.gameObject.SetActive(true);
-          
+        StartCoroutine("hideOverlayWithDelay");
         print("gameEnds44");
     }
 
+    public IEnumerable hideOverlayWithDelay(){
+        yield return new WaitForSeconds(2);
+        FellOutGameText.gameObject.SetActive(false);
+    }
   
 
     void OnTriggerEnter(Collider other){
