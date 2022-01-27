@@ -14,8 +14,7 @@ public class NetworkPlayer : NetworkBehaviour, IComparable<NetworkPlayer>
 
     [SyncVar(hook = nameof(AuthorityHandleUpdateGameHostState))]
     public bool _isGameHost = false;
-    
-    
+
     [SyncVar] public string lobbyName = "lobbyNameNotSet";
 
     //Scores
@@ -32,6 +31,14 @@ public class NetworkPlayer : NetworkBehaviour, IComparable<NetworkPlayer>
 
     public static event Action<string> ClientOnDisplayNameChanged;
 
+
+    private void Awake()
+    {
+        Debug.Log("here1");
+        changeName();
+        changeColor();
+    }
+
     public bool GetIsGameHost()
     {
         return _isGameHost;
@@ -40,6 +47,32 @@ public class NetworkPlayer : NetworkBehaviour, IComparable<NetworkPlayer>
     public string GetDisplayName()
     {
         return _displayName;
+    }
+
+    public void changeName()
+    {
+        string name = PlayerPrefs.GetString("playerName", randomPlayerName());
+        _displayName = name;
+    }
+
+    public void changeColor()
+    {
+        var c_r = PlayerPrefs.GetFloat("color_r", 0.5f);
+        var c_g = PlayerPrefs.GetFloat("color_g", 0.5f);
+        var c_b = PlayerPrefs.GetFloat("color_b", 0.5f);
+        var c_a = PlayerPrefs.GetFloat("color_a", 0.7f);
+        color = new Color(c_r, c_g, c_b, c_a);
+    }
+
+    private string randomPlayerName()
+    {
+        var names = new List<string>()
+        {
+            "Orange", "Guava", "Apple", "Banana", "Kiwi", "Pommegranate", "Fig", "Acerola", "Mandarine", "Avocado",
+            "Watermelon", "Lemon", "Pineapple", "Mango", "Plum", "Coconut"
+        };
+        var random = new System.Random();
+        return names[random.Next(names.Count)];
     }
 
     public string GetScore(bool isWinnerScene)
@@ -53,7 +86,6 @@ public class NetworkPlayer : NetworkBehaviour, IComparable<NetworkPlayer>
             return _currentScore.ToString();
         }
     }
-
 
     public Color GetColor()
     {
@@ -91,8 +123,8 @@ public class NetworkPlayer : NetworkBehaviour, IComparable<NetworkPlayer>
     [Server]
     public void SetDisplayName(string newDisplayName) => _displayName = newDisplayName;
 
-    [Server]
-    public void SetColor(Color newColor) => color = newColor;
+    //[Server]
+    //public void SetColor(Color newColor) => color = newColor;
 
     [Server]
     public void ChangeScore(int scorePoints) => _currentScore += scorePoints;
@@ -107,7 +139,7 @@ public class NetworkPlayer : NetworkBehaviour, IComparable<NetworkPlayer>
     public void DuplicateScores() => _currentScore = _totalScore; // for the compareTo method (sorting)
 
     public void ResetTotalScore() => _totalScore = 0;
-    
+
     [Command]
     public void CmdStartGame()
     {
@@ -128,6 +160,8 @@ public class NetworkPlayer : NetworkBehaviour, IComparable<NetworkPlayer>
         DontDestroyOnLoad(gameObject);
 
         ((GameNetworkManager) NetworkManager.singleton).PlayersList.Add(this);
+        //changeName();
+        // changeColor();
     }
 
     public override void OnStopClient()

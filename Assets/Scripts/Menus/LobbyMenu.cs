@@ -60,7 +60,7 @@ public class LobbyMenu : MonoBehaviour
         mainUi.SetActive(false);
         lobbyPanel.SetActive(false);
         lobbyFriendsPanel.SetActive(false);
-        List<NetworkPlayer> players = _gameNatMan.PlayersList;
+        ClientHandleInfoUpdated();
     }
 
     private void AuthorityHandleGameHostStateUpdated(bool state)

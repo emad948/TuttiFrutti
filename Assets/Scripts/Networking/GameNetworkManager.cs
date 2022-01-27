@@ -42,7 +42,7 @@ public class GameNetworkManager : NetworkManager
     private string[] _allGameLevels;
     private string[] _gameLevels;
     public int currentLevelIndex = 0;
-    
+
     struct LobbyMetaData
     {
         public string m_Key;
@@ -63,7 +63,7 @@ public class GameNetworkManager : NetworkManager
         public int m_MemberLimit;
         public LobbyMetaData[] m_Data;
     }
-    
+
     public enum Levels
     {
         Level_HillKing = 1,
@@ -71,7 +71,7 @@ public class GameNetworkManager : NetworkManager
         Level_Crown = 3,
         Level_RunTheLine = 4
     }
-    
+
     public override void Awake()
     {
         base.Awake();
@@ -131,6 +131,8 @@ public class GameNetworkManager : NetworkManager
         base.OnServerAddPlayer(conn);
 
         var playerName = "";
+        var player = conn.identity.GetComponent<NetworkPlayer>();
+        PlayersList.Add(player);
 
         if (usingSteam)
         {
@@ -139,22 +141,16 @@ public class GameNetworkManager : NetworkManager
         }
         else
         {
-            playerName = randomPlayerName();
-        }
-
-        var player = conn.identity.GetComponent<NetworkPlayer>();
-        var randomColor = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-        PlayersList.Add(player);
-
-        if (PlayersList.Count == 1)
-        {
-            // if the playersList contain only 1 player this player is the host
-            player.SetGameHost(true);
-            player.lobbyName = _menu.lobbyName;
+            playerName = player.GetDisplayName();
         }
 
         player.SetDisplayName(playerName);
-        player.SetColor(randomColor);
+        
+        if (PlayersList.Count == 1)
+        {
+            player.SetGameHost(true);
+            player.lobbyName = _menu.lobbyName;
+        }
     }
 
     public override void OnServerSceneChanged(string sceneName)
@@ -212,8 +208,6 @@ public class GameNetworkManager : NetworkManager
 
     #region (Previously) GameLevelsManager
 
-  
-
     private string decodeLevel(Levels l)
     {
         if (l is Levels.Level_HillKing) return "Level_HillKing";
@@ -222,7 +216,6 @@ public class GameNetworkManager : NetworkManager
         if (l is Levels.Level_RunTheLine) return "Level_RunTheLine";
         return "MainMenu";
     }
-
 
 
     private void resettingLevelsManager()
