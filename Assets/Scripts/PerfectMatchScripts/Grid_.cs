@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-public class Grid : MonoBehaviour
+public class Grid_ : MonoBehaviour
 {
     private const int xCount = 4;
     private int yCount = 4;
