@@ -126,8 +126,10 @@ public class Grid : MonoBehaviour
 
                             // Choose next fruit
                             perfectMatchManager.IncreaseRound();
+                            perfectMatchManager.updatedRounds++;
                             printFruitList();
                             StartCoroutine(perfectMatchManager.UpdateImages(tilesTransforms));
+                            
                         }
                     }
                 }
