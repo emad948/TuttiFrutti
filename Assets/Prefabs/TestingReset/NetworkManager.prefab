@@ -47,7 +47,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
-  PersistNetworkManagerToOfflineScene: 0
   runInBackground: 1
   autoStartServerBuild: 1
   serverTickRate: 30
@@ -62,10 +61,12 @@ MonoBehaviour:
   playerSpawnMethod: 1
   spawnPrefabs:
   - {fileID: 3463925584030421660, guid: c4d37ffc75e6f4b67adbb1c0ad5165d0, type: 3}
-  _menu: {fileID: 0}
   characterPrefab: {fileID: 3463925584030421660, guid: c4d37ffc75e6f4b67adbb1c0ad5165d0, type: 3}
-  steamTransport: {fileID: 0}
-  gLM: {fileID: 3090768272115515923, guid: 937eb98cc093f33408011231139b7730, type: 3}
+  _menu: {fileID: 0}
+  startingLevel: 2
+  currentLevelIndex: 0
+  current_lobbyID: 0
+  lobbyIDS: []
 --- !u!114 &3971211846351278233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,7 +104,11 @@ MonoBehaviour:
   CongestionWindow: 0
   SendWindowSize: 4096
   ReceiveWindowSize: 4096
+  MaxRetransmit: 40
   NonAlloc: 1
+  MaximizeSendReceiveBuffersToOSLimit: 1
+  ReliableMaxMessageSize: 298449
+  UnreliableMaxMessageSize: 1199
   debugLog: 0
   statisticsGUI: 0
   statisticsLog: 0

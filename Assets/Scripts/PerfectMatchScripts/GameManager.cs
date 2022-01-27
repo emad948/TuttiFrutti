@@ -4,31 +4,34 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using Mirror;
 
-public class GameManager : MonoBehaviour
+public class GameManager : NetworkBehaviour
 {
 
+    [HideInInspector]public readonly SyncList<int> chosenFruitsList = new SyncList<int>();
+    [SyncVar] public int chosenFruit;
+    [SyncVar] public bool gameCanStart = false;
+    [SyncVar] public bool canNowUpdateImages = false;
+    public int updatedRounds = 0;
+    [SyncVar] public bool isGameOver = false;
+    [SyncVar] public bool hasFailed = false;
+
+    // PRIVATES
+    private bool hasUpdated = false;
     private Dictionary<int,Sprite> fruitDictionary = new Dictionary<int, Sprite>();
-    [HideInInspector]public List<Sprite> chosenFruitsList = new List<Sprite>();
-    private HashSet<Sprite> chosenFruitHashSet = new HashSet<Sprite>();
-    [HideInInspector] public HashSet<Sprite> alreadyChosenFruitHashSet = new HashSet<Sprite>();
+    private readonly SyncHashSet<int> chosenFruitHashSet = new SyncHashSet<int>();
+    [HideInInspector] readonly private SyncHashSet<int> alreadyChosenFruitHashSet = new SyncHashSet<int>();
     private const int TOTAL_NUMBER_OF_FRUIT = 16;
     private const int MAX_ROUND_NUMBER = 3;
+    [SyncVar] private int roundNumber = 0;
 
-    private int roundNumber = 1;
-    public Sprite chosenFruit;
-    //private bool hasChosenFruit = false; // so far unused
-    public bool gameCanStart = false;
-    public bool canNowUpdateImages = false;
-    public bool checkRoundFinished = false;
-    public bool isGameOver = false;
-    public bool hasFailed = false;
     private void Awake()
     {
         PopulateFruitDictionary();
-        StartCoroutine("CheckRound");
+        if (isClientOnly) return;
+        IncreaseRound();
     }
-    
     void PopulateFruitDictionary()
     {
         fruitDictionary.Add(1,Resources.Load<Sprite>("Images/apple"));
@@ -38,9 +41,14 @@ public class GameManager : MonoBehaviour
         fruitDictionary.Add(5,Resources.Load<Sprite>("Images/watermelon"));
         fruitDictionary.Add(6,Resources.Load<Sprite>("Images/grape"));
     }
-    
-    public IEnumerator CheckRound()
+
+    public Sprite decodeSprite(int n){
+        return fruitDictionary[n];
+    }
+
+    [Server] public IEnumerator CheckRound()
     {
+        if (isClientOnly) yield return null;
         switch (roundNumber)
         {
             case 1:
@@ -53,13 +61,13 @@ public class GameManager : MonoBehaviour
                 StartCoroutine(ChooseBasedOnRound(6,3));
                 break;
         }
-        checkRoundFinished = true;
         yield return new WaitUntil(()=> canNowUpdateImages);
        
     }
     
-    IEnumerator ChooseBasedOnRound(int amountOfFruit, int amountOfEach)
+    [Server] IEnumerator ChooseBasedOnRound(int amountOfFruit, int amountOfEach)
     {
+        print("running chooseBasedOnRound");
         chosenFruitsList.Clear();
         
         // Populate list with all hashset values first.
@@ -68,9 +76,8 @@ public class GameManager : MonoBehaviour
         // Get the amount of individual fruit needed.
         while (chosenFruitHashSet.Count < amountOfFruit)
         {
-            int randomFruitPosition = Random.Range(1, fruitDictionary.Count + 1);
-            Sprite fruitChosen = fruitDictionary[randomFruitPosition];
-            chosenFruitHashSet.Add(fruitChosen);
+            int choosenFruit = Random.Range(1, fruitDictionary.Count + 1);
+            chosenFruitHashSet.Add(choosenFruit);
         }
 
         // Choose fruit for the round.
@@ -83,7 +90,7 @@ public class GameManager : MonoBehaviour
 
             while (howManyInListAlready < amountOfEach && chosenFruitsList.Count <= TOTAL_NUMBER_OF_FRUIT)
             {
-                howManyInListAlready = chosenFruitsList.Count(fruitName => fruitName.name.Contains(fruit.name));
+                howManyInListAlready = chosenFruitsList.Count(fruitName => fruitName == fruit);
                 if (howManyInListAlready < amountOfEach)
                 {
                     chosenFruitsList.Add(fruit);
@@ -92,16 +99,21 @@ public class GameManager : MonoBehaviour
         }
             
         // Shuffle list
-        chosenFruitsList = chosenFruitsList.OrderBy(x => Guid.NewGuid()).ToList();
+        List<int> result = chosenFruitsList.OrderBy(x => Guid.NewGuid()).ToList();
+        chosenFruitsList.Clear();
+        foreach (var item in result) chosenFruitsList.Add(item);
+
         gameCanStart = true;
         canNowUpdateImages = true;
+        hasUpdated = true;
 
         yield return null;
     }
 
     public IEnumerator UpdateImages(List<GameObject> tilesTransforms)
     {
-        yield return new WaitUntil(()=> checkRoundFinished);
+        yield return new WaitUntil(()=> updatedRounds < roundNumber);
+
         int index = 0;
       
         foreach (var tile in tilesTransforms)
@@ -110,10 +122,10 @@ public class GameManager : MonoBehaviour
                 {
                     if (index < chosenFruitsList.Count)
                     {
-                        tile.GetComponentInChildren<PlatformTile>().SetImage(chosenFruitsList[index]);
+                        tile.GetComponentInChildren<PlatformTile>().SetImage(decodeSprite((int)chosenFruitsList[index]));
                         
                         string prefix = Random.Range(0, 2) % 2 == 0 ? "X" : "Y";
-                        tile.name = prefix + ("-") + chosenFruitsList[index].name;
+                        tile.name = prefix + ("-") + decodeSprite((int)chosenFruitsList[index]).name;
                         if (prefix == "Y")
                         {
                             tile.GetComponentInChildren<PlatformTile>().SetCanvasActive(false);
@@ -122,9 +134,10 @@ public class GameManager : MonoBehaviour
                     }
                 }
         }
+        
     }
 
-    public void IncreaseRound()
+    [Server] public void IncreaseRound() // only call on server in grid
     {
         if (roundNumber + 1 <= MAX_ROUND_NUMBER)
         {
@@ -139,7 +152,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ChooseFruit()
+    [Server] public void ChooseFruit()
     {
         foreach (var fruitInHashset in chosenFruitHashSet)
         {

@@ -11,13 +11,12 @@ public class ScoreboardCanvasUI : MonoBehaviour
     
     private GameObject timerText;
     private Grid grid;
-    private GameManager gameManager;
+    [SerializeField] private GameManager gameManager;
     // Start is called before the first frame update
     void Start()
     {
         timerText = FindObjectOfType<UI>().timerText;
         grid = FindObjectOfType<Grid>();
-        gameManager = FindObjectOfType<GameManager>();
         
         timerBoard.GetComponentInChildren<TextMeshProUGUI>().text =
             timerText.GetComponentInChildren<TextMeshProUGUI>().text;
@@ -37,7 +36,7 @@ public class ScoreboardCanvasUI : MonoBehaviour
     {
         if (revealing)
         {
-            fruitImage.GetComponentInChildren<Image>().sprite = gameManager.chosenFruit;
+            fruitImage.GetComponentInChildren<Image>().sprite = gameManager.decodeSprite(gameManager.chosenFruit);
         }
         fruitImage.SetActive(revealing);
     }
