@@ -27,15 +27,19 @@ public class TriggerPfElimination : NetworkBehaviour
     }
     public void SetGameFelloutState(bool isWon)
     {
+        
         gameStateUI.SetActive(true);
         FellOutGameText.gameObject.SetActive(true);
-        StartCoroutine("hideOverlayWithDelay");
+        StartCoroutine(hideOverlayWithDelay());
         print("gameEnds44");
     }
 
-    public IEnumerable hideOverlayWithDelay(){
+    public IEnumerator hideOverlayWithDelay(){
+        print("test1");
         yield return new WaitForSeconds(2);
+        gameStateUI.SetActive(false);
         FellOutGameText.gameObject.SetActive(false);
+        print("test");
     }
   
 
