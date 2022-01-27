@@ -33,6 +33,7 @@ public class PlayerSaves : MonoBehaviour
         {
             foreach (var component in michelin.GetComponentsInChildren<SkinnedMeshRenderer>())
             {
+                Debug.Log(component.name);
                 component.material.color = newColor;
             }
         }
