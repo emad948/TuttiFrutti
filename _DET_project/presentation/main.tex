@@ -61,12 +61,12 @@
 %%%%%%%%%%%%%%%%%% Slide %%%%%%%%%%%%%%%%%%
 \begin{frame}{TuttiFrutti - Infos}
 \begin{itemize}
-\item  Multiplayer via lokalem Netzwerk oder Steam (keine eigene Game-SteamID) 
+\item  Multiplayer via IP oder Steam (keine eigene Game-SteamID) 
 \item 3rd Person
-\item Ein Spiel besteht aus 4 Runden zwischen 90-150s 
-\item Die Punkte einer Runde werden für die Gesamtwertung auf die Spieleranzahl normiert
-\item Kein finales Ausscheiden aus einer Lobby möglich
 \item Keine hohen Performance-Anforderungen 
+\item Ein Spiel besteht aus 4 Runden zwischen 90-150s 
+\item Kein finales Ausscheiden aus einer Lobby möglich
+\item Punkte werden auf die Spieler-Anzahl normiert
 
 \end{itemize}
 
@@ -97,9 +97,8 @@
 \begin{columns}
 \begin{column}{0.5\textwidth}
 	\begin{itemize}
-		\item 3 Plattform abwechselnd 30" lang aktiv sind
-		\item Wenn man auf der Plattform steht bekommt man Punkte
-		\item Andere Spieler von der Plattform schubsen 
+		\item Aktive Platform wechselt alle 30" zufällig 
+		\item Wenn man auf der Plattform steht bekommt man Punkte -$>$ andere Spieler durch Schubsen an Punkten hindern 
 	\end{itemize}
 \end{column}
 \begin{column}{0.5\textwidth} 
@@ -116,7 +115,7 @@
 \begin{columns}
 \begin{column}{0.5\textwidth}
 	\begin{itemize}
-		\item Abhängig von der Spieler-Anzahl werden Spieler mit Kronen gespawnt 
+		\item Abhängig von der Spieler-Anzahl werden einzelne Spieler mit Kronen gespawnt 
 		\item Man bekommt Punkte wenn man eine Krone hat -$>$ Kronen stehlen
 	\end{itemize}
 \end{column}
@@ -189,10 +188,10 @@
 %%%%%%%%%%%%%%%%%% Slide %%%%%%%%%%%%%%%%%%
 \begin{frame}{TuttiFrutti - Planung und Umsetzung}
 \begin{itemize}
-		\item Zeit-Unterschätzung von Steam (reformulierung )
+		\item überhaupt Stichpunkte explizit aufschreiben?
 \end{itemize}
 \begin{center}
-		\includegraphics[width=0.8\textwidth]{ProjektPlanung_6times90.png}
+		\includegraphics[width=1\textwidth]{ProjektPlanung_6times90.png}
 \end{center}
 
 \end{frame}
@@ -202,12 +201,12 @@
 \begin{itemize}
  		\item Tiefere Integration von (Steam)Multiplayer Komponenten
  			\begin{itemize}
- 				\item Voice(Chat)
+ 				\item (Voice-)Chat
  				\item (Steam-)Achievements
  			\end{itemize}
  		\item Seasons
  			\begin{itemize}
-	 			\item Weitere Level + Modi updates
+	 			\item Level + Modi Updates
 	 			\item Where are the coins?
  			\end{itemize}
  		\item Globales player-ranking
