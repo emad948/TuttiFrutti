@@ -980,11 +980,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  startingCamera: {fileID: 0}
   matchTimeText: {fileID: 3034938606224092614}
   timerText: {fileID: 3034938606745806837}
   _time: -1
   matchTime: 150
-  levelEntryDelayTime: 1
+  levelEntryDelayTime: 3
   loadingScenePanel: {fileID: 3034938606392152597}
 --- !u!114 &3034938606565585898
 MonoBehaviour:
