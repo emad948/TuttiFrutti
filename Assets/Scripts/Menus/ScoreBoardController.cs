@@ -19,12 +19,6 @@ public class ScoreBoardController : NetworkBehaviour
     [SerializeField] private GameObject[] medals = new GameObject[3];
     [SerializeField] private GameObject[] entryBackground = new GameObject[5];
 
-
-
-    // TODO @Emad
-    //1- show players score as your score 
-    //2-show  player ranking
-    //3-show top 10 players
     
     private void Awake()
     {
@@ -60,8 +54,7 @@ public class ScoreBoardController : NetworkBehaviour
             }
         }
 
-
-        float templateHeight = 20f;
+        
         for (int i = 0; i < players.Count; i++)
         {
             if (i  % 2 == 0)
@@ -93,6 +86,16 @@ public class ScoreBoardController : NetworkBehaviour
             scoresTexts[i].text = players[i].GetScore(isWinnerScene);
             namesTexts[i].text = players[i].GetDisplayName();
 
+            if (players[i].isLocalPlayer)
+            {
+                posTexts[i].color=Color.green;
+                posTexts[i].fontStyle = FontStyle.Bold;
+                scoresTexts[i].color=Color.green;
+                scoresTexts[i].fontStyle = FontStyle.Bold;
+                namesTexts[i].color=Color.green;
+                namesTexts[i].fontStyle = FontStyle.Bold;
+            }
+        
             
 
         }
