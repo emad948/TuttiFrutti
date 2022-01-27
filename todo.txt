@@ -7,10 +7,6 @@ done + extra starkes Schubsen (Flummi)
 	- Licht z.B. an Kanten von bewegten Objekten
 
 @Colin
-- (Random Buttons) Fruit Capchta
-- Level Texturierung: 
-- Vote for Level ?
-- Work on Präsentation
 
 @Emad
 
