@@ -372,7 +372,7 @@ public class GameNetworkManager : NetworkManager
     {
         if (!SteamManager.Initialized)
         {
-            Debug.LogError("Steam is not Initialized");
+            //Debug.LogError("Steam is not Initialized");
             return;
         }
 
