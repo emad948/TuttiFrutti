@@ -113,6 +113,7 @@ public class GameManager : NetworkBehaviour
     public IEnumerator UpdateImages(List<GameObject> tilesTransforms)
     {
         yield return new WaitUntil(()=> updatedRounds < roundNumber);
+        printFruitList();
         int index = 0;
       
         foreach (var tile in tilesTransforms)
@@ -133,6 +134,7 @@ public class GameManager : NetworkBehaviour
                     }
                 }
         }
+        
     }
 
     [Server] public void IncreaseRound() // only call on server in grid
@@ -149,7 +151,13 @@ public class GameManager : NetworkBehaviour
             FindObjectOfType<UI>().SetGameState(true);
         }
     }
-
+    void printFruitList() {
+        string strFruitList = String.Empty;
+        foreach (var num in chosenFruitsList) {
+            strFruitList += num + ", ";
+        }
+        print(strFruitList);
+    }
     [Server] public void ChooseFruit()
     {
         foreach (var fruitInHashset in chosenFruitHashSet)

@@ -127,7 +127,7 @@ public class Grid : MonoBehaviour
                             // Choose next fruit
                             perfectMatchManager.IncreaseRound();
                             perfectMatchManager.updatedRounds++;
-                            printFruitList();
+                            
                             StartCoroutine(perfectMatchManager.UpdateImages(tilesTransforms));
                             
                         }
@@ -178,16 +178,9 @@ public class Grid : MonoBehaviour
                 zAmount = -1.5f;
             }
         StoreAllTileTransforms();
-        printFruitList();
     }
 
-    void printFruitList() {
-        string strFruitList = String.Empty;
-        foreach (var num in perfectMatchManager.chosenFruitsList) {
-            strFruitList += num + ", ";
-        }
-        print(strFruitList);
-    }
+
 
     void StoreAllTileTransforms()
     {
