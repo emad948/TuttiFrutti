@@ -63,7 +63,7 @@ MonoBehaviour:
   - {fileID: 3463925584030421660, guid: c4d37ffc75e6f4b67adbb1c0ad5165d0, type: 3}
   characterPrefab: {fileID: 3463925584030421660, guid: c4d37ffc75e6f4b67adbb1c0ad5165d0, type: 3}
   _menu: {fileID: 0}
-  startingLevel: 3
+  startingLevel: 1
   currentLevelIndex: 0
   current_lobbyID: 0
   lobbyIDS: []

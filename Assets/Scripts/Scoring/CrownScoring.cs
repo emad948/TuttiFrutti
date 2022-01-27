@@ -24,15 +24,33 @@ public class CrownScoring : NetworkBehaviour
 
         List<int> zoneIndices = new List<int>();
         zoneIndices = zoneIndices.OrderBy(item => rnd.Next()).ToList();
-        
-        for (var i = 0; i <= 0; i++) // TODO Colin: set relative to num players 
+        var _crownCount = crownCount(players.Count);
+        for (var i = 0; i < _crownCount; i++) // TODO Colin: set relative to num players 
         {
             var curCollision = players[i].playerCharacter.gameObject.GetComponent<PlayerCollision>();
             curCollision.hasCrown = true;
         }
-        
+
         InvokeRepeating("crown", 3f, 0.25f);
         InvokeRepeating("updateTime", 3f, 0.1f);
+    }
+
+    private int crownCount(int playerCount)
+    {
+        if (playerCount > 1 && playerCount < 4)
+        {
+            return 1;
+        }
+        else if (playerCount >= 4 && playerCount < 7)
+        {
+            return 2;
+        }
+        else if  (playerCount >= 7)
+        {
+            return (playerCount / 3);
+        }
+        Debug.Log("Error in playerCount");
+        return 0;
     }
 
     private void updateTime()

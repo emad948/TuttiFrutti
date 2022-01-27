@@ -20,17 +20,17 @@ public class LobbyListItem : MonoBehaviour
     {
         _menu = _menu = GameObject.FindGameObjectWithTag("MainMenuDisplayTag").GetComponent<Menu>();
     }
-    
+
     public void SetLobbyItemValues()
     {
         LobbyNameText.text = lobbyName;
         NumerOfPlayersText.text =
-            "Number of Players: " + numberOfPlayers.ToString() + "/" + maxNumberOfPlayers.ToString();
+            "Players: " + numberOfPlayers.ToString() + "/" + maxNumberOfPlayers.ToString();
     }
 
     public void JoinLobby()
     {
-        Debug.Log("JoinLobby: Player selected to join lobby with steam id of: " + lobbySteamId.ToString());
+        //Debug.Log("JoinLobby: Player selected to join lobby with steam id of: " + lobbySteamId.ToString());
         _menu.JoinLobby(lobbySteamId);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mirror;
+using Steamworks;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -10,7 +11,7 @@ using UnityEngine.UI;
 public class ScoreBoardController : NetworkBehaviour
 {
     public bool isWinnerScene;
-    private GameNetworkManager _gameNetworkManager;
+    private GameNetworkManager _gameNatMan;
     private List<NetworkPlayer> players;
     
     [SerializeField] private Text[] posTexts = new Text[10];
@@ -22,8 +23,8 @@ public class ScoreBoardController : NetworkBehaviour
     
     private void Awake()
     {
-        _gameNetworkManager = ((GameNetworkManager) NetworkManager.singleton);
-        players = _gameNetworkManager.PlayersList;
+        _gameNatMan = ((GameNetworkManager) NetworkManager.singleton);
+        players = _gameNatMan.PlayersList;
         if (isWinnerScene)
         {
             Cursor.visible = true;
@@ -103,12 +104,18 @@ public class ScoreBoardController : NetworkBehaviour
 
     public void backToMenu()
     {
+        if (_gameNatMan.usingSteam)
+        {
+            SteamMatchmaking.LeaveLobby(_gameNatMan.currentLobbyID);
+        }
+
         if (isServer)
         {
+            _gameNatMan.StopHost();
             NetworkServer.Shutdown();
         }
 
-        _gameNetworkManager.StopClient();
+        _gameNatMan.StopClient();
 
         SceneManager.LoadScene(0);
     }

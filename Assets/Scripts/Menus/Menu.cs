@@ -11,11 +11,34 @@ public class Menu : MonoBehaviour
 {
     private GameNetworkManager _gameNatMan;
     public GameObject landingPagePanel;
-
     private bool useSteam = false;
-
-    //[SerializeField] public bool testMode = false;
+    public TMP_Text lobbyNameText;
     public TMP_Text steamErrorText;
+    public GameObject afterSteam;
+    public GameObject locallyOrSteam;
+
+    // For SteamLobbies
+    // Source: https://github.com/FatRodzianko/steamworks-tutorial/blob/main/LICENSE
+    [Header("Lobby List UI")] [SerializeField]
+    private GameObject LobbyListPanel;
+
+    [SerializeField] private GameObject LobbyListItemPrefab;
+    [SerializeField] private GameObject ContentPanel;
+    [SerializeField] private TMP_InputField searchBox;
+    public bool didPlayerSearchForLobbies = false;
+
+    [Header("Friends Lobby List UI")] [SerializeField]
+    private GameObject FriendsLobbyContentPanel;
+
+    [Header("Create Lobby UI")] [SerializeField]
+    private GameObject CreateLobbyPanel;
+
+    [SerializeField] private TMP_InputField lobbyNameInputField;
+    [SerializeField] private TMP_InputField localLobbyName_InputField;
+    [SerializeField] private Toggle friendsOnlyToggle;
+    public bool didPlayerNameTheLobby = false;
+    public string lobbyName;
+    public List<GameObject> listOfLobbyListItems = new List<GameObject>();
 
     private void Start()
     {
@@ -23,6 +46,7 @@ public class Menu : MonoBehaviour
         _gameNatMan.menuStart();
         steamErrorText.enabled = false;
         _gameNatMan.setUseSteam(false);
+        _gameNatMan.updateMenuReference();
     }
 
     public void HostLobby()
@@ -36,18 +60,15 @@ public class Menu : MonoBehaviour
                 ELobbyType newLobbyType;
                 if (friendsOnlyToggle.isOn)
                 {
-                    //Debug.Log("CreateNewLobby: friendsOnlyToggle is on. Making lobby friends only.");
                     newLobbyType = ELobbyType.k_ELobbyTypeFriendsOnly;
                 }
                 else
                 {
-                    //Debug.Log("CreateNewLobby: friendsOnlyToggle is OFF. Making lobby public.");
                     newLobbyType = ELobbyType.k_ELobbyTypePublic;
                 }
 
                 if (!string.IsNullOrEmpty(lobbyNameInputField.text))
                 {
-                    //Debug.Log("CreateNewLobby: player created a lobby name of: " + lobbyNameInputField.text);
                     didPlayerNameTheLobby = true;
                     lobbyName = lobbyNameInputField.text;
                 }
@@ -62,14 +83,12 @@ public class Menu : MonoBehaviour
         }
         else
         {
+            lobbyName = localLobbyName_InputField.text;
             landingPagePanel.SetActive(false);
             _gameNatMan.StartHost();
         }
     }
 
-    public GameObject afterSteam;
-    public GameObject locallyOrSteam;
-    
     public void SteamCheckStartGame()
     {
         if (!SteamManager.Initialized)
@@ -84,7 +103,6 @@ public class Menu : MonoBehaviour
             locallyOrSteam.SetActive(false);
         }
     }
-
 
     public bool getUseSteam()
     {
@@ -110,41 +128,13 @@ public class Menu : MonoBehaviour
         _gameNatMan.setUseSteam(steam);
     }
 
-    // For SteamLobbies
-    // Source: https://github.com/FatRodzianko/steamworks-tutorial/blob/main/LICENSE
-
-    [Header("Lobby List UI")] [SerializeField]
-    private GameObject LobbyListPanel;
-
-    [SerializeField] private GameObject LobbyListItemPrefab;
-    [SerializeField] private GameObject ContentPanel;
-    [SerializeField] private TMP_InputField searchBox;
-    public bool didPlayerSearchForLobbies = false;
-
-    [Header("Friends Lobby List UI")] [SerializeField]
-    private GameObject FriendsLobbyContentPanel;
-
-    [Header("Create Lobby UI")] [SerializeField]
-    private GameObject CreateLobbyPanel;
-
-    [SerializeField] private TMP_InputField lobbyNameInputField;
-    [SerializeField] private Toggle friendsOnlyToggle;
-
-    public bool didPlayerNameTheLobby = false;
-    public string lobbyName;
-    public List<GameObject> listOfLobbyListItems = new List<GameObject>();
-
-    public void GetListOfLobbies()
+    public void GetListOfLobbies(bool _public)
     {
-        //Debug.Log("Trying to get list of available lobbies ...");
-        //LobbyListPanel.SetActive(true);
-
-        _gameNatMan.GetListOfLobbies();
+        _gameNatMan.GetListOfLobbies(_public);
     }
 
     public void JoinLobby(CSteamID lobbyId)
     {
-        //Debug.Log("JoinLobby: Will try to join lobby with steam id: " + lobbyId.ToString());
         SteamMatchmaking.JoinLobby(lobbyId);
     }
 
@@ -154,17 +144,13 @@ public class Menu : MonoBehaviour
         {
             if (lobbyIDS[i].m_SteamID == result.m_ulSteamIDLobby)
             {
-                //Debug.Log("Lobby " + i + " :: " + SteamMatchmaking.GetLobbyData((CSteamID)lobbyIDS[i].m_SteamID, "name") + " number of players: " + SteamMatchmaking.GetNumLobbyMembers((CSteamID)lobbyIDS[i].m_SteamID).ToString() + " max players: " + SteamMatchmaking.GetLobbyMemberLimit((CSteamID)lobbyIDS[i].m_SteamID).ToString());
-
                 if (didPlayerSearchForLobbies)
                 {
-                    //Debug.Log("OnGetLobbyInfo: Player searched for lobbies");
                     if (SteamMatchmaking.GetLobbyData((CSteamID) lobbyIDS[i].m_SteamID, "name").ToLower()
                         .Contains(searchBox.text.ToLower()))
                     {
                         GameObject newLobbyListItem = Instantiate(LobbyListItemPrefab) as GameObject;
                         LobbyListItem newLobbyListItemScript = newLobbyListItem.GetComponent<LobbyListItem>();
-
                         newLobbyListItemScript.lobbySteamId = (CSteamID) lobbyIDS[i].m_SteamID;
                         newLobbyListItemScript.lobbyName =
                             SteamMatchmaking.GetLobbyData((CSteamID) lobbyIDS[i].m_SteamID, "name");
@@ -173,8 +159,6 @@ public class Menu : MonoBehaviour
                         newLobbyListItemScript.maxNumberOfPlayers =
                             SteamMatchmaking.GetLobbyMemberLimit((CSteamID) lobbyIDS[i].m_SteamID);
                         newLobbyListItemScript.SetLobbyItemValues();
-
-                        if (ContentPanel == null) Debug.Log("here5");
                         newLobbyListItem.transform.SetParent(ContentPanel.transform);
                         newLobbyListItem.transform.localScale = Vector3.one;
 
@@ -183,10 +167,8 @@ public class Menu : MonoBehaviour
                 }
                 else
                 {
-                    //Debug.Log("OnGetLobbyInfo: Player DID NOT search for lobbies");
                     GameObject newLobbyListItem = Instantiate(LobbyListItemPrefab) as GameObject;
                     LobbyListItem newLobbyListItemScript = newLobbyListItem.GetComponent<LobbyListItem>();
-
                     newLobbyListItemScript.lobbySteamId = (CSteamID) lobbyIDS[i].m_SteamID;
                     newLobbyListItemScript.lobbyName =
                         SteamMatchmaking.GetLobbyData((CSteamID) lobbyIDS[i].m_SteamID, "name");
@@ -195,7 +177,6 @@ public class Menu : MonoBehaviour
                     newLobbyListItemScript.maxNumberOfPlayers =
                         SteamMatchmaking.GetLobbyMemberLimit((CSteamID) lobbyIDS[i].m_SteamID);
                     newLobbyListItemScript.SetLobbyItemValues();
-
                     newLobbyListItem.transform.SetParent(ContentPanel.transform);
                     newLobbyListItem.transform.localScale = Vector3.one;
 
@@ -210,11 +191,6 @@ public class Menu : MonoBehaviour
             didPlayerSearchForLobbies = false;
     }
 
-    public void getAndDisplayFriendsLobbies()
-    {
-        _gameNatMan.FriendsLobbies();
-    }
-    
     public void DisplayFriendsLobbies(List<CSteamID> lobbyIDS)
     {
         for (int i = 0; i < lobbyIDS.Count; i++)
@@ -236,10 +212,8 @@ public class Menu : MonoBehaviour
         }
     }
 
-
     public void DestroyOldLobbyListItems()
     {
-        //Debug.Log("DestroyOldLobbyListItems");
         foreach (GameObject lobbyListItem in listOfLobbyListItems)
         {
             GameObject lobbyListItemToDestroy = lobbyListItem;
@@ -259,6 +233,6 @@ public class Menu : MonoBehaviour
         else
             didPlayerSearchForLobbies = false;
 
-        GetListOfLobbies();
+        GetListOfLobbies(true); // TODO change depending on if friends/public
     }
 }
