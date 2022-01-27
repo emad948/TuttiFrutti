@@ -8,6 +8,7 @@ using TMPro;
 
 public class GlobalTime : NetworkBehaviour
 {
+    public GameObject startingCamera;
     public TMP_Text matchTimeText;
     public TMP_Text timerText;
     [SyncVar] public float _time;
@@ -33,6 +34,10 @@ public class GlobalTime : NetworkBehaviour
             {
                 matchTime -= Time.deltaTime;
             }
+        }
+        if (_time >= -1f)
+        {
+            startingCamera.SetActive(false);
         }
 
         if (_time > -4) // will be implemented... 
