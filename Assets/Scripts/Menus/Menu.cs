@@ -38,18 +38,15 @@ public class Menu : MonoBehaviour
                 ELobbyType newLobbyType;
                 if (friendsOnlyToggle.isOn)
                 {
-                    //Debug.Log("CreateNewLobby: friendsOnlyToggle is on. Making lobby friends only.");
                     newLobbyType = ELobbyType.k_ELobbyTypeFriendsOnly;
                 }
                 else
                 {
-                    //Debug.Log("CreateNewLobby: friendsOnlyToggle is OFF. Making lobby public.");
                     newLobbyType = ELobbyType.k_ELobbyTypePublic;
                 }
 
                 if (!string.IsNullOrEmpty(lobbyNameInputField.text))
                 {
-                    //Debug.Log("CreateNewLobby: player created a lobby name of: " + lobbyNameInputField.text);
                     didPlayerNameTheLobby = true;
                     lobbyName = lobbyNameInputField.text;
                 }
@@ -151,7 +148,6 @@ public class Menu : MonoBehaviour
 
     public void JoinLobby(CSteamID lobbyId)
     {
-        Debug.Log("JoinLobby: Will try to join lobby with steam id: " + lobbyId.ToString());
         SteamMatchmaking.JoinLobby(lobbyId);
     }
 
@@ -212,12 +208,10 @@ public class Menu : MonoBehaviour
     {
         for (int i = 0; i < lobbyIDS.Count; i++)
         {
-            // Debug.Log(SteamMatchmaking.RequestLobbyData(lobbyIDS[i]));
             GameObject newLobbyListItem = Instantiate(LobbyListItemPrefab) as GameObject;
             LobbyListItem newLobbyListItemScript = newLobbyListItem.GetComponent<LobbyListItem>();
 
             newLobbyListItemScript.lobbySteamId = (CSteamID) lobbyIDS[i].m_SteamID;
-            // Debug.Log(lobbyIDS[i].m_SteamID.ToString());
             newLobbyListItemScript.lobbyName =
                 SteamMatchmaking.GetLobbyData((CSteamID) lobbyIDS[i].m_SteamID, "name");
             newLobbyListItemScript.numberOfPlayers =
@@ -233,7 +227,6 @@ public class Menu : MonoBehaviour
 
     public void DestroyOldLobbyListItems()
     {
-        //Debug.Log("DestroyOldLobbyListItems");
         foreach (GameObject lobbyListItem in listOfLobbyListItems)
         {
             GameObject lobbyListItemToDestroy = lobbyListItem;
