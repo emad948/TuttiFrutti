@@ -34,7 +34,6 @@ public class NetworkPlayer : NetworkBehaviour, IComparable<NetworkPlayer>
 
     private void Awake()
     {
-        Debug.Log("here1");
         changeName();
         changeColor();
     }
