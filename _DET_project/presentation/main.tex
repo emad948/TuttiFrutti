@@ -1,7 +1,7 @@
-\documentclass{beamer}
+\documentclass[xcolor=dvipsnames]{beamer}
 \usepackage{amsmath}
 \usepackage{relsize}
-\usetheme{EastLansing} % still necessary - just default?
+\usetheme{EastLansing} 
 % Remove navigation bar
 \setbeamertemplate{navigation symbols}{}
 %%%%%% Design changes
@@ -43,51 +43,186 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
-%%%%%%%%%%%%%%%%%% Content %%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%% Slide %%%%%%%%%%%%%%%%%%
 \begin{frame}
 \titlepage
 \end{frame}
 
 %%%%%%%%%%%%%%%%%% Slide %%%%%%%%%%%%%%%%%%
-\begin{frame}{TuttiFrutti}
-- Multiplayer via lokalem Netzwerk oder Steam (keine Lizenz/eigene ID) \\
-
-- 3rd Person, free-for-all \\
-- Ein Spiel besteht aus 4? Runden zwischen 90-150s \\
-- Jede Runde hat ein eigenes Level und unterschiedliches Ziel \\
-- 
+\begin{frame}{TuttiFrutti - Spielidee}
+\begin{itemize}
+\item Multiplayer Spiel
+\item Einfach und schnelle Runden mit unterschiedlichen Leveln/Modi \item Vor allem für Freunde-Gruppen gedacht als "party game"
+\item Free-for-all 
+\end{itemize}
 
 \end{frame}
 
 %%%%%%%%%%%%%%%%%% Slide %%%%%%%%%%%%%%%%%%
-\begin{frame}{Level 1-2}
- - Levelbeschreibung + Bilder \\
+\begin{frame}{TuttiFrutti - Infos}
+\begin{itemize}
+\item  Multiplayer via lokalem Netzwerk oder Steam (keine eigene Game-SteamID) 
+\item 3rd Person
+\item Ein Spiel besteht aus 4 Runden zwischen 90-150s 
+\item Die Punkte einer Runde werden für die Gesamtwertung auf die Spieleranzahl normiert
+\item Kein finales Ausscheiden aus einer Lobby möglich
+\item Keine hohen Performance-Anforderungen 
+
+\end{itemize}
+
 \end{frame}
 
 %%%%%%%%%%%%%%%%%% Slide %%%%%%%%%%%%%%%%%%
-\begin{frame}{Level 3-4}
- - Levelbeschreibung + Bilder \\
+\begin{frame}{TuttiFrutti - Schwerpunkte}
+\begin{itemize}
+	\item Multiplayer
+	\begin{itemize}
+		\item IP-basiert über kcp 
+		\item Online über Steam
+	\end{itemize}
+	\item Presentation
+	\begin{itemize}
+		\item Eigener Player character 
+		\item Player-Animations
+		\item Particle effects
+		\item Animiertes Menu 
+		\item Player Konfiguration
+	\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%% Slide %%%%%%%%%%%%%%%%%%
+\begin{frame}{Level - HillKing}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+	\begin{itemize}
+		\item 3 Plattform abwechselnd 30" lang aktiv sind
+		\item Wenn man auf der Plattform steht bekommt man Punkte
+		\item Andere Spieler von der Plattform schubsen 
+	\end{itemize}
+\end{column}
+\begin{column}{0.5\textwidth} 
+	\begin{center}
+		\includegraphics[width=0.9\textwidth]{level_hillking.png}
+	\end{center}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%% Slide %%%%%%%%%%%%%%%%%%
+\begin{frame}{Level - Crown}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+	\begin{itemize}
+		\item Abhängig von der Spieler-Anzahl werden Spieler mit Kronen gespawnt 
+		\item Man bekommt Punkte wenn man eine Krone hat -$>$ Kronen stehlen
+	\end{itemize}
+\end{column}
+\begin{column}{0.5\textwidth} 
+	\begin{center}
+		\includegraphics[width=0.9\textwidth]{level_crown.png}
+	\end{center}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%% Slide %%%%%%%%%%%%%%%%%%
+\begin{frame}{Level - RunTheLine}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+	\begin{itemize}
+		\item Levelbeschreibung + Bilder 
+	\end{itemize}
+\end{column}
+\begin{column}{0.5\textwidth} 
+	\begin{center}
+		\includegraphics[width=0.9\textwidth]{Level_view.png}
+	\end{center}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%% Slide %%%%%%%%%%%%%%%%%%
+\begin{frame}{Level - PerfectMatch}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+	\begin{itemize}
+		\item Levelbeschreibung + Bilder 
+	\end{itemize}
+\end{column}
+\begin{column}{0.5\textwidth} 
+	\begin{center}
+		\includegraphics[width=0.9\textwidth]{Level_view.png}
+	\end{center}
+\end{column}
+\end{columns}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%% Slide %%%%%%%%%%%%%%%%%%
 \begin{frame}{Probleme}
-- Multiplayer, auch mit Framework, zu implementieren kann ein pain-in-the-a** sein \\
-- Scripte an Synchronisation anpassen macht wenig Spaß \\
-- Testen schwierig, da Fehler oftmals erst bei Host/Client Wechsel oder nach min. 1 Runde auftauchen \\
-- Hinzu kommen die Level/Rundenwechsel \\
+\begin{itemize}
+ \item Multiplayer 
+ 	\begin{itemize}
+ 		\item Auch mit Framework aufwendig bis alle Details verstanden sind
+ 		\item Scripte an Synchronisation anpassen macht wenig Spaß
+ 		\item Testen schwierig/aufwendig, da Fehler oftmals erst nach Host/Client Wechsel, Rundenwechsel, etc. auftauchen
+ 	\end{itemize}
+ \item Probuilder
+ 	\begin{itemize}
+ 		\item (Unity-)Koordinaten 
+ 		\item Snapping local/global
+ 	\end{itemize}
+  \item Git
+ 	\begin{itemize}
+ 		\item Zeitaufwendig merge-conflicts auf Grund von Parameter Änderungen auf Objekten durchzugehen
+ 	\end{itemize}
+  \item Blender zusammen mit Unity 
+  \item Unity selbst!
+\end{itemize}
+	
+\end{frame}
+
+%%%%%%%%%%%%%%%%%% Slide %%%%%%%%%%%%%%%%%%
+\begin{frame}{TuttiFrutti - Planung und Umsetzung}
+\begin{itemize}
+		\item Zeit-Unterschätzung von Steam (reformulierung )
+\end{itemize}
+\begin{center}
+		\includegraphics[width=0.8\textwidth]{ProjektPlanung_6times90.png}
+\end{center}
 
 \end{frame}
 
 %%%%%%%%%%%%%%%%%% Slide %%%%%%%%%%%%%%%%%%
 \begin{frame}{Ausblick}
-- Was kann an dem Spiel noch verbessert oder ergänzt werden? \\
+\begin{itemize}
+ 		\item Tiefere Integration von (Steam)Multiplayer Komponenten
+ 			\begin{itemize}
+ 				\item Voice(Chat)
+ 				\item (Steam-)Achievements
+ 			\end{itemize}
+ 		\item Seasons
+ 			\begin{itemize}
+	 			\item Weitere Level + Modi updates
+	 			\item Where are the coins?
+ 			\end{itemize}
+ 		\item Globales player-ranking
+ 		\item Weitere Player-Moves, wie Dinge Werfen
+\end{itemize}
 
 \end{frame}
 
 %%%%%%%%%%%%%%%%%% Slide %%%%%%%%%%%%%%%%%%
+\begin{frame}{Live-Demo}
 
-%%%%%%%%%%%%%%%%%% Slide %%%%%%%%%%%%%%%%%%
+\begin{center}
+	\Huge{\textcolor{OliveGreen}{Let´s play TuttiFrutti!}}
+\end{center}
+
+\end{frame}
 %%%%%%%%%%%%%%% End of Slides %%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%% Content %%%%%%%%%%%%%%%%%%
 \end{document}

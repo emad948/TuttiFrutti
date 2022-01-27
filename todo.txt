@@ -9,12 +9,8 @@ done + extra starkes Schubsen (Flummi)
 @Colin
 - (Random Buttons) Fruit Capchta
 - Level Texturierung: 
-	- Change Object Mesh from Rectangle grid to different
-	 angled mesh with different colors
-- New Levels maybe?
-- Show SteamFriends after PlayButton
-- Vote for Level 
-- Limit crown exchange frequency (with the same player) to something like 0.5 sec.
+- Vote for Level ?
+- Work on Präsentation
 
 @Emad
 
