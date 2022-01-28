@@ -67,7 +67,7 @@ public class GameManager : NetworkBehaviour
     
     [Server] IEnumerator ChooseBasedOnRound(int amountOfFruit, int amountOfEach)
     {
-        print("running chooseBasedOnRound");
+        //print("running chooseBasedOnRound");
         chosenFruitsList.Clear();
         
         // Populate list with all hashset values first.

@@ -10,7 +10,9 @@ public class NetworkPlayer : NetworkBehaviour, IComparable<NetworkPlayer>
     [SyncVar(hook = nameof(HandleDisplayNameUpdated))] [SerializeField]
     private string _displayName;
 
-    [SyncVar] [SerializeField] private Color color;
+    [SyncVar] [SerializeField] private Color color_T;
+    [SyncVar] [SerializeField] private Color color_M;
+    [SyncVar] [SerializeField] private Color color_B;
 
     [SyncVar(hook = nameof(AuthorityHandleUpdateGameHostState))]
     public bool _isGameHost = false;
@@ -56,11 +58,23 @@ public class NetworkPlayer : NetworkBehaviour, IComparable<NetworkPlayer>
 
     public void changeColor()
     {
-        var c_r = PlayerPrefs.GetFloat("color_r", 0.5f);
-        var c_g = PlayerPrefs.GetFloat("color_g", 0.5f);
-        var c_b = PlayerPrefs.GetFloat("color_b", 0.5f);
-        var c_a = PlayerPrefs.GetFloat("color_a", 0.7f);
-        color = new Color(c_r, c_g, c_b, c_a);
+        var c_r = PlayerPrefs.GetFloat("color_T_r", 0.5f);
+        var c_g = PlayerPrefs.GetFloat("color_T_g", 0.5f);
+        var c_b = PlayerPrefs.GetFloat("color_T_b", 0.5f);
+        var c_a = PlayerPrefs.GetFloat("color_T_a", 0.7f);
+        color_T = new Color(c_r, c_g, c_b, c_a);
+
+        c_r = PlayerPrefs.GetFloat("color_M_r", 0.5f);
+        c_g = PlayerPrefs.GetFloat("color_M_g", 0.5f);
+        c_b = PlayerPrefs.GetFloat("color_M_b", 0.5f);
+        c_a = PlayerPrefs.GetFloat("color_M_a", 0.7f);
+        color_M = new Color(c_r, c_g, c_b, c_a);
+
+        c_r = PlayerPrefs.GetFloat("color_B_r", 0.5f);
+        c_g = PlayerPrefs.GetFloat("color_B_g", 0.5f);
+        c_b = PlayerPrefs.GetFloat("color_B_b", 0.5f);
+        c_a = PlayerPrefs.GetFloat("color_B_a", 0.7f);
+        color_B = new Color(c_r, c_g, c_b, c_a);
     }
 
     private string randomPlayerName()
@@ -86,9 +100,19 @@ public class NetworkPlayer : NetworkBehaviour, IComparable<NetworkPlayer>
         }
     }
 
-    public Color GetColor()
+    public Color GetColor_T()
     {
-        return color;
+        return color_T;
+    }
+
+    public Color GetColor_M()
+    {
+        return color_M;
+    }
+
+    public Color GetColor_B()
+    {
+        return color_B;
     }
 
     public int CompareTo(NetworkPlayer other)

@@ -4942,6 +4942,7 @@ GameObject:
   m_Component:
   - component: {fileID: 358973366}
   - component: {fileID: 358973367}
+  - component: {fileID: 358973368}
   m_Layer: 0
   m_Name: MainMenuDisplay
   m_TagString: MainMenuDisplayTag
@@ -4994,6 +4995,24 @@ MonoBehaviour:
   didPlayerNameTheLobby: 0
   lobbyName: 
   listOfLobbyListItems: []
+--- !u!114 &358973368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 358973365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af57bd376b2075540a44e9e5fc1daade, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerNameTextField: {fileID: 1867575774}
+  fcp1: {fileID: 2130943085057501716}
+  fcp2: {fileID: 1611537937}
+  fcp3: {fileID: 427491612}
+  michelin: {fileID: 305625674}
+  playerDisplayName: {fileID: 281834971}
 --- !u!1 &397647494
 GameObject:
   m_ObjectHideFlags: 0
@@ -5534,6 +5553,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 412390069}
   m_CullTransparentMesh: 1
+--- !u!114 &427491612 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8728392151395125561, guid: 92a58eb410f665d48b9eeb22a18466ad, type: 3}
+  m_PrefabInstance: {fileID: 71211361}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31629c56f6f83234a90f6296f902f9c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &432964889
 GameObject:
   m_ObjectHideFlags: 0
@@ -6717,13 +6747,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1196130637}
+      - m_Target: {fileID: 358973368}
         m_TargetAssemblyTypeName: PlayerSaves, Assembly-CSharp
-        m_MethodName: savePlayerColor
-        m_Mode: 1
+        m_MethodName: updateMiddleColor
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1470515233}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -8459,13 +8489,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1196130637}
+      - m_Target: {fileID: 358973368}
         m_TargetAssemblyTypeName: PlayerSaves, Assembly-CSharp
-        m_MethodName: savePlayerColor
-        m_Mode: 1
+        m_MethodName: updateTopColor
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1470515233}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -9464,7 +9494,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1196130637}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerSaves, Assembly-CSharp
         m_MethodName: savePlayerName
         m_Mode: 1
@@ -10933,7 +10963,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4068020193452420777, guid: 07c2a3e74f1c5fc4c86ed603d89d20ef, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.625
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 4068020193452420777, guid: 07c2a3e74f1c5fc4c86ed603d89d20ef, type: 3}
       propertyPath: m_LocalPosition.y
@@ -17072,14 +17102,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1196130636}
-  - component: {fileID: 1196130637}
   m_Layer: 0
   m_Name: ProfilePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1196130636
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17111,22 +17140,6 @@ RectTransform:
   m_AnchoredPosition: {x: -13.179596, y: -6.9559937}
   m_SizeDelta: {x: 1427.9202, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1196130637
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1196130635}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af57bd376b2075540a44e9e5fc1daade, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerNameTextField: {fileID: 1867575774}
-  fcp: {fileID: 2130943085057501716}
-  michelin: {fileID: 305625674}
-  playerDisplayName: {fileID: 281834971}
 --- !u!1 &1199110654
 GameObject:
   m_ObjectHideFlags: 0
@@ -21679,6 +21692,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1455043210}
   m_CullTransparentMesh: 1
+--- !u!1 &1470515233 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3463925584030421660, guid: 07c2a3e74f1c5fc4c86ed603d89d20ef, type: 3}
+  m_PrefabInstance: {fileID: 810041659}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1485422608
 GameObject:
   m_ObjectHideFlags: 0
@@ -24341,6 +24359,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1600432731}
   m_CullTransparentMesh: 0
+--- !u!114 &1611537937 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8728392151395125561, guid: 92a58eb410f665d48b9eeb22a18466ad, type: 3}
+  m_PrefabInstance: {fileID: 216063889}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31629c56f6f83234a90f6296f902f9c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1619049875
 GameObject:
   m_ObjectHideFlags: 0
@@ -31503,13 +31532,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1196130637}
+      - m_Target: {fileID: 358973368}
         m_TargetAssemblyTypeName: PlayerSaves, Assembly-CSharp
-        m_MethodName: savePlayerColor
-        m_Mode: 1
+        m_MethodName: updateBottomColor
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1470515233}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

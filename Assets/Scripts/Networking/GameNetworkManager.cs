@@ -145,7 +145,7 @@ public class GameNetworkManager : NetworkManager
         }
 
         player.SetDisplayName(playerName);
-        
+
         if (PlayersList.Count == 1)
         {
             player.SetGameHost(true);
@@ -164,7 +164,8 @@ public class GameNetworkManager : NetworkManager
                     GetStartPosition().rotation
                 );
                 characterInstance.GetComponent<PlayerCharacter>().SetDisplayName(player.GetDisplayName());
-                characterInstance.GetComponent<PlayerCharacter>().SetColor(player.GetColor());
+                characterInstance.GetComponent<PlayerCharacter>()
+                    .SetColor(player.GetColor_T(), player.GetColor_M(), player.GetColor_B());
                 player.playerCharacter = characterInstance;
 
                 NetworkServer.Spawn(characterInstance, player.connectionToClient);
