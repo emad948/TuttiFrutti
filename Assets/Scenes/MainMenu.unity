@@ -6750,10 +6750,10 @@ MonoBehaviour:
       - m_Target: {fileID: 358973368}
         m_TargetAssemblyTypeName: PlayerSaves, Assembly-CSharp
         m_MethodName: updateMiddleColor
-        m_Mode: 2
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 1470515233}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -8492,10 +8492,10 @@ MonoBehaviour:
       - m_Target: {fileID: 358973368}
         m_TargetAssemblyTypeName: PlayerSaves, Assembly-CSharp
         m_MethodName: updateTopColor
-        m_Mode: 2
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 1470515233}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -17108,7 +17108,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1196130636
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17750,7 +17750,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1215216322
 RectTransform:
   m_ObjectHideFlags: 0
@@ -21692,11 +21692,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1455043210}
   m_CullTransparentMesh: 1
---- !u!1 &1470515233 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3463925584030421660, guid: 07c2a3e74f1c5fc4c86ed603d89d20ef, type: 3}
-  m_PrefabInstance: {fileID: 810041659}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1485422608
 GameObject:
   m_ObjectHideFlags: 0
@@ -31535,10 +31530,10 @@ MonoBehaviour:
       - m_Target: {fileID: 358973368}
         m_TargetAssemblyTypeName: PlayerSaves, Assembly-CSharp
         m_MethodName: updateBottomColor
-        m_Mode: 2
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 1470515233}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
