@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Mirror;
 using UnityEngine;
+using System;
 
 public class CrownScoring : NetworkBehaviour
 {
@@ -13,6 +14,8 @@ public class CrownScoring : NetworkBehaviour
     private GameNetworkManager _gameNetMan;
     private bool gameIsOver;
 
+    public AudioSource audioCrown;
+
     void Start()
     {
         if (!isServer) return;
@@ -21,6 +24,8 @@ public class CrownScoring : NetworkBehaviour
 
         var count = players.Count;
         var rnd = new System.Random();
+
+        audioCrown = GetComponent<AudioSource>();
 
         List<int> zoneIndices = new List<int>();
         zoneIndices = zoneIndices.OrderBy(item => rnd.Next()).ToList();
@@ -69,6 +74,7 @@ public class CrownScoring : NetworkBehaviour
         {
             if (player.playerCharacter.gameObject.GetComponent<PlayerCollision>().hasCrown)
             {
+                audioCrown.Play();
                 player.ChangeScore(1);
             }
         }

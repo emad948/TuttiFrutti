@@ -48,23 +48,23 @@ public class PerfectMatchScoring : MonoBehaviour
    public void playerFellOut(GameObject player){
        
         // hier score von player zeitabhaengig erhoehen.
-       if (globalTime.matchTime > 52){ // matchTime wird auf Wert x gesetzt und zu 0 heruntergezaehlt.
+       if (globalTime.matchTime > 55){ // matchTime wird auf Wert x gesetzt und zu 0 heruntergezaehlt.
           
             scoreChangeHelper(player, 0);        //0 Points if you fall in the first Round
                        
         }
-        else if (globalTime.matchTime > 33 && globalTime.matchTime <51 ){ // matchTime wird auf Wert x gesetzt und zu 0 heruntergezaehlt.
+        else if (globalTime.matchTime > 33 && globalTime.matchTime <55 ){ // matchTime wird auf Wert x gesetzt und zu 0 heruntergezaehlt.
           
             scoreChangeHelper(player, 2);         //2 Points if you fall in the secound Round
                        
                       
         }
-        else if (globalTime.matchTime > 18 && globalTime.matchTime <32){ // matchTime wird auf Wert x gesetzt und zu 0 heruntergezaehlt.
+        else if (globalTime.matchTime > 13 && globalTime.matchTime <33){ // matchTime wird auf Wert x gesetzt und zu 0 heruntergezaehlt.
           
            scoreChangeHelper(player, 4);          //4 points if you fall in the third round
                         
         }
-        else{
+        else if (globalTime.matchTime > 13 && globalTime.matchTime <33){
             scoreChangeHelper(player, 6);         //6 points if you clear the level
         }
         print("playerFellOut");
