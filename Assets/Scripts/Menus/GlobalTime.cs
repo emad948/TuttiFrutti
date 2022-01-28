@@ -8,10 +8,12 @@ using TMPro;
 
 public class GlobalTime : NetworkBehaviour
 {
+    public GameObject startingCamera;
     public TMP_Text matchTimeText;
     public TMP_Text timerText;
     [SyncVar] public float _time;
     [SyncVar] public float matchTime;
+    private bool onlyOnce = true;
 
     public float levelEntryDelayTime = 1f; 
     //[SyncVar] public bool levelIsRunning = true;
@@ -33,6 +35,11 @@ public class GlobalTime : NetworkBehaviour
             {
                 matchTime -= Time.deltaTime;
             }
+        }
+        if (_time >= -1f && onlyOnce)
+        {
+            startingCamera.SetActive(false);
+            onlyOnce = false;
         }
 
         if (_time > -4) // will be implemented... 

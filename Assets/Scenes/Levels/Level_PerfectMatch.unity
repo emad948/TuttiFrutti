@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.29039055, g: 0.69962436, b: 0.86592245, a: 1}
+  m_IndirectSpecularColor: {r: 0.2903903, g: 0.69962436, b: 0.8659219, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -828,7 +828,7 @@ GameObject:
   - component: {fileID: 262419502}
   - component: {fileID: 262419503}
   m_Layer: 0
-  m_Name: Grid
+  m_Name: Grid_
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1192,11 +1192,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2688612176557724374, guid: f563a808c0e01c347841e543fb1ce2d4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10.99
+      value: 9.33
       objectReference: {fileID: 0}
     - target: {fileID: 2688612176557724374, guid: f563a808c0e01c347841e543fb1ce2d4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -10.54
+      value: -8.99
       objectReference: {fileID: 0}
     - target: {fileID: 2688612176557724374, guid: f563a808c0e01c347841e543fb1ce2d4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1767,6 +1767,10 @@ PrefabInstance:
       propertyPath: matchTime
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 3034938606565585897, guid: 2a0ae47e50ded484782ca335f6f0b7e9, type: 3}
+      propertyPath: startingCamera
+      value: 
+      objectReference: {fileID: 1284064503}
     - target: {fileID: 3034938606565585901, guid: 2a0ae47e50ded484782ca335f6f0b7e9, type: 3}
       propertyPath: m_Name
       value: Level_UI
@@ -1844,7 +1848,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1284064504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1874,7 +1878,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.1644737, y: 1}
+    m_SensorSize: {x: 1.7777778, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -2146,6 +2150,7 @@ MonoBehaviour:
   updatedRounds: 0
   isGameOver: 0
   hasFailed: 0
+  hasUpdated: 0
 --- !u!114 &1669031893
 MonoBehaviour:
   m_ObjectHideFlags: 0

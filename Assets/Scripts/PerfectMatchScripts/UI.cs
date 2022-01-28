@@ -14,7 +14,7 @@ public class UI : MonoBehaviour
     public GameObject gameStateUI;
     public TextMeshProUGUI gameStateText;
     public TextMeshProUGUI countdownText;
-    private Grid grid;
+    private Grid_ grid;
     private GameNetworkManager _gameNetMan;
     public GlobalTime globalTime;
     
@@ -23,7 +23,7 @@ public class UI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        grid = FindObjectOfType<Grid>();
+        grid = FindObjectOfType<Grid_>();
         _gameNetMan = ((GameNetworkManager) NetworkManager.singleton);
         globalTime = FindObjectOfType<GlobalTime>();
     }

@@ -18,7 +18,7 @@ public class GameManager : NetworkBehaviour
     [SyncVar] public bool hasFailed = false;
 
     // PRIVATES
-    private bool hasUpdated = false;
+    [HideInInspector]public bool hasUpdated = false;
     private Dictionary<int,Sprite> fruitDictionary = new Dictionary<int, Sprite>();
     private readonly SyncHashSet<int> chosenFruitHashSet = new SyncHashSet<int>();
     [HideInInspector] readonly private SyncHashSet<int> alreadyChosenFruitHashSet = new SyncHashSet<int>();
