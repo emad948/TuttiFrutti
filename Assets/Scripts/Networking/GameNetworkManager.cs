@@ -132,6 +132,8 @@ public class GameNetworkManager : NetworkManager
 
         var playerName = "";
         var player = conn.identity.GetComponent<NetworkPlayer>();
+
+        player.ChangeColorName("something");
         PlayersList.Add(player);
 
         if (usingSteam)

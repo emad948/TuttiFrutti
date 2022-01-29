@@ -19,6 +19,9 @@ public class NetworkPlayer : NetworkBehaviour, IComparable<NetworkPlayer>
 
     [SyncVar] public string lobbyName = "lobbyNameNotSet";
 
+    [SyncVar(hook = nameof(HandleColorNameChange))] [SerializeField]
+    private string updateName_Color = "nothing";
+
     //Scores
     [SyncVar(hook = nameof(HandleScoreUpdated))]
     private int _currentScore = 0;
@@ -33,13 +36,6 @@ public class NetworkPlayer : NetworkBehaviour, IComparable<NetworkPlayer>
 
     public static event Action<string> ClientOnDisplayNameChanged;
 
-
-    private void Awake()
-    {
-        changeName();
-        changeColor();
-    }
-
     public bool GetIsGameHost()
     {
         return _isGameHost;
@@ -50,31 +46,42 @@ public class NetworkPlayer : NetworkBehaviour, IComparable<NetworkPlayer>
         return _displayName;
     }
 
-    public void changeName()
+    [Command]
+    public void cmdToUpdateColorName(Color t, Color m, Color b, string playerName)
     {
-        string name = PlayerPrefs.GetString("playerName", randomPlayerName());
-        _displayName = name;
+        color_T = t;
+        color_M = m;
+        color_B = b;
+        _displayName = playerName;
     }
 
-    public void changeColor()
+    private void HandleColorNameChange(string oldName_Color, string newName_Color)
     {
-        var c_r = PlayerPrefs.GetFloat("color_T_r", 0.5f);
-        var c_g = PlayerPrefs.GetFloat("color_T_g", 0.5f);
-        var c_b = PlayerPrefs.GetFloat("color_T_b", 0.5f);
-        var c_a = PlayerPrefs.GetFloat("color_T_a", 0.7f);
-        color_T = new Color(c_r, c_g, c_b, c_a);
+        if (hasAuthority)
+        {
+            var c_r = PlayerPrefs.GetFloat("color_T_r", 0.5f);
+            var c_g = PlayerPrefs.GetFloat("color_T_g", 0.5f);
+            var c_b = PlayerPrefs.GetFloat("color_T_b", 0.5f);
+            var c_a = PlayerPrefs.GetFloat("color_T_a", 0.7f);
+            color_T = new Color(c_r, c_g, c_b, c_a);
 
-        c_r = PlayerPrefs.GetFloat("color_M_r", 0.5f);
-        c_g = PlayerPrefs.GetFloat("color_M_g", 0.5f);
-        c_b = PlayerPrefs.GetFloat("color_M_b", 0.5f);
-        c_a = PlayerPrefs.GetFloat("color_M_a", 0.7f);
-        color_M = new Color(c_r, c_g, c_b, c_a);
+            c_r = PlayerPrefs.GetFloat("color_M_r", 0.5f);
+            c_g = PlayerPrefs.GetFloat("color_M_g", 0.5f);
+            c_b = PlayerPrefs.GetFloat("color_M_b", 0.5f);
+            c_a = PlayerPrefs.GetFloat("color_M_a", 0.7f);
+            color_M = new Color(c_r, c_g, c_b, c_a);
 
-        c_r = PlayerPrefs.GetFloat("color_B_r", 0.5f);
-        c_g = PlayerPrefs.GetFloat("color_B_g", 0.5f);
-        c_b = PlayerPrefs.GetFloat("color_B_b", 0.5f);
-        c_a = PlayerPrefs.GetFloat("color_B_a", 0.7f);
-        color_B = new Color(c_r, c_g, c_b, c_a);
+            c_r = PlayerPrefs.GetFloat("color_B_r", 0.5f);
+            c_g = PlayerPrefs.GetFloat("color_B_g", 0.5f);
+            c_b = PlayerPrefs.GetFloat("color_B_b", 0.5f);
+            c_a = PlayerPrefs.GetFloat("color_B_a", 0.7f);
+            color_B = new Color(c_r, c_g, c_b, c_a);
+            var oldName = _displayName;
+            _displayName = PlayerPrefs.GetString("playerName", randomPlayerName());
+            HandleDisplayNameUpdated(oldName, _displayName);
+            cmdToUpdateColorName(color_T, color_M, color_B, _displayName);
+            //updateName_Color = "nothing";
+        }
     }
 
     private string randomPlayerName()
@@ -141,13 +148,13 @@ public class NetworkPlayer : NetworkBehaviour, IComparable<NetworkPlayer>
     }
 
     [Server]
+    public void ChangeColorName(string newString) => updateName_Color = newString;
+
+    [Server]
     public void SetGameHost(bool state) => _isGameHost = state;
 
     [Server]
     public void SetDisplayName(string newDisplayName) => _displayName = newDisplayName;
-
-    //[Server]
-    //public void SetColor(Color newColor) => color = newColor;
 
     [Server]
     public void ChangeScore(int scorePoints) => _currentScore += scorePoints;
@@ -183,8 +190,6 @@ public class NetworkPlayer : NetworkBehaviour, IComparable<NetworkPlayer>
         DontDestroyOnLoad(gameObject);
 
         ((GameNetworkManager) NetworkManager.singleton).PlayersList.Add(this);
-        //changeName();
-        // changeColor();
     }
 
     public override void OnStopClient()
