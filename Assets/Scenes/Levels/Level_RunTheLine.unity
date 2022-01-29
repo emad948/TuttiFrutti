@@ -3109,7 +3109,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2688612176557724368, guid: f563a808c0e01c347841e543fb1ce2d4, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f563a808c0e01c347841e543fb1ce2d4, type: 3}
 --- !u!1 &717151169
 GameObject:
@@ -3418,7 +3419,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3034938606224092612, guid: 2a0ae47e50ded484782ca335f6f0b7e9, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3034938606473674850, guid: 2a0ae47e50ded484782ca335f6f0b7e9, type: 3}
       propertyPath: m_IsActive
@@ -3946,7 +3947,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e2f2937598d4624787b105bb2239cf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.1
+  speed: 0.2
 --- !u!1 &1055700509
 GameObject:
   m_ObjectHideFlags: 0
@@ -4027,7 +4028,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e2f2937598d4624787b105bb2239cf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.1
+  speed: 0.3
 --- !u!1 &1090968544
 GameObject:
   m_ObjectHideFlags: 0
@@ -5064,7 +5065,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e2f2937598d4624787b105bb2239cf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.1
+  speed: 0.2
 --- !u!65 &1581312977
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6528,7 +6529,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e2f2937598d4624787b105bb2239cf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.1
+  speed: 0.13
 --- !u!65 &1987051284
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7590,7 +7591,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e2f2937598d4624787b105bb2239cf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.1
+  speed: 0.15
 --- !u!1 &2435760253887390508
 GameObject:
   m_ObjectHideFlags: 0
@@ -8019,7 +8020,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e2f2937598d4624787b105bb2239cf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.1
+  speed: 0.13
 --- !u!33 &4440186105564277994
 MeshFilter:
   m_ObjectHideFlags: 0
