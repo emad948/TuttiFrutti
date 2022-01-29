@@ -42,7 +42,7 @@ public class CrownScoring : NetworkBehaviour
 
     private int crownCount(int playerCount)
     {
-        if (playerCount > 1 && playerCount < 4)
+        if (playerCount >= 1 && playerCount < 4)
         {
             return 1;
         }
