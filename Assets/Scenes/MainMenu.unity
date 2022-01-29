@@ -10954,9 +10954,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1887685595}
     m_Modifications:
+    - target: {fileID: 2779278556630597959, guid: 07c2a3e74f1c5fc4c86ed603d89d20ef, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3463925584030421660, guid: 07c2a3e74f1c5fc4c86ed603d89d20ef, type: 3}
       propertyPath: m_Name
       value: PlayerCharacter_ForDisplay
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848234693579500190, guid: 07c2a3e74f1c5fc4c86ed603d89d20ef, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848234693579500190, guid: 07c2a3e74f1c5fc4c86ed603d89d20ef, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3848234693579500190, guid: 07c2a3e74f1c5fc4c86ed603d89d20ef, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.085
       objectReference: {fileID: 0}
     - target: {fileID: 4068020193452420777, guid: 07c2a3e74f1c5fc4c86ed603d89d20ef, type: 3}
       propertyPath: m_RootOrder
@@ -10964,7 +10980,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4068020193452420777, guid: 07c2a3e74f1c5fc4c86ed603d89d20ef, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.5
+      value: 2.264
       objectReference: {fileID: 0}
     - target: {fileID: 4068020193452420777, guid: 07c2a3e74f1c5fc4c86ed603d89d20ef, type: 3}
       propertyPath: m_LocalPosition.y
@@ -11483,7 +11499,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh36582
+  m_Name: pb_Mesh79560
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -19959,7 +19975,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: IP
+  m_text: Local/IP
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f5b0a98a5cab902419932130ef20055f, type: 2}
   m_sharedMaterial: {fileID: 2659737939583667314, guid: f5b0a98a5cab902419932130ef20055f, type: 2}
@@ -21429,7 +21445,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh36352
+  m_Name: pb_Mesh79330
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
