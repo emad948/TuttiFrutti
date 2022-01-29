@@ -6,7 +6,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using Mirror;
 
-public class PlayerSound : NetworkBehaviour
+public class PlayerSound : MonoBehaviour //NetworkBehaviour
 {
     [SerializeField]
     private AudioClip[] clips;
