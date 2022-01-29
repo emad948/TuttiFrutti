@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class LightboxManager : MonoBehaviour
 {
@@ -12,6 +13,11 @@ public class LightboxManager : MonoBehaviour
 
     private GameObject[] boxes;
 
+   [SerializeField]
+     private AudioClip clip;
+
+    private AudioSource audioSource;
+//
     public void setActiveBox(int j)
     {
         for (int i = 0; i < boxes.Length; i++)
@@ -24,6 +30,7 @@ public class LightboxManager : MonoBehaviour
     void Start()
     {
         boxes = new GameObject[] {box1, box2, box3};
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -36,7 +43,13 @@ public class LightboxManager : MonoBehaviour
     private bool activeHillChanged()
     {
         if (scoring.currentZoneIndex == zone) return false;
+        PlayEffect();
         zone = scoring.currentZoneIndex;
         return true;
+    }
+
+     private void PlayEffect(){
+        
+        audioSource.Play();
     }
 }

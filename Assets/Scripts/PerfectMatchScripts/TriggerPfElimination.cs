@@ -14,6 +14,8 @@ public class TriggerPfElimination : NetworkBehaviour
 
     public GameObject observerCamera;
     public PerfectMatchScoring scoring;
+
+    public AudioSource playSound;
     // Start is called before the first frame update
 
   public void SetText(string text)
@@ -47,8 +49,10 @@ public class TriggerPfElimination : NetworkBehaviour
         // Message player
         // 
         if (other.gameObject.GetComponent<PlayerCharacter>().playerHasAuthority){
+            playSound.Play();
             observerCamera.SetActive(true);
             SetGameFelloutState(false);
+
         }
 
         if(!isServer) return;
