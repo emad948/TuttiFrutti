@@ -14,7 +14,7 @@ public class LevelUI : MonoBehaviour
     void Start()
     {
         var curlevelIndex = ((GameNetworkManager) NetworkManager.singleton).currentLevelIndex.ToString();
-        levelIndex.text = curlevelIndex + "/4"; // TODO change 4 to actual totalLevelCount
+        levelIndex.text = (curlevelIndex + 1) + "/4"; 
     }
 
     // Update is called once per frame
