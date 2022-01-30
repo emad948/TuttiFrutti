@@ -28,20 +28,18 @@ public class HillKingScoring : NetworkBehaviour
     {
         if (!isServer) return;
         players = ((GameNetworkManager) NetworkManager.singleton).PlayersList;
-        //_globalTime = FindObjectOfType<GlobalTime>();
-        currentZoneIndex = 1;
         //shuffling zones 
         var rnd = new System.Random();
         zoneIndices = zoneIndices.OrderBy(item => rnd.Next()).ToList();
+        changeZoneIndex();
         ht = new Hashtable();
-        //NetworkPlayer current = null;
         foreach (var player in players)
         {
             ht.Add(player.playerCharacter.gameObject, player);
         }
 
         InvokeRepeating("updateTimer", 0f, 0.1f);
-        InvokeRepeating("changeZoneIndex", Math.Abs(_globalTime._time), 50f);
+        InvokeRepeating("changeZoneIndex", Math.Abs(_globalTime._time), 40f);
         InvokeRepeating("HillKing", 0f, 0.25f);
     }
 
@@ -49,7 +47,6 @@ public class HillKingScoring : NetworkBehaviour
     {
         _time = _globalTime.matchTime;
         if (_time <= sceneChangeTimer && onlyOnce && !testingMode)
-            // TODO @Colin change to actual matchTimer and also <= 0
         {
             CancelInvoke();
             ((GameNetworkManager) NetworkManager.singleton).AfterLevelEnd();
@@ -128,7 +125,7 @@ public class HillKingScoring : NetworkBehaviour
         // {
         //     if (np.playerCharacter.gameObject == player) current = np;
         // }
-        
+
         if (current is null) return;
         current.ChangeScore(1);
         //print("add point to player " + current.GetDisplayName()); // keep me!
