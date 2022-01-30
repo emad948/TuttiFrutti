@@ -9,6 +9,7 @@ using kcp2k;
 using Mirror;
 using Mirror.FizzySteam;
 using Steamworks;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
@@ -38,7 +39,7 @@ public class GameNetworkManager : NetworkManager
     public List<CSteamID> lobbyIDS = new List<CSteamID>();
     public bool publicLobbies = true;
 
-    public Levels startingLevel;
+    //public Levels startingLevel;
     private string[] _allGameLevels;
     private string[] _gameLevels;
     public int currentLevelIndex = 0;
@@ -64,13 +65,13 @@ public class GameNetworkManager : NetworkManager
         public LobbyMetaData[] m_Data;
     }
 
-    public enum Levels
-    {
-        Level_HillKing = 1,
-        Level_PerfectMatch = 2,
-        Level_Crown = 3,
-        Level_RunTheLine = 4
-    }
+    // public enum Levels
+    // {
+    //     Level_HillKing = 1,
+    //     Level_PerfectMatch = 2,
+    //     Level_Crown = 3,
+    //     Level_RunTheLine = 4
+    // }
 
     public override void Awake()
     {
@@ -120,9 +121,46 @@ public class GameNetworkManager : NetworkManager
         resettingLevelsManager();
     }
 
+    private int[] levelVotes = new[] {0, 0, 0, 0};
+
+    public void levelVote(int levelIndex)
+    {
+        levelVotes[levelIndex]++;
+    }
+
+    private string[] sortVotedLevels()
+    {
+        string[] levels = new[] {"Level_Crown", "Level_HillKing", "Level_PerfectMatch", "Level_RunTheLine"};
+        int tmp1;
+        string tmp2;
+        for (int j = 0; j <= levelVotes.Length - 2; j++)
+        {
+            for (int i = 0; i <= levelVotes.Length - 2; i++)
+            {
+                if (levelVotes[i] < levelVotes[i + 1])
+                {
+                    tmp1 = levelVotes[i + 1];
+                    levelVotes[i + 1] = levelVotes[i];
+                    levelVotes[i] = tmp1;
+
+                    tmp2 = levels[i + 1];
+                    levels[i + 1] = levels[i];
+                    levels[i] = tmp2;
+                }
+            }
+        }
+
+        return levels;
+    }
+
+
     public void StartGame()
     {
         _gameStarted = true;
+        Debug.Log(levelVotes[0] + " " + levelVotes[1] + " " + levelVotes[2] + " " + levelVotes[3]);
+        _allGameLevels = sortVotedLevels(); 
+        _gameLevels = _allGameLevels;
+        Debug.Log(_gameLevels[0] + " " + _gameLevels[1] + " " + _gameLevels[2] + " " + _gameLevels[3]);
         startLevel();
     }
 
@@ -211,18 +249,19 @@ public class GameNetworkManager : NetworkManager
 
     #region (Previously) GameLevelsManager
 
-    private string decodeLevel(Levels l)
-    {
-        if (l is Levels.Level_HillKing) return "Level_HillKing";
-        if (l is Levels.Level_PerfectMatch) return "Level_PerfectMatch";
-        if (l is Levels.Level_Crown) return "Level_Crown";
-        if (l is Levels.Level_RunTheLine) return "Level_RunTheLine";
-        return "MainMenu";
-    }
+    // private string decodeLevel(Levels l)
+    // {
+    //     if (l is Levels.Level_HillKing) return "Level_HillKing";
+    //     if (l is Levels.Level_PerfectMatch) return "Level_PerfectMatch";
+    //     if (l is Levels.Level_Crown) return "Level_Crown";
+    //     if (l is Levels.Level_RunTheLine) return "Level_RunTheLine";
+    //     return "MainMenu";
+    // }
 
 
     private void resettingLevelsManager()
     {
+        levelVotes = new[] {0, 0, 0, 0};
         currentLevelIndex = 0;
         _gameStarted = false;
         usingSteam = false;
@@ -238,9 +277,6 @@ public class GameNetworkManager : NetworkManager
     public override void Start()
     {
         base.Start();
-        _allGameLevels = new string[] {decodeLevel(startingLevel)};
-        //Shuffle Game Levels
-        _gameLevels = RandomStringArrayTool.RandomizeStrings(_allGameLevels);
     }
 
     public void AfterLevelEnd()

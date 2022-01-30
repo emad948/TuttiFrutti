@@ -63,6 +63,18 @@ public class LobbyMenu : MonoBehaviour
         ClientHandleInfoUpdated();
     }
 
+    public void voteForLevel(int levelIndex)
+    {
+        List<NetworkPlayer> players = _gameNatMan.PlayersList;
+        foreach (NetworkPlayer player in players)
+        {
+            if (player.hasAuthority)
+            {
+                player.cmdForVoteLevel(levelIndex);
+            }
+        }
+    }
+
     private void AuthorityHandleGameHostStateUpdated(bool state)
     {
         //Turns the start/stop game button on/off

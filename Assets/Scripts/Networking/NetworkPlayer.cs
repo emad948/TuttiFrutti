@@ -36,6 +36,12 @@ public class NetworkPlayer : NetworkBehaviour, IComparable<NetworkPlayer>
 
     public static event Action<string> ClientOnDisplayNameChanged;
 
+    [Command]
+    public void cmdForVoteLevel(int levelIndex)
+    {
+        ((GameNetworkManager) NetworkManager.singleton).levelVote(levelIndex);
+    }
+
     public bool GetIsGameHost()
     {
         return _isGameHost;
