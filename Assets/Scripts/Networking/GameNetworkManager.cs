@@ -157,10 +157,8 @@ public class GameNetworkManager : NetworkManager
     public void StartGame()
     {
         _gameStarted = true;
-        Debug.Log(levelVotes[0] + " " + levelVotes[1] + " " + levelVotes[2] + " " + levelVotes[3]);
         _allGameLevels = sortVotedLevels(); 
         _gameLevels = _allGameLevels;
-        Debug.Log(_gameLevels[0] + " " + _gameLevels[1] + " " + _gameLevels[2] + " " + _gameLevels[3]);
         startLevel();
     }
 
