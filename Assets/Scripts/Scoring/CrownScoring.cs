@@ -16,6 +16,8 @@ public class CrownScoring : NetworkBehaviour
 
     public AudioSource audioCrown;
 
+    public bool alreadyPlayed = false;
+
     void Start()
     {
         if (!isServer) return;
@@ -74,7 +76,11 @@ public class CrownScoring : NetworkBehaviour
         {
             if (player.playerCharacter.gameObject.GetComponent<PlayerCollision>().hasCrown)
             {
-                audioCrown.Play();
+                if(!alreadyPlayed){
+                   audioCrown.Play(); 
+                   alreadyPlayed = true;
+                }
+                
                 player.ChangeScore(1);
             }
         }
