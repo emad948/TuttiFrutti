@@ -15,19 +15,19 @@ public class movePlayerFromStart : MonoBehaviour
 
     private void Update()
     {
-        if (!onlyOnce && _globalTime.matchTime < 150f)  
+        if (!onlyOnce && _globalTime.matchTime < 100f)  
         {
-            InvokeRepeating("movingForward", 0f, 0.1f);
+            InvokeRepeating("movingForward", 0f, 0.2f);
             onlyOnce = true;
         }
     }
 
     void movingForward()
     {
-        wall1.transform.position += new Vector3(0, 0, 0.04f);
-        wall2.transform.position -= new Vector3(0, 0, 0.04f);
-        wall3.transform.position += new Vector3(0.04f, 0, 0);
-        wall4.transform.position -= new Vector3(0.04f, 0, 0);
+        wall1.transform.localPosition += new Vector3(0, 0, 0.04f);
+        wall2.transform.localPosition -= new Vector3(0, 0, 0.04f);
+        wall3.transform.localPosition += new Vector3(0.04f, 0, 0);
+        wall4.transform.localPosition -= new Vector3(0.04f, 0, 0);
        counter++;
        if (counter == 25)
        {
