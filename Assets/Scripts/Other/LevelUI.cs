@@ -13,8 +13,8 @@ public class LevelUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        int curlevelIndex = ((GameNetworkManager) NetworkManager.singleton).currentLevelIndex;
-        levelIndex.text = curlevelIndex.ToString() + "/4"; 
+        int curlevelIndex = ((GameNetworkManager) NetworkManager.singleton).currentLevelIndex + 1;
+        levelIndex.text = curlevelIndex.ToString() + "/4";
     }
 
     // Update is called once per frame

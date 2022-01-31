@@ -17,13 +17,14 @@ public class UI : MonoBehaviour
     private Grid_ grid;
     private GameNetworkManager _gameNetMan;
     public GlobalTime globalTime;
-    
+    public bool isPerfectMatchLevel;
+
     private float threeSecondTimer = 3.0f;
-    
+
     // Start is called before the first frame update
     void Start()
     {
-        grid = FindObjectOfType<Grid_>();
+        if (isPerfectMatchLevel) grid = FindObjectOfType<Grid_>();
         _gameNetMan = ((GameNetworkManager) NetworkManager.singleton);
         globalTime = FindObjectOfType<GlobalTime>();
     }
@@ -31,14 +32,14 @@ public class UI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        timerText.SetActive(grid.revealingFruit);
+        if (isPerfectMatchLevel) timerText.SetActive(grid.revealingFruit);
         gameObject.SetActive(true);
-        
+
         countdownText.gameObject.SetActive(true);
         countdownText.text = Mathf.Round(threeSecondTimer).ToString();
         if (threeSecondTimer < 0)
         {
-            grid.canStart = true;
+            if (isPerfectMatchLevel) grid.canStart = true;
             countdownText.gameObject.SetActive(false);
         }
         else
@@ -52,7 +53,7 @@ public class UI : MonoBehaviour
     {
         timerText.GetComponent<TextMeshProUGUI>().text = text;
     }
-    
+
     public void SetGameStateText(string text)
     {
         gameStateText.text = text;
@@ -62,17 +63,14 @@ public class UI : MonoBehaviour
     {
         gameStateUI.SetActive(true);
         gameStateText.gameObject.SetActive(true);
-    if (isWon)
-    {
-        SetGameStateText("Du weiter!");
-      
+        if (isWon)
+        {
+            SetGameStateText("Du weiter!");
+        }
+        else
+        {
+            SetGameStateText("Du bist ausgeschieden!");
+        }
+        _gameNetMan.AfterLevelEnd();
     }
-    else
-    {
-             SetGameStateText("Du bist ausgeschieden!");
-    }
-            _gameNetMan.AfterLevelEnd();
-            print("gameEnds4");
-    }
-
 }

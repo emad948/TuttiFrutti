@@ -6,7 +6,6 @@ using TMPro;
 
 public class TriggerPfElimination : NetworkBehaviour
 {
-
     public TextMeshProUGUI FellOutGameText;
     public GameObject timerText;
     public GameObject FellOutText;
@@ -18,47 +17,46 @@ public class TriggerPfElimination : NetworkBehaviour
     public AudioSource playSound;
     // Start is called before the first frame update
 
-  public void SetText(string text)
+    public void SetText(string text)
     {
         FellOutText.GetComponent<TextMeshProUGUI>().text = text;
     }
-    
+
     public void SetFelloutGameStateText(string text)
     {
         FellOutGameText.text = text;
     }
+
     public void SetGameFelloutState(bool isWon)
     {
-        
         gameStateUI.SetActive(true);
         FellOutGameText.gameObject.SetActive(true);
         StartCoroutine(hideOverlayWithDelay());
-        print("gameEnds44");
     }
 
-    public IEnumerator hideOverlayWithDelay(){
-        print("test1");
+    public IEnumerator hideOverlayWithDelay()
+    {
         yield return new WaitForSeconds(2);
         gameStateUI.SetActive(false);
         FellOutGameText.gameObject.SetActive(false);
-        print("test");
     }
-  
 
-    void OnTriggerEnter(Collider other){
+
+    void OnTriggerEnter(Collider other)
+    {
         // Message player
         // 
-        if (other.gameObject.GetComponent<PlayerCharacter>().playerHasAuthority){
+        if (other.gameObject.GetComponent<PlayerCharacter>().playerHasAuthority)
+        {
             playSound.Play();
             observerCamera.SetActive(true);
             SetGameFelloutState(false);
-
         }
 
-        if(!isServer) return;
-        scoring.playerFellOut(other.gameObject);
+        if (!isServer) return;
+        if (scoring != null) scoring.playerFellOut(other.gameObject);
 
-        
-            // veraendere meine eigenen punkte
+
+        // veraendere meine eigenen punkte
     }
 }
