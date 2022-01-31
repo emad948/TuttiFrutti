@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.11) (preloaded format=pdflatex 2020.11.4)  31 JAN 2022 09:06
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.11) (preloaded format=pdflatex 2020.11.4)  31 JAN 2022 15:39
 entering extended mode
 **./main.tex
 (main.tex
@@ -1254,7 +1254,7 @@ Overfull \hbox (10.08pt too wide) has occurred while \output is active
 <ProjektPlanung_6times90.png, id=83, 896.34875pt x 379.91937pt>
 File: ProjektPlanung_6times90.png Graphic file (type png)
 <use ProjektPlanung_6times90.png>
-Package pdftex.def Info: ProjektPlanung_6times90.png  used on input line 203.
+Package pdftex.def Info: ProjektPlanung_6times90.png  used on input line 200.
 (pdftex.def)             Requested size: 342.2953pt x 145.0781pt.
 
 Overfull \hbox (1.70494pt too wide) has occurred while \output is active
@@ -1282,7 +1282,7 @@ Overfull \hbox (10.08pt too wide) has occurred while \output is active
 
 ]
 LaTeX Font Info:    Trying to load font information for TS1+cmss on input line 
-231.
+228.
  (C:\Users\colin\AppData\Local\Programs\MiKTeX\tex/latex/base\ts1cmss.fd
 File: ts1cmss.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
@@ -1327,7 +1327,7 @@ ype1/public/amsfonts/cm/cmss12.pfb><C:/Users/colin/AppData/Local/Programs/MiKTe
 X/fonts/type1/public/amsfonts/cm/cmss17.pfb><C:/Users/colin/AppData/Local/Progr
 ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmss8.pfb><C:/Users/colin/AppData/Loc
 al/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on main.pdf (12 pages, 2297288 bytes).
+Output written on main.pdf (12 pages, 2297160 bytes).
 PDF statistics:
  135 PDF objects out of 1000 (max. 8388607)
  25 named destinations out of 1000 (max. 500000)
