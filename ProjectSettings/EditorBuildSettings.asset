@@ -12,9 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/Level_HillKing.unity
     guid: f19d45e6004772249b343109495f87df
   - enabled: 1
-    path: Assets/Scenes/Levels/Level_PerfectMatch.unity
-    guid: cc2afd039b5f7ad418b03e505e5e6938
-  - enabled: 1
     path: Assets/Scenes/Levels/Level_Crown.unity
     guid: 244f82909ecd8e34eaf882ad098d2348
   - enabled: 1
@@ -26,9 +23,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ScoreBoard.unity
     guid: 4ce4c02b890813540ae8725391b8890f
-  - enabled: 0
-    path: Assets/Scenes/old.unity
-    guid: 7b61f15ca31ecf948bf226ecff74fdea
   - enabled: 1
     path: Assets/Scenes/WinnerBoard.unity
     guid: a8c86eb7f4a8a4fcba3b0a89d29538c4
