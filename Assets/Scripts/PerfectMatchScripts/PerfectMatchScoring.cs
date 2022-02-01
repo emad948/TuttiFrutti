@@ -70,7 +70,7 @@ public class PerfectMatchScoring : MonoBehaviour
             // matchTime wird auf Wert x gesetzt und zu 0 heruntergezaehlt.
             scoreChangeHelper(player, 4); //4 points if you fall in the third round
         }
-        else if (globalTime.matchTime > 13 && globalTime.matchTime < 33)
+        else if (globalTime.matchTime > 0 && globalTime.matchTime < 13)
         {
             scoreChangeHelper(player, 6); //6 points if you clear the level
         }
