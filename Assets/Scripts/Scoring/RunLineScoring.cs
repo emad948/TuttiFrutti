@@ -10,6 +10,7 @@ public class RunLineScoring : NetworkBehaviour
     private List<NetworkPlayer> players;
     private GameNetworkManager _gameNetMan;
     private bool gameIsOver;
+    private bool onlyOnce = false;
 
     public GlobalTime globalTime;
 
@@ -40,9 +41,10 @@ public class RunLineScoring : NetworkBehaviour
                 }
             }
 
-            if (globalTime.matchTime <=0)     // End when globalTime <0=
+            if (globalTime.matchTime <=0 && !onlyOnce)     // End when globalTime <0=
             {
                 gameEnded();
+                onlyOnce = true;
             }
         }
     }

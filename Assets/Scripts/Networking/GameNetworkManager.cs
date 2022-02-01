@@ -42,7 +42,7 @@ public class GameNetworkManager : NetworkManager
     //public Levels startingLevel;
     private string[] _allGameLevels;
     private string[] _gameLevels;
-    public int currentLevelIndex = 0;
+    public int currentLevelIndex = 1;
 
     struct LobbyMetaData
     {
@@ -260,7 +260,7 @@ public class GameNetworkManager : NetworkManager
     private void resettingLevelsManager()
     {
         levelVotes = new[] {0, 0, 0, 0};
-        currentLevelIndex = 0;
+        currentLevelIndex = 1;
         _gameStarted = false;
         usingSteam = false;
         foreach (NetworkPlayer player in PlayersList)
