@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.11) (preloaded format=pdflatex 2020.11.4)  31 JAN 2022 15:39
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.11) (preloaded format=pdflatex 2020.11.4)  1 FEB 2022 14:57
 entering extended mode
 **./main.tex
 (main.tex
@@ -1155,6 +1155,17 @@ Overfull \hbox (10.08pt too wide) has occurred while \output is active
 [3
 
 ]
+<Mirror.png, id=37, 471.26062pt x 239.89626pt>
+File: Mirror.png Graphic file (type png)
+<use Mirror.png>
+Package pdftex.def Info: Mirror.png  used on input line 96.
+(pdftex.def)             Requested size: 154.03183pt x 78.40828pt.
+<SteamWorks.png, id=39, 629.85312pt x 244.41313pt>
+File: SteamWorks.png Graphic file (type png)
+<use SteamWorks.png>
+Package pdftex.def Info: SteamWorks.png  used on input line 96.
+(pdftex.def)             Requested size: 154.03183pt x 59.77171pt.
+
 Overfull \hbox (1.70494pt too wide) has occurred while \output is active
  [][]  
  []
@@ -1166,12 +1177,12 @@ Overfull \hbox (10.08pt too wide) has occurred while \output is active
 
 [4
 
-]
-<Level_HillKing_view.png, id=43, 512.41437pt x 410.03188pt>
-File: Level_HillKing_view.png Graphic file (type png)
-<use Level_HillKing_view.png>
-Package pdftex.def Info: Level_HillKing_view.png  used on input line 111.
-(pdftex.def)             Requested size: 154.03183pt x 123.25452pt.
+ <./Mirror.png> <./SteamWorks.png>]
+<TuttiFrutti_Profile.png, id=48, 503.38063pt x 379.91937pt>
+File: TuttiFrutti_Profile.png Graphic file (type png)
+<use TuttiFrutti_Profile.png>
+Package pdftex.def Info: TuttiFrutti_Profile.png  used on input line 120.
+(pdftex.def)             Requested size: 154.03183pt x 116.24915pt.
 
 Overfull \hbox (1.70494pt too wide) has occurred while \output is active
  [][]  
@@ -1184,12 +1195,12 @@ Overfull \hbox (10.08pt too wide) has occurred while \output is active
 
 [5
 
- <./Level_HillKing_view.png>]
-<Level_Crown_view.png, id=53, 501.875pt x 385.94188pt>
-File: Level_Crown_view.png Graphic file (type png)
-<use Level_Crown_view.png>
-Package pdftex.def Info: Level_Crown_view.png  used on input line 129.
-(pdftex.def)             Requested size: 154.03183pt x 118.45116pt.
+ <./TuttiFrutti_Profile.png>]
+<Level_HillKing_view.png, id=56, 512.41437pt x 410.03188pt>
+File: Level_HillKing_view.png Graphic file (type png)
+<use Level_HillKing_view.png>
+Package pdftex.def Info: Level_HillKing_view.png  used on input line 138.
+(pdftex.def)             Requested size: 154.03183pt x 123.25452pt.
 
 Overfull \hbox (1.70494pt too wide) has occurred while \output is active
  [][]  
@@ -1202,12 +1213,12 @@ Overfull \hbox (10.08pt too wide) has occurred while \output is active
 
 [6
 
- <./Level_Crown_view.png>]
-<Level_RunTheLine_view.png, id=61, 509.40312pt x 393.47pt>
-File: Level_RunTheLine_view.png Graphic file (type png)
-<use Level_RunTheLine_view.png>
-Package pdftex.def Info: Level_RunTheLine_view.png  used on input line 148.
-(pdftex.def)             Requested size: 154.03183pt x 118.9785pt.
+ <./Level_HillKing_view.png>]
+<Level_Crown_view.png, id=65, 501.875pt x 385.94188pt>
+File: Level_Crown_view.png Graphic file (type png)
+<use Level_Crown_view.png>
+Package pdftex.def Info: Level_Crown_view.png  used on input line 156.
+(pdftex.def)             Requested size: 154.03183pt x 118.45116pt.
 
 Overfull \hbox (1.70494pt too wide) has occurred while \output is active
  [][]  
@@ -1220,12 +1231,12 @@ Overfull \hbox (10.08pt too wide) has occurred while \output is active
 
 [7
 
- <./Level_RunTheLine_view.png>]
-<perfectmatchpic.png, id=70, 1241.38782pt x 689.57625pt>
-File: perfectmatchpic.png Graphic file (type png)
-<use perfectmatchpic.png>
-Package pdftex.def Info: perfectmatchpic.png  used on input line 167.
-(pdftex.def)             Requested size: 154.03183pt x 85.55496pt.
+ <./Level_Crown_view.png>]
+<Level_RunTheLine_view.png, id=74, 509.40312pt x 393.47pt>
+File: Level_RunTheLine_view.png Graphic file (type png)
+<use Level_RunTheLine_view.png>
+Package pdftex.def Info: Level_RunTheLine_view.png  used on input line 175.
+(pdftex.def)             Requested size: 154.03183pt x 118.9785pt.
 
 Overfull \hbox (1.70494pt too wide) has occurred while \output is active
  [][]  
@@ -1238,7 +1249,13 @@ Overfull \hbox (10.08pt too wide) has occurred while \output is active
 
 [8
 
- <./perfectmatchpic.png>]
+ <./Level_RunTheLine_view.png>]
+<perfectmatchpic.png, id=82, 1241.38782pt x 689.57625pt>
+File: perfectmatchpic.png Graphic file (type png)
+<use perfectmatchpic.png>
+Package pdftex.def Info: perfectmatchpic.png  used on input line 194.
+(pdftex.def)             Requested size: 154.03183pt x 85.55496pt.
+
 Overfull \hbox (1.70494pt too wide) has occurred while \output is active
  [][]  
  []
@@ -1250,13 +1267,7 @@ Overfull \hbox (10.08pt too wide) has occurred while \output is active
 
 [9
 
-]
-<ProjektPlanung_6times90.png, id=83, 896.34875pt x 379.91937pt>
-File: ProjektPlanung_6times90.png Graphic file (type png)
-<use ProjektPlanung_6times90.png>
-Package pdftex.def Info: ProjektPlanung_6times90.png  used on input line 200.
-(pdftex.def)             Requested size: 342.2953pt x 145.0781pt.
-
+ <./perfectmatchpic.png>]
 Overfull \hbox (1.70494pt too wide) has occurred while \output is active
  [][]  
  []
@@ -1268,7 +1279,13 @@ Overfull \hbox (10.08pt too wide) has occurred while \output is active
 
 [10
 
- <./ProjektPlanung_6times90.png>]
+]
+<ProjektPlanung_6times90.png, id=95, 896.34875pt x 379.91937pt>
+File: ProjektPlanung_6times90.png Graphic file (type png)
+<use ProjektPlanung_6times90.png>
+Package pdftex.def Info: ProjektPlanung_6times90.png  used on input line 227.
+(pdftex.def)             Requested size: 342.2953pt x 145.0781pt.
+
 Overfull \hbox (1.70494pt too wide) has occurred while \output is active
  [][]  
  []
@@ -1280,9 +1297,21 @@ Overfull \hbox (10.08pt too wide) has occurred while \output is active
 
 [11
 
+ <./ProjektPlanung_6times90.png>]
+Overfull \hbox (1.70494pt too wide) has occurred while \output is active
+ [][]  
+ []
+
+
+Overfull \hbox (10.08pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[12
+
 ]
 LaTeX Font Info:    Trying to load font information for TS1+cmss on input line 
-228.
+255.
  (C:\Users\colin\AppData\Local\Programs\MiKTeX\tex/latex/base\ts1cmss.fd
 File: ts1cmss.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
@@ -1295,7 +1324,7 @@ Overfull \hbox (10.08pt too wide) has occurred while \output is active
  [][][][]  
  []
 
-[12
+[13
 
 ]
 \tf@nav=\write6
@@ -1312,13 +1341,13 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 21204 strings out of 479799
- 429838 string characters out of 2869723
+ 21222 strings out of 479799
+ 430180 string characters out of 2869723
  702937 words of memory out of 3000000
- 37652 multiletter control sequences out of 15000+200000
+ 37665 multiletter control sequences out of 15000+200000
  546282 words of font info for 69 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 125i,15n,126p,431b,512s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 125i,15n,126p,431b,676s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\colin\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcss
 2488.pk><C:/Users/colin/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfon
 ts/cm/cmmi10.pfb><C:/Users/colin/AppData/Local/Programs/MiKTeX/fonts/type1/publ
@@ -1327,9 +1356,9 @@ ype1/public/amsfonts/cm/cmss12.pfb><C:/Users/colin/AppData/Local/Programs/MiKTe
 X/fonts/type1/public/amsfonts/cm/cmss17.pfb><C:/Users/colin/AppData/Local/Progr
 ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmss8.pfb><C:/Users/colin/AppData/Loc
 al/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on main.pdf (12 pages, 2297160 bytes).
+Output written on main.pdf (13 pages, 3159362 bytes).
 PDF statistics:
- 135 PDF objects out of 1000 (max. 8388607)
- 25 named destinations out of 1000 (max. 500000)
- 68 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 148 PDF objects out of 1000 (max. 8388607)
+ 27 named destinations out of 1000 (max. 500000)
+ 83 words of extra memory for PDF output out of 10000 (max. 10000000)
 
