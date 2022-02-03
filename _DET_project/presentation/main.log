@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.11) (preloaded format=pdflatex 2020.11.4)  1 FEB 2022 14:57
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.11) (preloaded format=pdflatex 2020.11.4)  3 FEB 2022 10:09
 entering extended mode
 **./main.tex
 (main.tex
@@ -1235,8 +1235,17 @@ Overfull \hbox (10.08pt too wide) has occurred while \output is active
 <Level_RunTheLine_view.png, id=74, 509.40312pt x 393.47pt>
 File: Level_RunTheLine_view.png Graphic file (type png)
 <use Level_RunTheLine_view.png>
-Package pdftex.def Info: Level_RunTheLine_view.png  used on input line 175.
-(pdftex.def)             Requested size: 154.03183pt x 118.9785pt.
+Package pdftex.def Info: Level_RunTheLine_view.png  used on input line 178.
+(pdftex.def)             Requested size: 136.91862pt x 105.758pt.
+<jumpsound.png, id=75, 501.37312pt x 984.67876pt>
+File: jumpsound.png Graphic file (type png)
+<use jumpsound.png>
+Package pdftex.def Info: jumpsound.png  used on input line 178.
+(pdftex.def)             Requested size: 136.91862pt x 268.90186pt.
+
+Overfull \vbox (176.65587pt too high) detected at line 178
+ []
+
 
 Overfull \hbox (1.70494pt too wide) has occurred while \output is active
  [][]  
@@ -1249,11 +1258,11 @@ Overfull \hbox (10.08pt too wide) has occurred while \output is active
 
 [8
 
- <./Level_RunTheLine_view.png>]
-<perfectmatchpic.png, id=82, 1241.38782pt x 689.57625pt>
+ <./Level_RunTheLine_view.png> <./jumpsound.png>]
+<perfectmatchpic.png, id=83, 1241.38782pt x 689.57625pt>
 File: perfectmatchpic.png Graphic file (type png)
 <use perfectmatchpic.png>
-Package pdftex.def Info: perfectmatchpic.png  used on input line 194.
+Package pdftex.def Info: perfectmatchpic.png  used on input line 197.
 (pdftex.def)             Requested size: 154.03183pt x 85.55496pt.
 
 Overfull \hbox (1.70494pt too wide) has occurred while \output is active
@@ -1268,6 +1277,21 @@ Overfull \hbox (10.08pt too wide) has occurred while \output is active
 [9
 
  <./perfectmatchpic.png>]
+File: jumpsound.png Graphic file (type png)
+<use jumpsound.png>
+Package pdftex.def Info: jumpsound.png  used on input line 223.
+(pdftex.def)             Requested size: 51.10419pt x 100.37537pt.
+<playersound.png, id=90, 482.55281pt x 411.78844pt>
+File: playersound.png Graphic file (type png)
+<use playersound.png>
+Package pdftex.def Info: playersound.png  used on input line 223.
+(pdftex.def)             Requested size: 105.86005pt x 90.33783pt.
+
+Overfull \hbox (3.17043pt too wide) in paragraph at lines 223--223
+ [][] 
+ []
+
+
 Overfull \hbox (1.70494pt too wide) has occurred while \output is active
  [][]  
  []
@@ -1279,13 +1303,7 @@ Overfull \hbox (10.08pt too wide) has occurred while \output is active
 
 [10
 
-]
-<ProjektPlanung_6times90.png, id=95, 896.34875pt x 379.91937pt>
-File: ProjektPlanung_6times90.png Graphic file (type png)
-<use ProjektPlanung_6times90.png>
-Package pdftex.def Info: ProjektPlanung_6times90.png  used on input line 227.
-(pdftex.def)             Requested size: 342.2953pt x 145.0781pt.
-
+ <./playersound.png>]
 Overfull \hbox (1.70494pt too wide) has occurred while \output is active
  [][]  
  []
@@ -1297,7 +1315,13 @@ Overfull \hbox (10.08pt too wide) has occurred while \output is active
 
 [11
 
- <./ProjektPlanung_6times90.png>]
+]
+<ProjektPlanung_6times90.png, id=103, 896.34875pt x 379.91937pt>
+File: ProjektPlanung_6times90.png Graphic file (type png)
+<use ProjektPlanung_6times90.png>
+Package pdftex.def Info: ProjektPlanung_6times90.png  used on input line 256.
+(pdftex.def)             Requested size: 342.2953pt x 145.0781pt.
+
 Overfull \hbox (1.70494pt too wide) has occurred while \output is active
  [][]  
  []
@@ -1309,9 +1333,21 @@ Overfull \hbox (10.08pt too wide) has occurred while \output is active
 
 [12
 
+ <./ProjektPlanung_6times90.png>]
+Overfull \hbox (1.70494pt too wide) has occurred while \output is active
+ [][]  
+ []
+
+
+Overfull \hbox (10.08pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[13
+
 ]
 LaTeX Font Info:    Trying to load font information for TS1+cmss on input line 
-255.
+284.
  (C:\Users\colin\AppData\Local\Programs\MiKTeX\tex/latex/base\ts1cmss.fd
 File: ts1cmss.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
@@ -1324,7 +1360,7 @@ Overfull \hbox (10.08pt too wide) has occurred while \output is active
  [][][][]  
  []
 
-[13
+[14
 
 ]
 \tf@nav=\write6
@@ -1341,10 +1377,10 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 21222 strings out of 479799
- 430180 string characters out of 2869723
+ 21242 strings out of 479799
+ 430453 string characters out of 2869723
  702937 words of memory out of 3000000
- 37665 multiletter control sequences out of 15000+200000
+ 37681 multiletter control sequences out of 15000+200000
  546282 words of font info for 69 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  125i,15n,126p,431b,676s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -1356,9 +1392,9 @@ ype1/public/amsfonts/cm/cmss12.pfb><C:/Users/colin/AppData/Local/Programs/MiKTe
 X/fonts/type1/public/amsfonts/cm/cmss17.pfb><C:/Users/colin/AppData/Local/Progr
 ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmss8.pfb><C:/Users/colin/AppData/Loc
 al/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on main.pdf (13 pages, 3159362 bytes).
+Output written on main.pdf (14 pages, 3341734 bytes).
 PDF statistics:
- 148 PDF objects out of 1000 (max. 8388607)
- 27 named destinations out of 1000 (max. 500000)
- 83 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 156 PDF objects out of 1000 (max. 8388607)
+ 29 named destinations out of 1000 (max. 500000)
+ 93 words of extra memory for PDF output out of 10000 (max. 10000000)
 
